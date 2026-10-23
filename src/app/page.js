@@ -1,4 +1,4 @@
-import ChatWidget from "@/components/ChatWidget";
+import Chat from "@/components/Chat";
 import ContactForm from "@/components/ContactForm";
 import CookieNotice from "@/components/CookieNotice";
 import FeatureSlider from "@/components/FeatureSlider";
@@ -367,7 +367,7 @@ export default function Home() {
         </div>
       </footer>
 
-      <ChatWidget />
+      <Chat />
       <CookieNotice />
       <Motion />
     </>

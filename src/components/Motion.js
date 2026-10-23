@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap } from "@/lib/gsap";
 
 // All content is visible in the server-rendered HTML. Animations only run
 // once GSAP has loaded and reduced motion is off, and every reveal plays
@@ -22,7 +21,15 @@ export default function Motion() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    gsap.registerPlugin(ScrollTrigger);
+    // Flags the footer on <html> so the chat teaser steps aside over it.
+    const footer = document.querySelector("footer");
+    const footerObserver = footer
+      ? new IntersectionObserver(([entry]) => {
+          document.documentElement.toggleAttribute("data-footer-in-view", entry.isIntersecting);
+        })
+      : null;
+    footerObserver?.observe(footer);
+
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -80,6 +87,7 @@ export default function Motion() {
 
     return () => {
       window.removeEventListener("scroll", onScroll);
+      footerObserver?.disconnect();
       mm.revert();
     };
   }, []);

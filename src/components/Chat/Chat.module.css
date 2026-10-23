@@ -1,0 +1,1534 @@
+/* =========================================================
+   Widget container
+   ========================================================= */
+
+.widget {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+
+  /* The kit's font variables, mapped to the Eden House fonts. */
+  --font-body: var(--sans);
+  --font-heading: var(--display);
+
+  font-family: var(--font-body);
+  font-weight: 400;
+
+  /*
+   * This flex column's own box is only as tall as its content, but
+   * align-items: flex-end still lets a wide child (the 220px teaser
+   * bubble, much wider than the 56px toggle button) push the
+   * container's bounding box far to the left of the button itself.
+   * Without this, that empty-looking left margin still intercepts
+   * clicks meant for whatever sits nearby (BackToTop, in this case) —
+   * pointer-events is opted back in per visible child below instead.
+   */
+  pointer-events: none;
+}
+
+.widget > * {
+  pointer-events: auto;
+}
+
+/* =========================================================
+   Shared panels
+   ========================================================= */
+
+.introCard,
+.chatPanel {
+  position: relative;
+
+  display: none;
+  flex-direction: column;
+
+  width: min(360px, calc(100vw - 32px));
+
+  overflow: hidden;
+
+  background: var(--natural);
+  border: 1px solid rgba(55, 53, 48, 0.08);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform-origin: right bottom;
+
+  will-change: transform, opacity;
+}
+
+/* =========================================================
+   Introduction — full-bleed photo card
+   ========================================================= */
+
+.introCard {
+  width: min(260px, calc(100vw - 32px));
+  height: 360px;
+
+  background: transparent;
+  border: none;
+}
+
+.introPhotoWrapper {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+.introPhoto {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.introPhotoOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background: linear-gradient(
+    180deg,
+    rgba(55, 53, 48, 0) 32%,
+    rgba(55, 53, 48, 0.42) 62%,
+    rgba(55, 53, 48, 0.82) 100%
+  );
+
+  pointer-events: none;
+}
+
+.onlineBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 12px;
+
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.04em;
+
+  color: var(--natural);
+
+  background: var(--green);
+}
+
+.onlineDot {
+  display: block;
+
+  width: 6px;
+  height: 6px;
+
+  background: var(--natural);
+}
+
+.introContent {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 18px 20px 20px;
+}
+
+.introTitle {
+  margin: 0;
+
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.2;
+
+  color: var(--natural);
+}
+
+.introSubtitle {
+  margin: 6px 0 0;
+
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+
+  color: rgba(243, 241, 234, 0.82);
+}
+
+.textUsButton {
+  width: 105px;
+  /* height:28.57px; */
+
+  margin-top: 16px;
+  padding: 12px 16px;
+
+  border: 1px solid rgba(243, 241, 234, 0.9);
+
+  background: transparent;
+  color: var(--natural);
+
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+
+  cursor: pointer;
+
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease,;
+}
+
+.textUsButton:hover,
+.textUsButton:focus-visible {
+  background: var(--natural);
+  color: var(--caffe);
+  border-color: var(--natural);
+}
+
+.textUsButton:focus-visible {
+  outline: 2px solid var(--natural);
+  outline-offset: 2px;
+}
+/* =========================================================
+   Chat panel
+   ========================================================= */
+
+.chatPanel {
+  height: min(620px, calc(100vh - 120px));
+  height: min(620px, calc(100dvh - 120px));
+
+  /* Never taller than the screen (a phone on its side). */
+  min-height: min(440px, calc(100vh - 120px));
+  min-height: min(440px, calc(100dvh - 120px));
+  max-height: 620px;
+}
+
+.chatHeader {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 16px 16px 14px;
+
+  background: rgba(243, 241, 234, 0.96);
+  border-bottom: 1px solid rgba(55, 53, 48, 0.08);
+}
+
+.chatHeaderInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 0;
+}
+
+.avatarWrapper {
+  position: relative;
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
+  overflow: hidden;
+}
+
+.avatarImage {
+  object-fit: cover;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.agentName {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+
+  color: var(--caffe);
+}
+
+.agentStatus {
+  overflow: hidden;
+
+  font-size: 12px;
+  line-height: 1.3;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: rgba(55, 53, 48, 0.56);
+}
+
+.headerOnlineStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  margin-top: 2px;
+
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.3;
+
+  color: var(--caffe-75);
+}
+
+.headerOnlineStatus .onlineDot {
+  position: static;
+
+  width: 6px;
+  height: 6px;
+
+  background: var(--green);
+}
+
+.progressDots {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 10px 16px;
+
+  background: rgba(243, 241, 234, 0.96);
+  border-bottom: 1px solid rgba(55, 53, 48, 0.08);
+}
+
+.progressDot,
+.progressDotFilled {
+  width: 6px;
+  height: 6px;
+}
+
+.progressDot {
+  background: rgba(55, 53, 48, 0.16);
+}
+
+.progressDotFilled {
+  background: var(--caffe);
+}
+
+.headerActions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.langToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 32px;
+  height: 26px;
+
+  margin: 0;
+  padding: 0 8px;
+
+  border: 1px solid rgba(55, 53, 48, 0.2);
+
+  background: var(--natural);
+  color: var(--caffe);
+
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.langToggle:hover,
+.langToggle:focus-visible {
+  border-color: var(--caffe);
+  background: rgba(55, 53, 48, 0.05);
+}
+
+.langToggle:focus-visible {
+  outline: 2px solid rgba(55, 53, 48, 0.25);
+  outline-offset: 2px;
+}
+
+.closeButton {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: rgba(55, 53, 48, 0.56);
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.closeButton:hover,
+.closeButton:focus-visible {
+  background: rgba(55, 53, 48, 0.06);
+  color: var(--caffe);
+
+  transform: rotate(4deg);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--caffe);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Conversation area
+   ========================================================= */
+
+.messageList {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+
+  min-height: 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  padding: 18px 16px 22px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(226, 228, 222, 0.45) 0%,
+    var(--natural) 35%
+  );
+
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+.messageList::-webkit-scrollbar {
+  width: 5px;
+}
+
+.messageList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messageList::-webkit-scrollbar-thumb {
+  background: rgba(55, 53, 48, 0.18);
+}
+
+/*
+ * Compatibility with the simple ChatMessage component.
+ */
+.messageList > [data-message-type] {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  max-width: 88%;
+}
+
+.messageList > [data-message-type="bot"] {
+  align-self: flex-start;
+}
+
+.messageList > [data-message-type="visitor"] {
+  align-self: flex-end;
+}
+
+.messageList > [data-message-type] > div {
+  padding: 11px 13px;
+
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.messageList > [data-message-type="bot"] > div {
+
+  background: var(--green-25);
+  color: var(--caffe);
+}
+
+.messageList > [data-message-type="visitor"] > div {
+
+  background: var(--caffe);
+  color: var(--natural);
+}
+
+.messageList > [data-message-type] > span {
+  padding-inline: 4px;
+
+  font-size: 10px;
+  line-height: 1.3;
+
+  color: rgba(55, 53, 48, 0.42);
+}
+
+.messageList > [data-message-type="visitor"] > span {
+  text-align: right;
+}
+
+/* =========================================================
+   Choice buttons
+   ========================================================= */
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+
+  width: 100%;
+
+  margin-top: 2px;
+}
+
+.choiceButton {
+  position: relative;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 11px 13px;
+
+  border: 1px solid rgba(55, 53, 48, 0.18);
+
+  background: rgba(243, 241, 234, 0.94);
+  color: var(--caffe);
+
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.choiceButton::after {
+  content: "›";
+
+  position: absolute;
+  top: 50%;
+  right: 13px;
+
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+
+  opacity: 0.45;
+
+  transform: translateY(-50%);
+}
+
+.choiceButton:hover,
+.choiceButton:focus-visible {
+  border-color: var(--caffe);
+
+  background: var(--caffe);
+  color: var(--natural);
+
+  transform: translateY(-1px);
+}
+
+.choiceButton:focus-visible {
+  outline: 2px solid rgba(55, 53, 48, 0.25);
+  outline-offset: 2px;
+}
+
+.consentText {
+  margin: 0;
+
+  font-size: 12px;
+  line-height: 1.5;
+
+  color: rgba(55, 53, 48, 0.72);
+}
+
+.consentInlineRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+
+  cursor: pointer;
+}
+
+.consentCheckbox {
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  width: 15px;
+  height: 15px;
+
+  accent-color: var(--caffe);
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   Phone step
+   ========================================================= */
+
+.phoneCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid rgba(55, 53, 48, 0.12);
+
+  background: var(--natural);
+}
+
+.pinnedCountries {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pinnedCountryChip {
+  margin: 0;
+  padding: 5px 10px;
+
+  border: 1px solid rgba(55, 53, 48, 0.18);
+
+  background: rgba(243, 241, 234, 0.94);
+  color: var(--caffe);
+
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.pinnedCountryChip:hover,
+.pinnedCountryChip:focus-visible {
+  border-color: var(--caffe);
+
+  background: var(--caffe);
+  color: var(--natural);
+}
+
+.phoneInput {
+  --PhoneInputCountryFlag-height: 14px;
+  --PhoneInputCountrySelectArrow-color: rgba(55, 53, 48, 0.5);
+  --PhoneInput-color--focus: var(--caffe);
+
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+
+  padding: 0 14px;
+  gap: 8px;
+
+  border: 1px solid rgba(55, 53, 48, 0.18);
+
+  background: var(--natural);
+}
+
+.phoneInput :global(.PhoneInputInput) {
+  flex: 1;
+  min-width: 0;
+
+  border: 0;
+  outline: none;
+
+  margin: 0;
+  padding: 11px 0;
+
+  background: transparent;
+  color: var(--caffe);
+
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.phoneInput :global(.PhoneInputInput::placeholder) {
+  color: rgba(55, 53, 48, 0.4);
+}
+
+.phoneCard .continueButton {
+  align-self: flex-end;
+}
+
+.errorActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+
+  margin-top: 15px;
+}
+
+/* =========================================================
+   Shared action buttons
+   ========================================================= */
+
+.primaryButton,
+.secondaryButton,
+.whatsappButton,
+.restartButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 40px;
+
+  margin: 0;
+  padding: 10px 13px;
+
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+
+  text-align: center;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.primaryButton {
+  border: 1px solid var(--caffe);
+
+  background: var(--caffe);
+  color: var(--natural);
+}
+
+.primaryButton:hover,
+.primaryButton:focus-visible {
+  background: var(--caffe-75);
+
+  transform: translateY(-1px);
+}
+
+.secondaryButton {
+  border: 1px solid rgba(55, 53, 48, 0.24);
+
+  background: var(--natural);
+  color: var(--caffe);
+}
+
+.secondaryButton:hover,
+.secondaryButton:focus-visible {
+  border-color: var(--caffe);
+
+  background: rgba(55, 53, 48, 0.05);
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.whatsappButton:focus-visible,
+.restartButton:focus-visible {
+  outline: 2px solid rgba(55, 53, 48, 0.25);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Status cards
+   ========================================================= */
+
+.statusCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
+  padding: 22px 16px;
+
+  border: 1px solid rgba(55, 53, 48, 0.1);
+
+  background: var(--natural);
+
+  text-align: center;
+}
+
+.statusCard p {
+  margin: 0;
+}
+
+.loadingSpinner {
+  display: block;
+
+  width: 28px;
+  height: 28px;
+
+  margin-bottom: 12px;
+
+  border: 2px solid rgba(55, 53, 48, 0.16);
+  border-top-color: var(--caffe);
+  border-radius: 50%;
+
+  animation: chatSpinner 800ms linear infinite;
+}
+
+@keyframes chatSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.successIcon {
+  display: grid;
+  place-items: center;
+
+  width: 40px;
+  height: 40px;
+
+  margin-bottom: 12px;
+
+  background: var(--green-25);
+  color: var(--caffe);
+
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.statusTitle {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.25;
+
+  color: var(--caffe);
+}
+
+.statusText {
+  margin-top: 7px !important;
+
+  font-size: 12px;
+  line-height: 1.5;
+
+  color: rgba(55, 53, 48, 0.66);
+}
+
+.referenceText {
+  margin-top: 12px !important;
+
+  font-size: 11px;
+  line-height: 1.4;
+
+  color: rgba(55, 53, 48, 0.7);
+}
+
+.whatsappButton {
+  width: 100%;
+
+  margin-top: 16px;
+
+  border: 1px solid var(--caffe);
+
+  background: var(--natural);
+  color: var(--caffe);
+}
+
+.whatsappButton:hover,
+.whatsappButton:focus-visible {
+  background: var(--caffe);
+  color: var(--natural);
+
+  transform: translateY(-1px);
+}
+
+.closeActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+
+  width: 100%;
+  margin-top: 16px;
+}
+
+.closeActions .primaryButton,
+.closeActions .whatsappButton {
+  width: 100%;
+  margin-top: 0;
+}
+
+.primaryButton[aria-disabled="true"],
+.whatsappButton[aria-disabled="true"] {
+  pointer-events: none;
+
+  opacity: 0.45;
+}
+
+.choiceButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.brokerLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  width: 100%;
+  margin-top: 14px;
+  padding-top: 14px;
+
+  border-top: 1px solid rgba(55, 53, 48, 0.1);
+}
+
+.brokerLinks a {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+
+  color: var(--caffe);
+  text-decoration: none;
+}
+
+.brokerLinks a:hover,
+.brokerLinks a:focus-visible {
+  text-decoration: underline;
+}
+
+.restartButton {
+  width: 100%;
+
+  margin-top: 8px;
+
+  border: 1px solid rgba(55, 53, 48, 0.2);
+
+  background: var(--natural);
+  color: var(--caffe);
+}
+
+.restartButton:hover,
+.restartButton:focus-visible {
+  border-color: var(--caffe);
+
+  background: rgba(55, 53, 48, 0.05);
+}
+
+.whatsappUnavailable {
+  margin-top: 13px !important;
+
+  font-size: 11px;
+  line-height: 1.4;
+
+  color: rgba(55, 53, 48, 0.52);
+}
+
+.errorCard {
+  border-color: rgba(163, 102, 79, 0.16);
+
+  background: var(--natural);
+}
+
+/* =========================================================
+   Errors
+   ========================================================= */
+
+.fieldError {
+  align-self: stretch;
+
+  margin: 0;
+  padding: 9px 11px;
+
+  border: 1px solid rgba(163, 102, 79, 0.16);
+
+  background: rgba(163, 102, 79, 0.06);
+  color: var(--caffe);
+
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   Composer
+   ========================================================= */
+
+.composer {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px;
+
+  background: var(--natural);
+  border-top: 1px solid rgba(55, 53, 48, 0.08);
+}
+
+.composerInput {
+  flex: 1;
+  min-width: 0;
+
+  padding: 11px 14px;
+
+  border: 1px solid rgba(55, 53, 48, 0.18);
+
+  background: var(--natural);
+  color: var(--caffe);
+
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.composerInput::placeholder {
+  color: rgba(55, 53, 48, 0.4);
+}
+
+.composerInput:focus-visible {
+  border-color: var(--caffe);
+
+  outline: 2px solid rgba(55, 53, 48, 0.16);
+  outline-offset: 1px;
+}
+
+.composerInput[aria-invalid="true"] {
+  border-color: rgba(163, 102, 79, 0.55);
+}
+
+.continueButton {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  height: 40px;
+
+  margin: 0;
+  padding: 0 16px;
+
+  border: 0;
+
+  background: var(--caffe);
+  color: var(--natural);
+
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease,;
+}
+
+.continueButton:hover,
+.continueButton:focus-visible {
+  background: var(--caffe-75);
+
+  transform: translateY(-1px);
+}
+
+.continueButton:focus-visible {
+  outline: 2px solid var(--caffe);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Teaser bubble
+   ========================================================= */
+
+.teaserBubble {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  max-width: 220px;
+  padding: 10px 14px;
+
+  background: var(--natural);
+  border: 1px solid rgba(55, 53, 48, 0.1);
+
+  animation: teaserPop 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes teaserPop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.teaserText {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: var(--caffe);
+
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.teaserDismiss {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  background: rgba(55, 53, 48, 0.06);
+  color: rgba(55, 53, 48, 0.56);
+
+  font-size: 13px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.teaserDismiss:hover,
+.teaserDismiss:focus-visible {
+  background: rgba(55, 53, 48, 0.12);
+  color: var(--caffe);
+}
+
+/* =========================================================
+   Floating button
+   ========================================================= */
+
+.toggleButton {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 56px;
+  height: 56px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+
+  transform-origin: center center;
+
+  will-change: transform;
+}
+
+.toggleVisual {
+  position: relative;
+
+  display: block;
+
+  /*
+   * 110% of the button, then held at 1 / 1.1 by GSAP at rest and
+   * released to 1 on hover. The SVG is therefore always rasterised at
+   * the hovered size and hover only removes a down-scale, so the icon
+   * stays sharp through the whole growth. Grid place-items on
+   * .toggleButton keeps the overflowing 5% centred.
+   */
+  width: 110%;
+  height: 110%;
+
+  transform-origin: center center;
+
+  will-change: transform;
+}
+
+.toggleLabel {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 14px);
+
+  padding: 8px 16px;
+
+  background: var(--caffe);
+
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+
+  color: var(--natural);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transform: translate(6px, -50%);
+
+  transition:
+    opacity 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .toggleButton[data-open="false"]:hover .toggleLabel,  .toggleButton[data-open="false"]:focus-visible .toggleLabel {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+.darkIcon,
+.lightIcon,
+.closeIcon {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  opacity: 0;
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  pointer-events: none;
+
+  transition:
+    opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightIcon {
+  z-index: 1;
+
+  background-image: url("/icons/chat-light.svg");
+
+  opacity: 1;
+
+  transform: scale(1);
+}
+
+.darkIcon {
+  z-index: 2;
+
+  background-image: url("/icons/chat-dark.svg");
+
+  transform: scale(0.96);
+}
+
+.closeIcon {
+  z-index: 3;
+
+  background-image: url("/icons/chat-close.svg");
+
+  transform: scale(0.96);
+}
+
+.toggleButton[data-open="false"]:hover .lightIcon,
+.toggleButton[data-open="false"]:focus-visible .lightIcon,
+.toggleButton[data-open="false"]:active .lightIcon {
+  opacity: 0;
+
+  transform: scale(0.96);
+}
+
+.toggleButton[data-open="false"]:hover .darkIcon,
+.toggleButton[data-open="false"]:focus-visible .darkIcon,
+.toggleButton[data-open="false"]:active .darkIcon {
+  opacity: 1;
+
+  transform: scale(1);
+}
+
+.toggleButton[data-open="true"] .darkIcon,
+.toggleButton[data-open="true"] .lightIcon {
+  opacity: 0;
+
+  transform: scale(0.96);
+}
+
+.toggleButton[data-open="true"] .closeIcon {
+  opacity: 1;
+
+  transform: scale(1);
+}
+
+.toggleButton[data-open="true"]:active .closeIcon {
+  transform: scale(0.94);
+}
+
+.toggleButton:hover .toggleVisual,
+.toggleButton:focus-visible .toggleVisual {
+}
+
+.toggleButton[data-open="false"]:active .darkIcon {
+  transform: scale(0.94);
+}
+
+.toggleButton:focus-visible {
+  outline: 1px solid var(--caffe);
+  outline-offset: 5px;
+}
+
+/* =========================================================
+   RTL (Arabic)
+   ========================================================= */
+
+.chatPanel[dir="rtl"] .choiceButton,
+.chatPanel[dir="rtl"] .consentText,
+.chatPanel[dir="rtl"] .composerInput,
+.chatPanel[dir="rtl"] .statusCard,
+.chatPanel[dir="rtl"] .brokerLinks {
+  text-align: right;
+}
+
+.chatPanel[dir="rtl"] .choiceButton::after {
+  content: "‹";
+
+  right: auto;
+  left: 13px;
+}
+
+.chatPanel[dir="rtl"] .consentInlineRow {
+  flex-direction: row-reverse;
+}
+
+.teaserBubble[dir="rtl"] .teaserText {
+  text-align: right;
+}
+
+.chatPanel[dir="rtl"] .phoneInput :global(.PhoneInputInput) {
+  text-align: right;
+}
+
+.chatPanel[dir="rtl"] .phoneCard .continueButton {
+  align-self: flex-start;
+}
+
+.chatPanel[dir="rtl"] .messageList > [data-message-type="visitor"] > span {
+  text-align: left;
+}
+
+/* Arabic: the brand fonts have no Arabic letters, so fall back to a
+   system Arabic face rather than a mismatched Latin one. */
+.chatPanel[dir="rtl"],
+.teaserBubble[dir="rtl"] {
+  --font-body: var(--sans), "Geeza Pro", "Noto Sans Arabic", Tahoma, sans-serif;
+}
+
+/* Desktop: sit above the full-width cookie bar instead of over its buttons. */
+@media (min-width: 768px) {
+  :global(html.has-cookie-bar) .widget {
+    bottom: 108px;
+  }
+}
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .widget {
+    right: 16px;
+    right: max(16px, env(safe-area-inset-right));
+
+    bottom: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+
+    gap: 12px;
+  }
+
+  .chatPanel {
+    width: min(350px, calc(100vw - 24px));
+    height: min(600px, calc(100vh - 92px));
+    height: min(600px, calc(100dvh - 92px));
+    min-height: min(440px, calc(100vh - 92px));
+    min-height: min(440px, calc(100dvh - 92px));
+  }
+
+  .introCard {
+    width: min(260px, calc(100vw - 24px));
+    height: min(360px, 62vh);
+    height: min(360px, 62dvh);
+  }
+
+  .messageList {
+    padding: 16px 14px 20px;
+  }
+
+  .choiceButton {
+    padding: 10px 12px;
+
+    font-size: 12px;
+  }
+
+  .toggleButton {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/*
+ * While the cookie banner is open on a phone its buttons run the full
+ * width of the screen, and this widget (toggle, teaser and all) would
+ * sit on top of "Accept". CookieNotice flags the open bar on <html>
+ * (has-cookie-bar); the widget steps out until it is answered. !important
+ * because GSAP's autoAlpha writes visibility inline on the children.
+ */
+@media (max-width: 767px) {
+  :global(html.has-cookie-bar) .widget,
+  :global(html.has-cookie-bar) .widget * {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/*
+ * And at every size while the footer is on screen, where it would sit over
+ * the legal links (Motion.js sets data-footer-in-view on <html>). The chat
+ * button stays.
+ */
+:global(html[data-footer-in-view]) .teaserBubble {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* =========================================================
+   Short mobile
+   ========================================================= */
+
+@media (max-width: 480px) and (max-height: 700px) {
+  .chatPanel {
+    height: calc(100vh - 82px);
+    height: calc(100dvh - 82px);
+    min-height: 0;
+  }
+  .introCard {
+    height: 340px;
+  }
+}
+
+/* =========================================================
+   Reduced motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .toggleButton,  .darkIcon,  .lightIcon,  .closeIcon {
+    transform: none !important;
+  }
+
+  /*
+   * Not `none`: .toggleVisual is laid out at 110% and relies on this
+   * scale to sit at its true size. Pinning it also removes the
+   * growth, which is the point under reduced motion.
+   */
+  .toggleVisual {
+    transform: scale(0.909091) !important;
+  }
+
+  .darkIcon,  .lightIcon,  .closeIcon,  .textUsButton,  .closeButton,  .continueButton,  .choiceButton,  .primaryButton,  .secondaryButton,  .whatsappButton,  .restartButton {
+    transition: none;
+  }
+
+  .toggleLabel {
+    transition: opacity 200ms ease;
+    transform: translate(0, -50%) !important;
+  }
+
+  .loadingSpinner {
+    animation: none;
+  }
+
+  .toggleButton[data-open="false"]:hover .lightIcon,  .toggleButton[data-open="false"]:focus-visible .lightIcon,  .toggleButton[data-open="false"]:active .lightIcon {
+    opacity: 0;
+  }
+
+  .toggleButton[data-open="false"]:hover .darkIcon,  .toggleButton[data-open="false"]:focus-visible .darkIcon,  .toggleButton[data-open="false"]:active .darkIcon {
+    opacity: 1;
+  }
+
+  .toggleButton[data-open="true"] .closeIcon {
+    opacity: 1;
+  }
+}

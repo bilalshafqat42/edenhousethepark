@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  cacheComponents: true,
-  partialPrefetching: true,
-};
+const nextConfig = {};
 
 export default nextConfig;

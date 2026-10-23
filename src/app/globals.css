@@ -428,43 +428,6 @@ ul { list-style: none; }
 }
 .cookie__title { font-size: 20px; }
 
-/* Chat widget */
-.chat {
-  position: fixed; right: 28px; bottom: 28px; z-index: 65;
-  display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
-  transition: bottom .3s ease;
-}
-.has-cookie-bar .chat { bottom: 112px; }
-.chat__launcher {
-  display: grid; place-items: center; width: 56px; height: 56px;
-  background: var(--caffe); color: var(--natural);
-  transition: background-color .3s ease;
-}
-.chat__launcher:hover { background: var(--caffe-75); }
-.chat__prompt {
-  position: absolute; right: 66px; bottom: 10px;
-  white-space: nowrap; padding: 10px 14px;
-  background: var(--natural); border: 1px solid var(--line); color: var(--caffe);
-  font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
-}
-.chat__panel {
-  width: 340px; background: var(--natural); border: 1px solid var(--line);
-}
-.chat__head {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  padding: 20px; background: var(--green); color: var(--natural);
-}
-.chat__name { font-family: var(--display); font-size: 20px; line-height: 1.2; letter-spacing: .02em; }
-.chat__by { margin-top: 4px; color: var(--natural); }
-.chat__status { display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--stone); }
-.chat__status span { width: 6px; height: 6px; background: var(--stone); }
-.chat__close { display: grid; place-items: center; width: 28px; height: 28px; color: var(--natural); }
-.chat__body { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.chat__msg { background: var(--mint-50); padding: 10px 14px; }
-.chat__answers { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
-.chat__answers .btn { width: 100%; }
-.chat__answers .btn[aria-pressed="true"] { background: var(--caffe); color: var(--natural); }
-
 /* ==========================================================================
    7. Motion helpers
    ========================================================================== */
@@ -488,6 +451,7 @@ ul { list-style: none; }
   .stats { grid-template-columns: 1fr 1fr; row-gap: 28px; }
   .stats > *:nth-child(odd) { border-left: 0; }
   .gallery__grid { grid-template-columns: 1fr 1fr; }
+  .split > div { min-width: 0; padding: 18px 18px 24px; }
   .split .figure { font-size: 56px; }
   .footer__grid { grid-template-columns: 1fr 1fr; row-gap: 40px; }
   .footer__base { flex-direction: column; gap: 6px; }
