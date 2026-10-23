@@ -11,8 +11,10 @@
   --bronze: #A3664F;
   --natural: #F3F1EA;  /* page background */
 
-  --display: var(--font-display), "Bodoni Moda", Georgia, serif;
-  --sans: var(--font-sans), "Hanken Grotesk", Arial, Helvetica, sans-serif;
+  /* Brand guidelines: Ivy Presto Display and Beausite Classic, with Arial
+     as the system fallback for Beausite. */
+  --display: var(--font-display), Georgia, serif;
+  --sans: var(--font-sans), Arial, Helvetica, sans-serif;
 
   --line: rgba(55, 53, 48, .15);
   --line-light: rgba(243, 241, 234, .55);
@@ -62,7 +64,7 @@ ul { list-style: none; }
    ========================================================================== */
 .h1, .h2, .h3 {
   font-family: var(--display);
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--caffe);
@@ -73,6 +75,7 @@ ul { list-style: none; }
 
 .quote {
   font-family: var(--display);
+  font-weight: 300;
   font-size: clamp(1.9rem, 4.2vw, 3rem);
   line-height: 1.12;
   letter-spacing: .02em;
@@ -80,7 +83,7 @@ ul { list-style: none; }
 
 .figure {
   font-family: var(--display);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -141,15 +144,9 @@ ul { list-style: none; }
   background-position: center;
 }
 
-/* Logo lockup */
+/* Logo (SVG, monogram + wordmark + locator) */
 .logo { display: inline-block; }
-.logo__name {
-  display: block;
-  font-family: var(--display);
-  font-size: 20px; line-height: 1.2;
-  letter-spacing: .04em; text-transform: uppercase;
-}
-.logo__sub { display: block; margin-top: 8px; color: var(--caffe-75); }
+.logo img { display: block; width: auto; }
 
 /* Stat row, used by project features and the payment schedule */
 .stats { display: grid; grid-template-columns: repeat(5, 1fr); }
@@ -169,7 +166,11 @@ ul { list-style: none; }
 /* Header */
 .header {
   position: sticky; top: 0; z-index: 50;
-  background: var(--natural);
+  /* Transparent with a frosted blur. The faint natural tint keeps the
+     black logo legible over the green and caffe sections. */
+  background: rgba(243, 241, 234, .55);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
   border-bottom: 1px solid transparent;
   transition: border-color .3s ease;
 }
@@ -178,7 +179,7 @@ ul { list-style: none; }
   display: flex; align-items: center; justify-content: space-between;
   height: 100px;
 }
-.header .logo { margin-top: 4px; }
+.header .logo img { height: 64px; }
 .nav { display: flex; align-items: center; gap: 28px; }
 .nav__links { display: flex; gap: 26px; }
 .nav__links a { color: var(--caffe-75); transition: color .3s ease; }
@@ -362,7 +363,7 @@ ul { list-style: none; }
 .footer__grid {
   display: grid; grid-template-columns: 476px 133px 194px 1fr;
 }
-.footer .logo__sub { color: var(--caffe-25); }
+.footer .logo img { height: 96px; }
 .footer__address { margin: 20px 0 22px; max-width: 290px; color: var(--caffe-25); }
 .footer__permit { display: flex; align-items: center; gap: 6px; color: var(--caffe-25); }
 .footer__col .label { color: var(--caffe-25); margin-bottom: 14px; }

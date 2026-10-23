@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Brand font source files. The site uses the converted copies in src/fonts;
+# the originals stay local so unused (and desktop-licensed) files are not
+# deployed or published.
+/public/fonts/*
+!/public/fonts/README.md

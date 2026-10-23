@@ -1,7 +1,16 @@
 # Brand fonts
 
-Drop the licensed Eden House font files here (.woff2 preferred, .woff or .otf/.ttf also fine).
+Source files for the Eden House brand fonts. They are not deployed:
+`.gitignore` keeps everything in this folder except this note out of git.
 
-Once the files are in, they get wired up in `src/app/layout.js` with `next/font/local`,
-replacing the Google Fonts fallbacks (Bodoni Moda and Hanken Grotesk).
-The CSS variables `--font-display` and `--font-sans` stay the same, so no other file changes.
+The site loads only the weights the identity guidelines call for, from
+`src/fonts/`, through `next/font/local` in `src/app/layout.js`:
+
+| Role | Font | Weights |
+|---|---|---|
+| Headlines, pull quotes, figures | Ivy Presto Display | Light 300, Regular 400 |
+| Body, titles, labels | Beausite Classic | Light 300, Regular 400, Medium 500 |
+| Arabic text (chat) | The Sans Arabic | Semi Light 300, Plain 400, Semi Bold 500 |
+
+Ivy Presto Display and The Sans Arabic were converted from .otf to .woff2.
+To add a weight, convert it into `src/fonts/` and list it in `layout.js`.

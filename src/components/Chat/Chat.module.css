@@ -1390,11 +1390,15 @@
   text-align: left;
 }
 
-/* Arabic: the brand fonts have no Arabic letters, so fall back to a
-   system Arabic face rather than a mismatched Latin one. */
+/* Arabic: The Sans Arabic, the brand's Arabic text face. Latin text
+   (names, emails) still renders in Beausite Classic. Risala, the Arabic
+   display face, is not supplied yet, so Arabic headings use it too. */
 .chatPanel[dir="rtl"],
 .teaserBubble[dir="rtl"] {
-  --font-body: var(--sans), "Geeza Pro", "Noto Sans Arabic", Tahoma, sans-serif;
+  --font-body: var(--font-sans), var(--font-arabic), Arial, Tahoma, sans-serif;
+  --font-heading: var(--font-display), var(--font-arabic), Georgia, serif;
+
+  font-family: var(--font-body);
 }
 
 /* Desktop: sit above the full-width cookie bar instead of over its buttons. */

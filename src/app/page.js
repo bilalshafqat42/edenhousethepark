@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Chat from "@/components/Chat";
 import ContactForm from "@/components/ContactForm";
 import CookieNotice from "@/components/CookieNotice";
@@ -79,11 +80,17 @@ const EXPLORE = [
   { label: "Payment Plan", href: "#payment-plan" },
 ];
 
-function Logo({ ariaLabel }) {
+// Black logo in the header, brown (bronze) in the footer.
+function Logo({ ariaLabel, variant = "black", priority = false }) {
   return (
     <a href="#top" className="logo" aria-label={ariaLabel}>
-      <span className="logo__name">Eden House</span>
-      <span className="logo__sub label">The Park</span>
+      <Image
+        src={`/logo/eden-house-${variant}.svg`}
+        alt=""
+        width={638}
+        height={458}
+        priority={priority}
+      />
     </a>
   );
 }
@@ -96,7 +103,7 @@ export default function Home() {
 
       <header className="header" data-header>
         <div className="container header__inner">
-          <Logo ariaLabel="Return to the Eden House The Park hero section" />
+          <Logo ariaLabel="Return to the Eden House The Park hero section" priority />
           <nav className="nav" aria-label="Main">
             <ul className="nav__links label">
               {NAV.map((item) => (
@@ -329,7 +336,7 @@ export default function Home() {
         <div className="container">
           <div className="footer__grid" data-stagger>
             <div>
-              <Logo ariaLabel="Return to the Eden House The Park hero section" />
+              <Logo ariaLabel="Return to the Eden House The Park hero section" variant="brown" />
               <p className="fine footer__address">Office 4701, Floor 47, Ubora Tower, Marasi Drive, Business Bay, Dubai</p>
               <p className="fine footer__permit">
                 <span>Trakheesi permit no. [number]</span>
