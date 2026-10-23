@@ -375,6 +375,96 @@ ul { list-style: none; }
 }
 .footer__base a:hover { color: var(--natural); }
 
+/* Hero actions and scroll prompt */
+.hero__actions { display: flex; align-items: center; gap: 28px; }
+.hero__scroll {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--caffe-75); transition: color .3s ease;
+}
+.hero__scroll::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+.hero__scroll:hover { color: var(--caffe); }
+
+/* Location map buttons */
+.location__actions { margin-top: 24px; }
+
+/* Project features slider */
+.slider { margin-bottom: 30px; }
+.slider__track {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 360px; column-gap: 14px;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  scrollbar-width: none; cursor: grab;
+}
+.slider__track::-webkit-scrollbar { display: none; }
+.slider__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.slider__slide { height: 440px; scroll-snap-align: start; }
+.slider__controls {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 20px;
+}
+.slider__dots { display: flex; gap: 10px; }
+.slider__dot {
+  width: 8px; height: 8px; border: 1px solid var(--natural);
+  transition: background-color .3s ease;
+}
+.slider__dot[aria-current="true"] { background: var(--natural); }
+.slider__arrows { display: flex; gap: 8px; }
+.slider__arrow {
+  display: grid; place-items: center; width: 44px; height: 44px;
+  border: 1px solid var(--natural); color: var(--natural);
+  transition: background-color .3s ease, color .3s ease, opacity .3s ease;
+}
+.slider__arrow:hover:not(:disabled) { background: var(--natural); color: var(--caffe); }
+.slider__arrow:disabled { opacity: .4; cursor: default; }
+
+/* Cookie notice */
+.cookie {
+  position: fixed; inset: auto 0 0 0; z-index: 70;
+  background: var(--natural); color: var(--caffe);
+  border-top: 1px solid var(--line);
+}
+.cookie__inner {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  min-height: 84px; padding-top: 20px; padding-bottom: 20px;
+}
+.cookie__title { font-size: 20px; }
+
+/* Chat widget */
+.chat {
+  position: fixed; right: 28px; bottom: 28px; z-index: 65;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+  transition: bottom .3s ease;
+}
+.has-cookie-bar .chat { bottom: 112px; }
+.chat__launcher {
+  display: grid; place-items: center; width: 56px; height: 56px;
+  background: var(--caffe); color: var(--natural);
+  transition: background-color .3s ease;
+}
+.chat__launcher:hover { background: var(--caffe-75); }
+.chat__prompt {
+  position: absolute; right: 66px; bottom: 10px;
+  white-space: nowrap; padding: 10px 14px;
+  background: var(--natural); border: 1px solid var(--line); color: var(--caffe);
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.chat__panel {
+  width: 340px; background: var(--natural); border: 1px solid var(--line);
+}
+.chat__head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 20px; background: var(--green); color: var(--natural);
+}
+.chat__name { font-family: var(--display); font-size: 20px; line-height: 1.2; letter-spacing: .02em; }
+.chat__by { margin-top: 4px; color: var(--natural); }
+.chat__status { display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--stone); }
+.chat__status span { width: 6px; height: 6px; background: var(--stone); }
+.chat__close { display: grid; place-items: center; width: 28px; height: 28px; color: var(--natural); }
+.chat__body { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+.chat__msg { background: var(--mint-50); padding: 10px 14px; }
+.chat__answers { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.chat__answers .btn { width: 100%; }
+.chat__answers .btn[aria-pressed="true"] { background: var(--caffe); color: var(--natural); }
+
 /* ==========================================================================
    7. Motion helpers
    ========================================================================== */

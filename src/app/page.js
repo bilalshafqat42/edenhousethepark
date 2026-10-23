@@ -1,4 +1,7 @@
+import ChatWidget from "@/components/ChatWidget";
 import ContactForm from "@/components/ContactForm";
+import CookieNotice from "@/components/CookieNotice";
+import FeatureSlider from "@/components/FeatureSlider";
 import FloorPlans from "@/components/FloorPlans";
 import LocationChips from "@/components/LocationChips";
 import Motion from "@/components/Motion";
@@ -117,7 +120,10 @@ export default function Home() {
                 <span className="hero__line"><span data-hero-line>Canal</span></span>
               </h1>
               <p className="body hero__body" data-hero-body>Low-Rise Residences On The Dubai Water Canal, Developed By H&amp;H</p>
-              <a href="#about" className="btn btn--fill" data-hero-btn>Explore More</a>
+              <div className="hero__actions" data-hero-btn>
+                <a href="#about" className="btn btn--fill">Explore More</a>
+                <a href="#about" className="label hero__scroll">Scroll Down</a>
+              </div>
             </div>
             <div
               className="slot hero__img"
@@ -158,6 +164,7 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+            <FeatureSlider />
             <a href="#contact" className="btn btn--light">Submit Request</a>
           </div>
         </section>
@@ -216,6 +223,11 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+                {/* No-ops until Mapbox is mounted in #map */}
+                <div className="btn-row location__actions">
+                  <button type="button" className="btn btn--line" data-map-reset>Reset View</button>
+                  <button type="button" className="btn btn--line" data-map-directions>See Directions</button>
+                </div>
               </div>
             </div>
           </div>
@@ -349,12 +361,14 @@ export default function Home() {
           <div className="footer__base fine">
             <span>©2026. Refine Project Management. All rights reserved</span>
             <span>
-              <a href="#">Manage Cookies</a> · <a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a>
+              <a href="#" data-manage-cookies>Manage Cookies</a> · <a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a>
             </span>
           </div>
         </div>
       </footer>
 
+      <ChatWidget />
+      <CookieNotice />
       <Motion />
     </>
   );

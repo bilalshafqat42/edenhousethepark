@@ -18,7 +18,7 @@ const sans = Hanken_Grotesk({
 });
 
 export const metadata = {
-  title: "Eden House The Park | Low-Rise Residences On The Dubai Water Canal",
+  title: "Eden House The Park by Refine | Low-Rise Living On The Canal",
   description:
     "Low-Rise Residences On The Dubai Water Canal, Developed By H&H",
 };
