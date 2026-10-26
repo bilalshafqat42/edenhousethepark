@@ -4,7 +4,7 @@ import ContactForm from "@/components/ContactForm";
 import CookieNotice from "@/components/CookieNotice";
 import FeatureSlider from "@/components/FeatureSlider";
 import FloorPlans from "@/components/FloorPlans";
-import LocationChips from "@/components/LocationChips";
+import LocationExplorer from "@/components/Location/LocationExplorer";
 import Motion from "@/components/Motion";
 
 const NAV = [
@@ -21,14 +21,6 @@ const FEATURES = [
   { fig: "6.4 km", label: "Canal Promenade", text: "Direct access from the community to the canal promenade" },
   { fig: "Eden House", label: "Hospitality", text: "Concierge, resident and guest valet, and an Eden House app with digital key access" },
   { fig: "Q3 2027", label: "Handover", text: "70% of the price is due on handover" },
-];
-
-const TIMES = [
-  { place: "Al Safa Park", time: "3 Min" },
-  { place: "City Walk", time: "8 Min" },
-  { place: "Dubai Mall", time: "10 Min" },
-  { place: "DIFC", time: "16 Min" },
-  { place: "DXB", time: "18 Min" },
 ];
 
 const GALLERY = [
@@ -204,40 +196,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Location */}
-        <section className="section location" id="location">
-          <div className="container">
+        {/* Location: copy on the left half, Mapbox map on the right half */}
+        <section className="location" id="location">
+          <LocationExplorer>
             <p className="eyebrow" data-reveal="eyebrow">Central Dubai,</p>
             <h2 className="h2" data-reveal="heading">Ten Minutes From Burj Khalifa</h2>
-            <div className="location__grid">
-              {/* Mapbox GL JS mounts here later. Do not hard-code coordinates. */}
-              <div
-                id="map"
-                className="map"
-                role="region"
-                aria-label="Map showing Eden House The Park and nearby destinations"
-              />
-              <div className="location__copy">
-                <p className="body" data-reveal="body">
-                  Eden House The Park sits on the Dubai Water Canal beside Al Safa Park, with Burj Khalifa, DIFC and Jumeirah Beach a short drive away and the 6.4 km canal promenade outside.
-                </p>
-                <LocationChips />
-                <ul className="times" data-stagger>
-                  {TIMES.map((t) => (
-                    <li key={t.place}>
-                      <span>{t.place}</span>
-                      <span className="figure">{t.time}</span>
-                    </li>
-                  ))}
-                </ul>
-                {/* No-ops until Mapbox is mounted in #map */}
-                <div className="btn-row location__actions">
-                  <button type="button" className="btn btn--line" data-map-reset>Reset View</button>
-                  <button type="button" className="btn btn--line" data-map-directions>See Directions</button>
-                </div>
-              </div>
-            </div>
-          </div>
+            <p className="body" data-reveal="body">
+              Eden House The Park sits on the Dubai Water Canal beside Al Safa Park, with Burj Khalifa, DIFC and Jumeirah Beach a short drive away and the 6.4 km canal promenade outside.
+            </p>
+          </LocationExplorer>
         </section>
 
         {/* Full width image */}
