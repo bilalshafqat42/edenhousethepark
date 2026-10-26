@@ -404,18 +404,30 @@ ul { list-style: none; }
 /* Location map buttons */
 .location__actions { margin-top: 40px; }
 
-/* Map markers: square, in the brand palette */
-.map-marker { display: flex; align-items: center; gap: 8px; pointer-events: none; }
-.map-marker__dot { width: 10px; height: 10px; background: var(--natural); border: 1px solid var(--caffe); transition: background-color .3s ease, transform .3s ease; }
-.map-marker--project .map-marker__dot { width: 14px; height: 14px; background: var(--caffe); }
-.map-marker__label {
-  padding: 4px 8px; background: var(--natural); color: var(--caffe);
-  font: 400 10px/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase;
-  white-space: nowrap; opacity: 0; transition: opacity .3s ease;
+/* Map callouts: a square brand pin with an icon, and the place name */
+.map-marker { display: flex; align-items: center; cursor: pointer; }
+.map-marker--left { flex-direction: row-reverse; }
+.map-marker__pin {
+  display: grid; place-items: center; flex: none;
+  width: 24px; height: 24px;
+  background: var(--caffe); color: var(--natural);
+  transition: background-color .3s ease;
 }
-.map-marker--project .map-marker__label,
-.map-marker.is-active .map-marker__label { opacity: 1; }
-.map-marker.is-active .map-marker__dot { background: var(--bronze); border-color: var(--bronze); transform: scale(1.3); }
+.map-marker__label {
+  padding: 5px 9px; background: var(--natural); color: var(--caffe);
+  border: 1px solid var(--line);
+  font: 400 10px/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color .3s ease, color .3s ease;
+}
+.map-marker--right .map-marker__label { border-left: 0; }
+.map-marker--left .map-marker__label { border-right: 0; }
+.map-marker:hover .map-marker__pin,
+.map-marker.is-active .map-marker__pin { background: var(--bronze); }
+.map-marker.is-active .map-marker__label { background: var(--bronze); border-color: var(--bronze); color: var(--natural); }
+.map-marker.is-active { z-index: 2; }
+.map-marker--project .map-marker__pin { width: 30px; height: 30px; background: var(--bronze); }
+.map-marker--project .map-marker__label { font-weight: 500; }
 .mapboxgl-ctrl-group { border-radius: 0 !important; box-shadow: none !important; border: 1px solid var(--line); }
 
 /* Project features slider */

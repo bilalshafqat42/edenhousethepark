@@ -6,34 +6,36 @@
  * approximate public landmark positions, not surveyed points. Check each
  * by dropping a pin in Mapbox Studio or Google Maps and paste the result
  * here. The project coordinate is left empty until Refine supplies it:
- * until then the map opens on the style's own default view (set it in
- * Mapbox Studio) and no project pin is drawn.
+ * until then the map opens framed on the destinations and no project pin
+ * is drawn.
  */
 export const PROJECT = {
   name: "Eden House The Park",
   coords: null, // e.g. [55.2xxx, 25.1xxx]
 };
 
-// The callout rows, in the design's order.
+// The callout rows, in the design's order. `icon` picks the map pin's
+// symbol (see MarkerIcons in LocationExplorer.js); `side: "left"` puts the
+// map label on the left of the pin where two places sit close together.
 export const CALLOUTS = [
-  { id: "al-safa-park", name: "Al Safa Park", time: "3 Min", coords: [55.2398, 25.1878] },
-  { id: "city-walk", name: "City Walk", time: "8 Min", coords: [55.2622, 25.2075] },
-  { id: "dubai-mall", name: "Dubai Mall", time: "10 Min", coords: [55.2796, 25.1985] },
-  { id: "difc", name: "DIFC", time: "16 Min", coords: [55.2818, 25.2133] },
-  { id: "dxb", name: "DXB", time: "18 Min", coords: [55.3644, 25.2528] },
+  { id: "al-safa-park", name: "Al Safa Park", time: "3 Min", icon: "park", coords: [55.2398, 25.1878] },
+  { id: "city-walk", name: "City Walk", time: "8 Min", icon: "shopping", coords: [55.2622, 25.2075] },
+  { id: "dubai-mall", name: "Dubai Mall", time: "10 Min", icon: "shopping", coords: [55.2796, 25.1985] },
+  { id: "difc", name: "DIFC", time: "16 Min", icon: "business", coords: [55.2818, 25.2133] },
+  { id: "dxb", name: "DXB", time: "18 Min", icon: "airport", coords: [55.3644, 25.2528] },
 ];
 
 // The drive-time chips. DIFC and DXB point at the same places as above.
 export const CHIPS = [
-  { id: "jumeirah-beach", label: "8 Min · Jumeirah Beach", name: "Jumeirah Beach", coords: [55.2531, 25.2122] },
-  { id: "burj-khalifa", label: "10 Min · Burj Khalifa", name: "Burj Khalifa", coords: [55.2744, 25.1972] },
+  { id: "jumeirah-beach", label: "8 Min · Jumeirah Beach", name: "Jumeirah Beach", icon: "beach", side: "left", coords: [55.2531, 25.2122] },
+  { id: "burj-khalifa", label: "10 Min · Burj Khalifa", name: "Burj Khalifa", icon: "landmark", side: "left", coords: [55.2744, 25.1972] },
   { id: "difc", label: "16 Min · DIFC" },
   { id: "dxb", label: "18 Min · DXB" },
 ];
 
 export const PLACES = [
   ...CALLOUTS,
-  ...CHIPS.filter((chip) => chip.coords).map(({ id, name, coords }) => ({ id, name, coords })),
+  ...CHIPS.filter((chip) => chip.coords).map(({ label, ...place }) => place),
 ];
 
 // Google Maps directions to the project. Falls back to a search by name

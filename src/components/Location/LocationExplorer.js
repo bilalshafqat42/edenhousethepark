@@ -9,14 +9,33 @@ const STYLE_URL = process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL || "mapbox://styles/m
 
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function markerElement(name, kind) {
+// Line icons for the map pins, drawn on a 24px grid.
+const MarkerIcons = {
+  park: '<path d="M12 3l5 7h-3l4 6H6l4-6H7z"/><path d="M12 16v5"/>',
+  shopping: '<path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  business: '<path d="M7 21V4h10v17"/><path d="M4 21h16"/><path d="M10 8h1M13 8h1M10 12h1M13 12h1M10 16h1M13 16h1"/>',
+  airport: '<path d="M21 15l-8-4V5a1 1 0 0 0-2 0v6l-8 4v2l8-2v4l-2 1.5V22l3-1 3 1v-1.5L13 19v-4l8 2z"/>',
+  beach: '<path d="M3 15c2 0 2-2 4.5-2s2.5 2 4.5 2 2-2 4.5-2 2.5 2 4.5 2"/><path d="M3 19c2 0 2-2 4.5-2s2.5 2 4.5 2 2-2 4.5-2 2.5 2 4.5 2"/><circle cx="12" cy="7" r="3"/>',
+  landmark: '<path d="M12 2v3"/><path d="M10.5 5h3l1 16h-5z"/><path d="M8 21h8"/>',
+  project: '<path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/>',
+};
+
+// A square brand pin with an icon, and the place's name beside it.
+function markerElement({ name, icon = "project", side = "right" }, kind) {
   const el = document.createElement("div");
-  el.className = `map-marker map-marker--${kind}`;
+  el.className = `map-marker map-marker--${kind} map-marker--${side}`;
   el.setAttribute("aria-hidden", "true");
-  el.innerHTML = `<span class="map-marker__dot"></span><span class="map-marker__label"></span>`;
+  el.innerHTML = `<span class="map-marker__pin"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${MarkerIcons[icon]}</svg></span><span class="map-marker__label"></span>`;
   el.querySelector(".map-marker__label").textContent = name;
   return el;
 }
+
+// Anchor on the pin's centre, whichever side the label is on.
+const PIN_HALF = 12;
+const markerOptions = (element, side) =>
+  side === "left"
+    ? { element, anchor: "right", offset: [PIN_HALF, 0] }
+    : { element, anchor: "left", offset: [-PIN_HALF, 0] };
 
 /*
  * The left column's controls and the right column's Mapbox map share one
@@ -31,6 +50,7 @@ export default function LocationExplorer({ children }) {
   const mapRef = useRef(null);
   const markersRef = useRef({});
   const homeRef = useRef(null);
+  const selectRef = useRef(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -72,12 +92,15 @@ export default function LocationExplorer({ children }) {
         homeRef.current = { center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() };
 
         if (PROJECT.coords) {
-          new mapboxgl.Marker({ element: markerElement(PROJECT.name, "project") }).setLngLat(PROJECT.coords).addTo(map);
+          const el = markerElement({ name: PROJECT.name }, "project");
+          new mapboxgl.Marker(markerOptions(el, "right")).setLngLat(PROJECT.coords).addTo(map);
         }
         for (const place of PLACES) {
-          const el = markerElement(place.name, "place");
+          const el = markerElement(place, "place");
+          // Clicking a callout on the map selects it, like the rows do.
+          el.addEventListener("click", () => selectRef.current?.(place.id));
           markersRef.current[place.id] = el;
-          new mapboxgl.Marker({ element: el }).setLngLat(place.coords).addTo(map);
+          new mapboxgl.Marker(markerOptions(el, place.side)).setLngLat(place.coords).addTo(map);
         }
         setMapReady(true);
       });
@@ -129,6 +152,10 @@ export default function LocationExplorer({ children }) {
       map.flyTo({ center: place.coords, zoom: 14, duration, essential: false });
     }
   }, [active]);
+
+  useEffect(() => {
+    selectRef.current = select;
+  }, [select]);
 
   const resetView = useCallback(() => {
     setActive(null);
