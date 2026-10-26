@@ -1,4 +1,21 @@
 /* ==========================================================================
+   0. Brand fonts (identity guidelines, pp. 26-31)
+   Ivy Presto Display: headlines, pull quotes, figures.
+   Beausite Classic: body copy, titles, labels, buttons.
+   The Sans Arabic: Arabic text in the chat; downloaded only when Arabic
+   text is on screen. "block" keeps text hidden for a moment while a font
+   loads instead of flashing a non-brand font.
+   ========================================================================== */
+@font-face { font-family: "Ivy Presto Display"; src: url("/webfonts/IvyPrestoDisplay-Light.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: block; }
+@font-face { font-family: "Ivy Presto Display"; src: url("/webfonts/IvyPrestoDisplay-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: "Beausite Classic"; src: url("/webfonts/BeausiteClassicWeb-Light.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: block; }
+@font-face { font-family: "Beausite Classic"; src: url("/webfonts/BeausiteClassicWeb-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: "Beausite Classic"; src: url("/webfonts/BeausiteClassicWeb-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: block; }
+@font-face { font-family: "The Sans Arabic"; src: url("/webfonts/TheSansArabic-SemiLight.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: block; }
+@font-face { font-family: "The Sans Arabic"; src: url("/webfonts/TheSansArabic-Plain.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: "The Sans Arabic"; src: url("/webfonts/TheSansArabic-SemiBold.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: block; }
+
+/* ==========================================================================
    1. Tokens
    ========================================================================== */
 :root {
@@ -11,10 +28,10 @@
   --bronze: #A3664F;
   --natural: #F3F1EA;  /* page background */
 
-  /* Brand guidelines: Ivy Presto Display and Beausite Classic, with Arial
-     as the system fallback for Beausite. */
-  --display: var(--font-display), Georgia, serif;
-  --sans: var(--font-sans), Arial, Helvetica, sans-serif;
+  /* Brand fonts only, no system fallbacks. */
+  --display: "Ivy Presto Display";
+  --sans: "Beausite Classic";
+  --arabic: "The Sans Arabic";
 
   --line: rgba(55, 53, 48, .15);
   --line-light: rgba(243, 241, 234, .55);
@@ -430,6 +447,7 @@ ul { list-style: none; }
 .map-marker.is-active { z-index: 2; }
 .map-marker--project .map-marker__pin { width: 30px; height: 30px; background: var(--bronze); }
 .map-marker--project .map-marker__label { font-weight: 500; }
+.location__map .mapboxgl-map { font-family: var(--sans); }
 .mapboxgl-ctrl-group { border-radius: 0 !important; box-shadow: none !important; border: 1px solid var(--line); }
 
 /* Project features slider */

@@ -1387,12 +1387,13 @@
 }
 
 /* Arabic: The Sans Arabic, the brand's Arabic text face. Latin text
-   (names, emails) still renders in Beausite Classic. Risala, the Arabic
-   display face, is not supplied yet, so Arabic headings use it too. */
+   (names, emails) still renders in Beausite Classic, which has no Arabic
+   letters. Risala, the Arabic display face, is not supplied yet, so Arabic
+   headings use The Sans Arabic too. */
 .chatPanel[dir="rtl"],
 .teaserBubble[dir="rtl"] {
-  --font-body: var(--font-sans), var(--font-arabic), Arial, Tahoma, sans-serif;
-  --font-heading: var(--font-display), var(--font-arabic), Georgia, serif;
+  --font-body: var(--sans), var(--arabic);
+  --font-heading: var(--display), var(--arabic);
 
   font-family: var(--font-body);
 }

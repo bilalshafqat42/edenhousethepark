@@ -41,7 +41,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Brand font source files. The site uses the converted copies in src/fonts;
+# Brand font source files. The site uses the converted copies in public/webfonts;
 # the originals stay local so unused (and desktop-licensed) files are not
 # deployed or published.
 /public/fonts/*

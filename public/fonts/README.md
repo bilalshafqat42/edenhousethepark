@@ -4,7 +4,8 @@ Source files for the Eden House brand fonts. They are not deployed:
 `.gitignore` keeps everything in this folder except this note out of git.
 
 The site loads only the weights the identity guidelines call for, from
-`src/fonts/`, through `next/font/local` in `src/app/layout.js`:
+`public/webfonts/`, declared by name with `@font-face` at the top of
+`src/app/globals.css` (no system fallback fonts):
 
 | Role | Font | Weights |
 |---|---|---|
@@ -13,4 +14,5 @@ The site loads only the weights the identity guidelines call for, from
 | Arabic text (chat) | The Sans Arabic | Semi Light 300, Plain 400, Semi Bold 500 |
 
 Ivy Presto Display and The Sans Arabic were converted from .otf to .woff2.
-To add a weight, convert it into `src/fonts/` and list it in `layout.js`.
+To add a weight, convert it into `public/webfonts/` and add an `@font-face`
+rule for it in `globals.css`.

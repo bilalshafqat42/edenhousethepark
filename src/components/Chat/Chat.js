@@ -1700,7 +1700,7 @@ export default function Chat({
                   fontSize="7.5"
                   fontWeight="700"
                   fill="#373530"
-                  fontFamily="Arial, Helvetica, sans-serif"
+                  fontFamily="Beausite Classic"
                 >
                   A
                 </text>
