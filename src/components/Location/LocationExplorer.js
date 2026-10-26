@@ -51,12 +51,22 @@ export default function LocationExplorer({ children }) {
         cooperativeGestures: true,
         attributionControl: false,
       };
-      if (PROJECT.coords) Object.assign(options, { center: PROJECT.coords, zoom: 12.5 });
+      if (PROJECT.coords) {
+        Object.assign(options, { center: PROJECT.coords, zoom: 12.5 });
+      } else {
+        // No project coordinate yet: open framed on the destinations rather
+        // than on wherever the Mapbox style's default view happens to be.
+        const lngs = PLACES.map((p) => p.coords[0]);
+        const lats = PLACES.map((p) => p.coords[1]);
+        options.bounds = [[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]];
+        options.fitBoundsOptions = { padding: 70 };
+      }
 
       const map = new mapboxgl.Map(options);
       mapRef.current = map;
       map.addControl(new mapboxgl.AttributionControl({ compact: true }));
-      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "bottom-right");
+      // Top right: the chat button sits in the bottom-right corner.
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
 
       map.on("load", () => {
         homeRef.current = { center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() };

@@ -240,7 +240,8 @@ ul { list-style: none; }
 .location__map { grid-column: 3 / -1; position: relative; min-height: 720px; background: var(--mint); }
 .location .h2 { margin-bottom: 40px; max-width: 600px; }
 .location__text .body { max-width: 480px; margin-bottom: 24px; }
-.map { position: absolute; inset: 0; }
+/* Beats mapbox-gl.css, which sets .mapboxgl-map to position: relative. */
+.location__map .map { position: absolute; inset: 0; }
 .chips {
   display: flex; gap: 8px; margin-bottom: 20px;
   overflow-x: auto; scrollbar-width: none;
