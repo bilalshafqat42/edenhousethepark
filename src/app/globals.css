@@ -182,6 +182,8 @@ ul { list-style: none; }
 }
 .header .logo img { height: 64px; }
 .nav { display: flex; align-items: center; gap: 28px; }
+.menu-toggle { display: none; }
+.mobile-menu { display: none; }
 .nav__links { display: flex; gap: 26px; }
 .nav__links a { color: var(--caffe-75); transition: color .3s ease; }
 .nav__links a:hover { color: var(--caffe); }
@@ -330,7 +332,7 @@ ul { list-style: none; }
 .contact__intro { font-size: 17px; line-height: 1.6; margin-bottom: 22px; }
 .details li + li { margin-top: 16px; }
 .details .label { color: var(--caffe-75); margin-bottom: 6px; }
-.details a { font-size: 16px; transition: color .3s ease; }
+.details a { display: inline-block; padding: 6px 0; font-size: 16px; transition: color .3s ease; }
 .details a:hover { color: var(--caffe-75); }
 
 .form { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 0; align-content: start; }
@@ -381,10 +383,10 @@ ul { list-style: none; }
 }
 .footer .logo img { height: 96px; }
 .footer__address { margin: 20px 0 22px; max-width: 290px; color: var(--caffe-25); }
-.footer__permit { display: flex; align-items: center; gap: 6px; color: var(--caffe-25); }
+.footer__permit { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; color: var(--caffe-25); }
 .footer__col .label { color: var(--caffe-25); margin-bottom: 14px; }
 .footer__col li + li { margin-top: 10px; }
-.footer__col a { font-size: 13px; line-height: 1.5; transition: color .3s ease; }
+.footer__col a { display: inline-block; padding: 4px 0; font-size: 13px; line-height: 1.5; transition: color .3s ease; }
 .footer__col a:hover { color: var(--caffe-25); }
 .footer__hh { font-family: var(--display); font-size: 24px; letter-spacing: .02em; line-height: 1; }
 .footer__base {
@@ -484,6 +486,38 @@ ul { list-style: none; }
    8. Media queries
    ========================================================================== */
 @media (max-width: 1000px) {
+  /* Menu button and drop-down panel */
+  .menu-toggle {
+    display: grid; place-items: center; width: 44px; height: 44px;
+    border: 1px solid var(--caffe);
+  }
+  .menu-toggle__icon, .menu-toggle__icon::before, .menu-toggle__icon::after {
+    display: block; width: 18px; height: 1px; background: var(--caffe);
+    transition: transform .3s ease, background-color .3s ease;
+  }
+  .menu-toggle__icon { position: relative; }
+  .menu-toggle__icon::before, .menu-toggle__icon::after { content: ""; position: absolute; left: 0; }
+  .menu-toggle__icon::before { top: -6px; }
+  .menu-toggle__icon::after { top: 6px; }
+  .menu-toggle__icon.is-open { background: transparent; }
+  .menu-toggle__icon.is-open::before { transform: translateY(6px) rotate(45deg); }
+  .menu-toggle__icon.is-open::after { transform: translateY(-6px) rotate(-45deg); }
+  .nav { gap: 12px; }
+  .mobile-menu.is-open {
+    display: block;
+    position: absolute; top: 100%; left: 0; right: 0;
+    padding: 12px var(--gutter) 32px;
+    background: var(--natural); border-bottom: 1px solid var(--line);
+    max-height: calc(100dvh - 100%); overflow-y: auto;
+  }
+  .mobile-menu li { border-bottom: 1px solid var(--line); }
+  .mobile-menu li a {
+    display: block; padding: 16px 0;
+    font-family: var(--display); font-weight: 300; font-size: 24px;
+    letter-spacing: .04em; text-transform: uppercase;
+  }
+  .mobile-menu .btn { margin-top: 24px; width: 100%; }
+
   :root { --gutter: 28px; }
   .nav__links { display: none; }
   .location__split { grid-template-columns: var(--gutter) minmax(0, 1fr) var(--gutter); }
@@ -501,4 +535,25 @@ ul { list-style: none; }
   .split .figure { font-size: 56px; }
   .footer__grid { grid-template-columns: 1fr 1fr; row-gap: 40px; }
   .footer__base { flex-direction: column; gap: 6px; }
+}
+
+@media (max-width: 600px) {
+  .header__inner { height: 76px; }
+  .header .logo img { height: 50px; }
+  [id] { scroll-margin-top: 77px; }
+  /* Request Callback lives in the menu on phones */
+  .nav > .btn { display: none; }
+  .form { grid-template-columns: minmax(0, 1fr); }
+  .card .slot { height: 240px; margin-bottom: 18px; }
+  .card .h3 { font-size: 17px; }
+  .hero__actions { flex-wrap: wrap; gap: 20px; }
+  .slider__slide { height: 320px; }
+  .slider__track { grid-auto-columns: 82%; }
+  /* Small dots, finger-sized tap area */
+  .slider__dots { gap: 16px; }
+  .slider__dot { position: relative; }
+  .slider__dot::before { content: ""; position: absolute; inset: -8px; }
+  /* Narrow map: names only on the selected place, so labels do not pile up */
+  .map-marker__label { display: none; }
+  .map-marker.is-active .map-marker__label { display: block; }
 }

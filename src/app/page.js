@@ -5,6 +5,7 @@ import CookieNotice from "@/components/CookieNotice";
 import FeatureSlider from "@/components/FeatureSlider";
 import FloorPlans from "@/components/FloorPlans";
 import LocationExplorer from "@/components/Location/LocationExplorer";
+import MobileMenu from "@/components/MobileMenu";
 import Motion from "@/components/Motion";
 
 const NAV = [
@@ -72,7 +73,7 @@ const EXPLORE = [
   { label: "Payment Plan", href: "#payment-plan" },
 ];
 
-// Black logo in the header, brown (bronze) in the footer.
+// Black logo in the header, white in the footer.
 function Logo({ ariaLabel, variant = "black", priority = false }) {
   return (
     <a href="#top" className="logo" aria-label={ariaLabel}>
@@ -103,6 +104,7 @@ export default function Home() {
               ))}
             </ul>
             <a href="#contact" className="btn btn--fill">Request Callback</a>
+            <MobileMenu links={NAV} />
           </nav>
         </div>
       </header>
@@ -303,7 +305,7 @@ export default function Home() {
         <div className="container">
           <div className="footer__grid" data-stagger>
             <div>
-              <Logo ariaLabel="Return to the Eden House The Park hero section" variant="brown" />
+              <Logo ariaLabel="Return to the Eden House The Park hero section" variant="white" />
               <p className="fine footer__address">Office 4701, Floor 47, Ubora Tower, Marasi Drive, Business Bay, Dubai</p>
               <p className="fine footer__permit">
                 <span>Trakheesi permit no. [number]</span>
