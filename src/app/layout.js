@@ -1,9 +1,11 @@
 import localFont from "next/font/local";
 import "./globals.css";
 
-// Eden House brand fonts (identity guidelines, pp. 26-31).
+// Eden House brand fonts (identity guidelines, pp. 26-31). next/font names each
+// @font-face family after its variable, so the variables carry the brand names
+// and DevTools shows those rather than generic ones.
 // Display: Ivy Presto Display, Light for headlines and pull quotes.
-const display = localFont({
+const IvyPrestoDisplay = localFont({
   src: [
     { path: "../fonts/IvyPrestoDisplay-Light.woff2", weight: "300", style: "normal" },
     { path: "../fonts/IvyPrestoDisplay-Regular.woff2", weight: "400", style: "normal" },
@@ -16,7 +18,7 @@ const display = localFont({
 });
 
 // Text: Beausite Classic, Light for body copy and titles.
-const sans = localFont({
+const BeausiteClassic = localFont({
   src: [
     { path: "../fonts/BeausiteClassicWeb-Light.woff2", weight: "300", style: "normal" },
     { path: "../fonts/BeausiteClassicWeb-Regular.woff2", weight: "400", style: "normal" },
@@ -31,7 +33,7 @@ const sans = localFont({
 
 // Arabic text: The Sans Arabic, Semi Light for body copy. Only used by the
 // chat's Arabic mode, so it is not preloaded.
-const arabic = localFont({
+const TheSansArabic = localFont({
   src: [
     { path: "../fonts/TheSansArabic-SemiLight.woff2", weight: "300", style: "normal" },
     { path: "../fonts/TheSansArabic-Plain.woff2", weight: "400", style: "normal" },
@@ -50,7 +52,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} ${arabic.variable}`}>
+    <html lang="en" className={`${IvyPrestoDisplay.variable} ${BeausiteClassic.variable} ${TheSansArabic.variable}`}>
       <body>{children}</body>
     </html>
   );
