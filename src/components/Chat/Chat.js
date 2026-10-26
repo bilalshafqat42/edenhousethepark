@@ -438,8 +438,15 @@ export default function Chat({
   }, [language, fillProject, projectName]);
 
   const toggleLanguage = useCallback(() => {
-    setLanguage((current) => (current === "en" ? "ar" : "en"));
-  }, []);
+    const next = language === "en" ? "ar" : "en";
+    setLanguage(next);
+
+    // Nothing answered yet: show the opening messages in the new language.
+    // Once the visitor has answered, earlier messages stay as they were.
+    if (chatStep === CHAT_STEP.ROLE) {
+      setMessages(buildInitialMessages(STRINGS[next], fillProject));
+    }
+  }, [language, chatStep, fillProject]);
 
   const handleToggleClick = useCallback(() => {
     setWidgetState((currentState) => {
@@ -1788,7 +1795,7 @@ export default function Chat({
         </div>
 
         {showComposer && currentInput ? (
-          <form className={styles.composer} onSubmit={handleTextAnswer}>
+          <form className={styles.composer} onSubmit={handleTextAnswer} noValidate>
             <input
               ref={messageInputRef}
               type={currentInput.type}

@@ -1370,10 +1370,6 @@
   left: 13px;
 }
 
-.chatPanel[dir="rtl"] .consentInlineRow {
-  flex-direction: row-reverse;
-}
-
 .teaserBubble[dir="rtl"] .teaserText {
   text-align: right;
 }
