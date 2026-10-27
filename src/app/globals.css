@@ -89,8 +89,6 @@ ul { list-style: none; }
 .h1 { font-size: clamp(2rem, 4.5vw, 4.05rem); line-height: .91; }
 .h2 { font-size: clamp(1.5rem, 3.5vw, 2.85rem); line-height: .92; }
 .h3 { font-size: clamp(1.22rem, 2.2vw, 1.8rem); line-height: 1.02; }
-/* Hero headline: title case, as in the design */
-.h1--title { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: clamp(2.4rem, 4.85vw, 4.35rem); line-height: .95; }
 
 .quote {
   font-family: var(--display);
@@ -237,25 +235,48 @@ ul { list-style: none; }
    header (negative margin = header height), so the header overlays it. */
 .hero {
   position: relative; overflow: hidden;
-  display: flex; align-items: flex-end;
+  display: flex; flex-direction: column; justify-content: flex-end;
   min-height: 100svh; margin-top: -102px;
-  color: var(--natural);
+  color: #fff;
 }
 .hero__media { position: absolute; inset: 0; }
 .hero__media img { object-fit: cover; }
-/* Darkens the lower left so the copy reads over any render */
+/* Dims the render so white copy reads anywhere on it */
 .hero__shade {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(55, 53, 48, .72) 0%, rgba(55, 53, 48, .35) 38%, rgba(55, 53, 48, 0) 65%);
+  background: linear-gradient(to top, rgba(55, 53, 48, .62) 0%, rgba(55, 53, 48, .38) 45%, rgba(55, 53, 48, .22) 100%);
 }
-.hero__content { position: relative; z-index: 1; padding-top: 160px; padding-bottom: 72px; }
-.hero .eyebrow { color: var(--natural); }
-.hero .h1 { margin-bottom: 24px; color: var(--natural); }
-.hero__line { display: block; overflow: hidden; padding-bottom: .04em; white-space: nowrap; }
+.hero__content {
+  position: relative; z-index: 1;
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding-top: 140px; padding-bottom: 40px;
+}
+/* Figma: Ivy Presto Display Regular 53/66, 4% tracking, #fff */
+.hero__title {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(34px, 3.68vw, 53px); line-height: 1.245; letter-spacing: .04em;
+  color: #fff; margin-bottom: 14px;
+}
+.hero__line { display: block; overflow: hidden; padding-bottom: .04em; }
 .hero__line > span { display: block; }
-.hero__body { color: var(--natural); max-width: 430px; margin-bottom: 22px; }
-.btn--natural { background: var(--natural); border-color: var(--natural); color: var(--caffe); }
-.btn--natural:hover { background: transparent; color: var(--natural); }
+/* Figma: Beausite Classic Regular 16/27, #fff */
+.hero__body { font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 27px; letter-spacing: 0; color: #fff; margin-bottom: 28px; }
+/* Figma: 224 x 44, 1px white border, Beausite Classic 11/14, 8% tracking */
+.hero__cta {
+  width: 224px; height: 44px; padding: 0;
+  border: 1px solid #fff; color: #fff; background: transparent;
+  font-family: var(--sans); font-size: 11px; line-height: 14px; letter-spacing: .08em;
+}
+.hero__cta:hover { background: #fff; color: var(--caffe); }
+/* Key figures. Figma: boxes padded 26px / 22px, 15px between figure and label */
+.hero__stats {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding-bottom: 30px;
+}
+.hero__stats > li { display: flex; flex-direction: column; gap: 15px; padding: 26px 22px; }
+.hero__stat-fig { font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 48px; letter-spacing: 0; color: #fff; font-variant-numeric: tabular-nums; }
+.hero__stat-label { font-family: var(--sans); font-size: 11px; line-height: 14px; letter-spacing: .08em; text-transform: uppercase; color: #fff; }
 
 /* Intro statement */
 .intro { padding: 93px 0 85px; }
@@ -446,14 +467,6 @@ ul { list-style: none; }
 }
 .footer__base a:hover { color: var(--natural); }
 
-/* Hero actions and scroll prompt */
-.hero__actions { display: flex; align-items: center; gap: 28px; }
-.hero__scroll {
-  display: inline-flex; align-items: center; gap: 10px;
-  color: var(--natural); transition: opacity .3s ease;
-}
-.hero__scroll::before { content: ""; width: 28px; height: 1px; background: currentColor; }
-.hero__scroll:hover { opacity: .75; }
 
 /* Location map buttons */
 .location__actions { margin-top: 40px; }
@@ -557,7 +570,7 @@ ul { list-style: none; }
   .split-section--reverse .split-section__media { grid-column: 1 / -1; grid-row: 1; height: 420px; }
   .split-section__text,
   .split-section--reverse .split-section__text { grid-column: 2; grid-row: 2; padding: var(--section-y) 0; }
-  .hero__line { white-space: normal; }
+  .hero__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-bottom: 20px; }
   .stats { grid-template-columns: 1fr 1fr; row-gap: 28px; }
   .stats > *:nth-child(odd) { border-left: 0; }
   .gallery__grid { gap: 40px 24px; }
@@ -571,7 +584,10 @@ ul { list-style: none; }
   .header__inner { height: 76px; }
   .header .logo img { height: 50px; }
   .hero { margin-top: -77px; }
-  .hero__content { padding-bottom: 48px; }
+  .hero__content { padding-top: 110px; padding-bottom: 24px; }
+  .hero__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+  .hero__stats > li { padding: 12px 0; gap: 6px; }
+  .hero__stat-fig { font-size: 24px; line-height: 32px; }
   [id] { scroll-margin-top: 77px; }
   /* Request Callback lives in the menu on phones */
   .nav > .btn { display: none; }
@@ -589,7 +605,6 @@ ul { list-style: none; }
   .split-section__media,
   .split-section--reverse .split-section__media { height: 320px; }
   .card .h3 { font-size: 17px; }
-  .hero__actions { flex-wrap: wrap; gap: 20px; }
   /* Narrow map: names only on the selected place, so labels do not pile up */
   .map-marker__label { display: none; }
   .map-marker.is-active .map-marker__label { display: block; }

@@ -145,7 +145,7 @@ export default function Home() {
       </header>
 
       <main id="main">
-        {/* Hero: full-bleed render under the header, copy over it */}
+        {/* Hero: full-bleed render under the header, centred copy, key figures along the bottom */}
         <section className="hero" id="top" data-hero>
           <div className="hero__media" data-hero-img>
             <Image
@@ -158,17 +158,22 @@ export default function Home() {
           </div>
           <div className="hero__shade" aria-hidden="true" />
           <div className="container hero__content">
-            <p className="eyebrow" data-hero-eyebrow>A Greener</p>
-            <h1 className="h1 h1--title">
-              <span className="hero__line"><span data-hero-line>Life, Set Around A</span></span>{" "}
-              <span className="hero__line"><span data-hero-line>Park On The Canal</span></span>
+            <h1 className="hero__title">
+              <span className="hero__line"><span data-hero-line>Life, Set Around A Park On The Canal</span></span>
             </h1>
-            <p className="body hero__body" data-hero-body>Low-Rise Residences On The Dubai Water Canal, Developed By H&amp;H</p>
-            <div className="hero__actions" data-hero-btn>
-              <a href="#about" className="btn btn--natural">Explore More</a>
-              <a href="#about" className="label hero__scroll">Scroll Down</a>
-            </div>
+            <p className="hero__body" data-hero-body>Low-Rise Residences On The Dubai Water Canal, Developed By H&amp;H</p>
+            <a href="#floor-plans" className="btn hero__cta" data-hero-btn>Get Prices &amp; Floor Plans</a>
           </div>
+          <ul className="container hero__stats" data-hero-stats>
+            {FEATURES.map((f) => (
+              <li key={f.label}>
+                <p className="hero__stat-fig">
+                  {f.count ? <span data-count={f.count}>{f.fig}</span> : f.fig}
+                </p>
+                <p className="hero__stat-label">{f.label}</p>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Intro statement */}

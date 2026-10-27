@@ -41,9 +41,9 @@ export default function Motion() {
         .from("[data-header]", { yPercent: -100, opacity: 0, duration: 1, clearProps: "transform,opacity" }, 0)
         .from("[data-hero-img]", { scale: 1.08, opacity: 0, duration: 1.6, ease: "power2.out" }, 0)
         .from("[data-hero-line]", { yPercent: 112, duration: 0.95, stagger: 0.09 }, 0.35)
-        .from("[data-hero-eyebrow]", { opacity: 0, x: -10, duration: 0.6 }, 0.5)
         .from("[data-hero-body]", { opacity: 0, y: 14, duration: 0.7 }, 0.75)
-        .from("[data-hero-btn]", { opacity: 0, y: 14, duration: 0.7 }, 0.85);
+        .from("[data-hero-btn]", { opacity: 0, y: 14, duration: 0.7 }, 0.85)
+        .from("[data-hero-stats] > li", { opacity: 0, y: 18, duration: 0.7, stagger: 0.07 }, 1);
 
       gsap.utils.toArray('[data-reveal="eyebrow"]').forEach((el) => {
         gsap.from(el, { opacity: 0, x: -10, duration: 0.6, ease: "power2.out", scrollTrigger: once(el) });
