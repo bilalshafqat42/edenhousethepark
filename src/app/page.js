@@ -149,8 +149,8 @@ export default function Home() {
         <section className="hero" id="top" data-hero>
           <div className="hero__media" data-hero-img>
             <Image
-              src={`${R}/hero-buildings.jpg`}
-              alt="Low-rise buildings of Eden House The Park among gardens on the Dubai Water Canal"
+              src={`${R}/hero-aerial-canal.jpg`}
+              alt="Aerial view of the Eden House The Park buildings along the Dubai Water Canal"
               fill
               priority
               sizes="100vw"
