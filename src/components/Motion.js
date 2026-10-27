@@ -35,13 +35,15 @@ export default function Motion() {
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const once = (trigger, start = "top 88%") => ({ trigger, start, once: true });
 
-      // Page load: hero
+      // Page load: the header slides down from the top, the hero render
+      // settles with a slow zoom-out, then the hero copy rises in.
       gsap.timeline({ defaults: { ease: "power3.out" } })
-        .from("[data-hero-line]", { yPercent: 112, duration: 0.95, stagger: 0.09 })
-        .from("[data-hero-eyebrow]", { opacity: 0, x: -10, duration: 0.6 }, 0.2)
-        .from("[data-hero-body]", { opacity: 0, y: 14, duration: 0.7 }, 0.45)
-        .from("[data-hero-btn]", { opacity: 0, y: 14, duration: 0.7 }, 0.55)
-        .from("[data-hero-img]", { opacity: 0, y: 20, duration: 1.1 }, 0.3);
+        .from("[data-header]", { yPercent: -100, opacity: 0, duration: 1, clearProps: "transform,opacity" }, 0)
+        .from("[data-hero-img]", { scale: 1.08, opacity: 0, duration: 1.6, ease: "power2.out" }, 0)
+        .from("[data-hero-line]", { yPercent: 112, duration: 0.95, stagger: 0.09 }, 0.35)
+        .from("[data-hero-eyebrow]", { opacity: 0, x: -10, duration: 0.6 }, 0.5)
+        .from("[data-hero-body]", { opacity: 0, y: 14, duration: 0.7 }, 0.75)
+        .from("[data-hero-btn]", { opacity: 0, y: 14, duration: 0.7 }, 0.85);
 
       gsap.utils.toArray('[data-reveal="eyebrow"]').forEach((el) => {
         gsap.from(el, { opacity: 0, x: -10, duration: 0.6, ease: "power2.out", scrollTrigger: once(el) });

@@ -145,9 +145,19 @@ export default function Home() {
       </header>
 
       <main id="main">
-        {/* Hero: copy on the left, render filling the right half */}
-        <section className="hero split-section" id="top" data-hero>
-          <div className="split-section__text hero__text">
+        {/* Hero: full-bleed render under the header, copy over it */}
+        <section className="hero" id="top" data-hero>
+          <div className="hero__media" data-hero-img>
+            <Image
+              src={`${R}/hero-buildings.jpg`}
+              alt="Low-rise buildings of Eden House The Park among gardens on the Dubai Water Canal"
+              fill
+              priority
+              sizes="100vw"
+            />
+          </div>
+          <div className="hero__shade" aria-hidden="true" />
+          <div className="container hero__content">
             <p className="eyebrow" data-hero-eyebrow>A Greener</p>
             <h1 className="h1 h1--title">
               <span className="hero__line"><span data-hero-line>Life, Set Around A</span></span>{" "}
@@ -155,18 +165,9 @@ export default function Home() {
             </h1>
             <p className="body hero__body" data-hero-body>Low-Rise Residences On The Dubai Water Canal, Developed By H&amp;H</p>
             <div className="hero__actions" data-hero-btn>
-              <a href="#about" className="btn btn--fill">Explore More</a>
+              <a href="#about" className="btn btn--natural">Explore More</a>
               <a href="#about" className="label hero__scroll">Scroll Down</a>
             </div>
-          </div>
-          <div className="split-section__media hero__img" data-hero-img>
-            <Image
-              src={`${R}/hero-buildings.jpg`}
-              alt="Low-rise buildings of Eden House The Park among gardens on the Dubai Water Canal"
-              fill
-              priority
-              sizes="50vw"
-            />
           </div>
         </section>
 

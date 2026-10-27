@@ -215,7 +215,7 @@ ul { list-style: none; }
 }
 .header .btn:hover { background: var(--caffe-75); border-color: var(--caffe-75); }
 
-/* Split sections (hero, floor plans): copy aligned to the page container,
+/* Split sections (floor plans): copy aligned to the page container,
    a render filling the other half of the screen to its edge. Same columns
    as the location section. */
 .split-section {
@@ -233,12 +233,29 @@ ul { list-style: none; }
 .split-section__media img { object-fit: cover; }
 
 /* Hero */
-.hero { min-height: clamp(560px, calc(100svh - 101px), 820px); }
-.hero__text { align-self: end; padding-bottom: 50px; }
-.hero .h1 { margin-bottom: 24px; }
+/* Full bleed: the hero fills the screen and slides up under the sticky
+   header (negative margin = header height), so the header overlays it. */
+.hero {
+  position: relative; overflow: hidden;
+  display: flex; align-items: flex-end;
+  min-height: 100svh; margin-top: -102px;
+  color: var(--natural);
+}
+.hero__media { position: absolute; inset: 0; }
+.hero__media img { object-fit: cover; }
+/* Darkens the lower left so the copy reads over any render */
+.hero__shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(55, 53, 48, .72) 0%, rgba(55, 53, 48, .35) 38%, rgba(55, 53, 48, 0) 65%);
+}
+.hero__content { position: relative; z-index: 1; padding-top: 160px; padding-bottom: 72px; }
+.hero .eyebrow { color: var(--natural); }
+.hero .h1 { margin-bottom: 24px; color: var(--natural); }
 .hero__line { display: block; overflow: hidden; padding-bottom: .04em; white-space: nowrap; }
 .hero__line > span { display: block; }
-.hero__body { color: var(--caffe-75); max-width: 430px; margin-bottom: 22px; }
+.hero__body { color: var(--natural); max-width: 430px; margin-bottom: 22px; }
+.btn--natural { background: var(--natural); border-color: var(--natural); color: var(--caffe); }
+.btn--natural:hover { background: transparent; color: var(--natural); }
 
 /* Intro statement */
 .intro { padding: 93px 0 85px; }
@@ -433,10 +450,10 @@ ul { list-style: none; }
 .hero__actions { display: flex; align-items: center; gap: 28px; }
 .hero__scroll {
   display: inline-flex; align-items: center; gap: 10px;
-  color: var(--caffe-75); transition: color .3s ease;
+  color: var(--natural); transition: opacity .3s ease;
 }
 .hero__scroll::before { content: ""; width: 28px; height: 1px; background: currentColor; }
-.hero__scroll:hover { color: var(--caffe); }
+.hero__scroll:hover { opacity: .75; }
 
 /* Location map buttons */
 .location__actions { margin-top: 40px; }
@@ -492,10 +509,6 @@ ul { list-style: none; }
 /* ==========================================================================
    8. Media queries
    ========================================================================== */
-/* Narrow laptops: the hero copy has half the screen, so let lines wrap */
-@media (max-width: 1200px) {
-  .hero__line { white-space: normal; }
-}
 
 @media (max-width: 1000px) {
   /* Menu button and drop-down panel */
@@ -544,7 +557,6 @@ ul { list-style: none; }
   .split-section--reverse .split-section__media { grid-column: 1 / -1; grid-row: 1; height: 420px; }
   .split-section__text,
   .split-section--reverse .split-section__text { grid-column: 2; grid-row: 2; padding: var(--section-y) 0; }
-  .hero__text { padding-bottom: var(--section-y); }
   .hero__line { white-space: normal; }
   .stats { grid-template-columns: 1fr 1fr; row-gap: 28px; }
   .stats > *:nth-child(odd) { border-left: 0; }
@@ -558,6 +570,8 @@ ul { list-style: none; }
 @media (max-width: 600px) {
   .header__inner { height: 76px; }
   .header .logo img { height: 50px; }
+  .hero { margin-top: -77px; }
+  .hero__content { padding-bottom: 48px; }
   [id] { scroll-margin-top: 77px; }
   /* Request Callback lives in the menu on phones */
   .nav > .btn { display: none; }
