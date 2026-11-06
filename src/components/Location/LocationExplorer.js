@@ -65,6 +65,7 @@ export default function LocationExplorer({ content, children }) {
   const markersRef = useRef({});
   const homeRef = useRef(null);
   const selectRef = useRef(null);
+  const layoutRef = useRef(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -72,6 +73,33 @@ export default function LocationExplorer({ content, children }) {
 
     let cancelled = false;
     const { PROJECT, PLACES } = placesRef.current;
+
+    /*
+     * Places close together (Dubai Opera beside Burj Khalifa) would draw on
+     * top of each other. Taking the selected place first, then the list
+     * order: a marker whose pin lands on one already placed folds away
+     * entirely; one whose label would overlap keeps its pin and hides its
+     * name. Both come back on hover, when selected, or once zoomed in far
+     * enough to fit. Re-run whenever the map settles.
+     */
+    const layoutLabels = () => {
+      const overlaps = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+      const ids = Object.keys(markersRef.current);
+      for (const id of ids) markersRef.current[id].classList.remove("is-label-hidden", "is-folded");
+      const ordered = [...ids].sort((x, y) =>
+        Number(markersRef.current[y].classList.contains("is-active")) - Number(markersRef.current[x].classList.contains("is-active")));
+      const taken = [];
+      for (const id of ordered) {
+        const el = markersRef.current[id];
+        const pin = el.querySelector(".map-marker__pin").getBoundingClientRect();
+        const label = el.querySelector(".map-marker__label").getBoundingClientRect();
+        if (taken.some((r) => overlaps(pin, r))) { el.classList.add("is-folded"); continue; }
+        taken.push(pin);
+        if (taken.slice(0, -1).some((r) => overlaps(label, r))) el.classList.add("is-label-hidden");
+        else taken.push(label);
+      }
+    };
+    layoutRef.current = layoutLabels;
 
     const init = async () => {
       const { default: mapboxgl } = await import("mapbox-gl");
@@ -91,17 +119,18 @@ export default function LocationExplorer({ content, children }) {
       } else if (PLACES.length > 0) {
         // No project coordinate yet: open framed on the destinations rather
         // than on wherever the Mapbox style's default view happens to be.
-        const lngs = PLACES.map((p) => p.coords[0]);
-        const lats = PLACES.map((p) => p.coords[1]);
+        // A far-away place set to "no" for the opening view is left out.
+        const framed = PLACES.filter((p) => p.inView);
+        const inFrame = framed.length > 0 ? framed : PLACES;
+        const lngs = inFrame.map((p) => p.coords[0]);
+        const lats = inFrame.map((p) => p.coords[1]);
         options.bounds = [[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]];
-        options.fitBoundsOptions = { padding: 70 };
+        options.fitBoundsOptions = { padding: 140 }; // wider city context, as designed
       }
 
       const map = new mapboxgl.Map(options);
       mapRef.current = map;
       map.addControl(new mapboxgl.AttributionControl({ compact: true }));
-      // Top right: the chat button sits in the bottom-right corner.
-      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
 
       map.on("load", () => {
         homeRef.current = { center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() };
@@ -118,7 +147,10 @@ export default function LocationExplorer({ content, children }) {
           new mapboxgl.Marker(markerOptions(el, place.side)).setLngLat(place.coords).addTo(map);
         }
         setMapReady(true);
+        layoutLabels();
       });
+      // Labels are re-checked whenever the map settles at a new view.
+      map.on("moveend", layoutLabels);
     };
 
     // Load when the section is within a screen of the viewport.
@@ -142,11 +174,12 @@ export default function LocationExplorer({ content, children }) {
     };
   }, []);
 
-  // Highlight the active marker.
+  // Highlight the active marker, and re-check which labels fit.
   useEffect(() => {
     for (const [id, el] of Object.entries(markersRef.current)) {
       el.classList.toggle("is-active", id === active);
     }
+    layoutRef.current?.();
   }, [active, mapReady]);
 
   const select = useCallback((id) => {
@@ -184,32 +217,43 @@ export default function LocationExplorer({ content, children }) {
       <div className="location__text">
         {children}
 
-        <div className="chips" role="group" aria-label={toPlainText(content?.["chips-aria-label"] ?? "")}>
-          {CHIPS.map((chip, i) => (
-            <button
-              key={`${chip.id}-${i}`}
-              type="button"
-              className="chip"
-              aria-pressed={active === chip.id}
-              onClick={() => select(chip.id)}
-            >
-              <InlineText value={chip.text} inLink />
-            </button>
-          ))}
-        </div>
+        {CHIPS.length > 0 && (
+          <div className="chips" role="group" aria-label={toPlainText(content?.["chips-aria-label"] ?? "")}>
+            {CHIPS.map((chip, i) => (
+              <button
+                key={`${chip.id}-${i}`}
+                type="button"
+                className="chip"
+                aria-pressed={active === chip.id}
+                onClick={() => select(chip.id)}
+              >
+                <InlineText value={chip.text} inLink />
+              </button>
+            ))}
+          </div>
+        )}
 
+        {/* A destination with a map pin is a button that shows it on the map;
+            one without coordinates is listed only. */}
         <ul className="times" data-stagger>
           {CALLOUTS.map((place, i) => (
             <li key={`${place.id}-${i}`}>
-              <button
-                type="button"
-                className="times__row"
-                aria-pressed={active === place.id}
-                onClick={() => select(place.id)}
-              >
-                <span><InlineText value={place.name} inLink /></span>
-                <span className="figure"><InlineText value={place.time} inLink /></span>
-              </button>
+              {place.coords ? (
+                <button
+                  type="button"
+                  className="times__row"
+                  aria-pressed={active === place.id}
+                  onClick={() => select(place.id)}
+                >
+                  <span><InlineText value={place.name} inLink /></span>
+                  <span className="figure"><InlineText value={place.time} inLink /></span>
+                </button>
+              ) : (
+                <div className="times__row">
+                  <span><InlineText value={place.name} /></span>
+                  <span className="figure"><InlineText value={place.time} /></span>
+                </div>
+              )}
             </li>
           ))}
         </ul>

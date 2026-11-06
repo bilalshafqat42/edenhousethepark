@@ -30,22 +30,30 @@ test("a snapshot taken from the defaults merges back to exactly the defaults", {
   }
 });
 
-test("location defaults give the original places, pins and directions", () => {
+test("location defaults give the designed rows, pins and directions", () => {
   const content = buildDefaultsFromFields(SECTION_REGISTRY.location.fields);
   const { project, callouts, chips, places } = buildPlaces(content);
   assert.equal(project.coords, null, "the project coordinate is still to confirm");
-  assert.deepEqual(callouts.map((c) => c.id), ["al-safa-park", "city-walk", "dubai-mall", "difc", "dxb"]);
-  assert.deepEqual(chips.map((c) => c.id), ["jumeirah-beach", "burj-khalifa", "difc", "dxb"]);
+  // Ten drive-time rows, no chips (the new design lists every time as a row)
+  assert.deepEqual(callouts.map((c) => c.id), [
+    "al-safa-park", "galleria-mall", "city-walk", "jumeirah-beach", "burj-khalifa",
+    "dubai-mall", "dubai-opera", "j1-beach", "difc", "palm-jumeirah",
+  ]);
+  assert.deepEqual(chips, []);
+  // Every row has a pin; Palm Jumeirah is left out of the opening view
   assert.deepEqual(
-    places.map((p) => [p.id, p.icon ?? "project", p.side ?? "right", ...p.coords]),
+    places.map((p) => [p.id, p.icon ?? "project", p.side ?? "right", ...p.coords, p.inView]),
     [
-      ["al-safa-park", "park", "right", 55.2398, 25.1878],
-      ["city-walk", "shopping", "right", 55.2622, 25.2075],
-      ["dubai-mall", "shopping", "right", 55.2796, 25.1985],
-      ["difc", "business", "right", 55.2818, 25.2133],
-      ["dxb", "airport", "right", 55.3644, 25.2528],
-      ["jumeirah-beach", "beach", "left", 55.2531, 25.2122],
-      ["burj-khalifa", "landmark", "left", 55.2744, 25.1972],
+      ["al-safa-park", "park", "right", 55.244706, 25.185464, true],
+      ["galleria-mall", "shopping", "left", 55.254434, 25.207267, true],
+      ["city-walk", "shopping", "right", 55.2622, 25.2075, true],
+      ["jumeirah-beach", "beach", "left", 55.259102, 25.228069, true],
+      ["burj-khalifa", "landmark", "left", 55.2744, 25.1972, true],
+      ["dubai-mall", "shopping", "right", 55.278952, 25.197044, true],
+      ["dubai-opera", "landmark", "right", 55.272244, 25.195758, true],
+      ["j1-beach", "beach", "right", 55.258133, 25.227742, true],
+      ["difc", "business", "right", 55.2818, 25.2133, true],
+      ["palm-jumeirah", "beach", "right", 55.14055, 25.115802, false],
     ],
   );
   assert.equal(

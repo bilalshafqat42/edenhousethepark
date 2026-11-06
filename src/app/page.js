@@ -258,9 +258,9 @@ export default async function Home() {
         {/* Location: copy on the left half, Mapbox map on the right half */}
         <section className="location" id="location">
           <LocationExplorer content={c.location}>
-            <p className="eyebrow" data-reveal="eyebrow"><InlineText value={c.location.eyebrow} /></p>
-            <h2 className="h2" data-reveal="heading"><InlineText value={c.location.heading} /></h2>
-            <p className="body" data-reveal="body">
+            {plain(c.location.eyebrow) && <p className="eyebrow" data-reveal="eyebrow"><InlineText value={c.location.eyebrow} /></p>}
+            <h2 className="display-40" data-reveal="heading"><InlineText value={c.location.heading} /></h2>
+            <p className="lead" data-reveal="body">
               <InlineText value={c.location.body} />
             </p>
           </LocationExplorer>

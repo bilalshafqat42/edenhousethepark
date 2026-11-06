@@ -2,24 +2,26 @@
  * Location: copy, drive-time chips and destination rows on the left, the
  * Mapbox map on the right. Coordinates are decimal degrees.
  *
- * TO CONFIRM BEFORE LAUNCH: the destination coordinates are approximate
- * public landmark positions, not surveyed points, and the project's own
- * coordinates are not supplied yet. Until they are, the map opens framed on
+ * Destination coordinates: Galleria Mall, Jumeirah Beach, Dubai Opera, J1
+ * Beach and Palm Jumeirah from Refine (Google Maps); Al Safa Park and Dubai
+ * Mall from OpenStreetMap; the rest checked against OpenStreetMap (within
+ * 200 m). TO CONFIRM BEFORE LAUNCH: the project's own coordinates, which
+ * are not supplied yet. Until they are, the map opens framed on
  * the destinations and draws no project pin, and "See Directions" searches
  * Google Maps for the project name.
  */
 const ICONS = ["park", "shopping", "business", "airport", "beach", "landmark"];
 
 export const LOCATION_FIELDS = [
-  { key: "eyebrow", label: "Small heading", type: "TEXT", defaultValue: "Central Dubai," },
-  { key: "heading", label: "Heading", type: "TEXT", defaultValue: "Ten Minutes From Burj Khalifa" },
+  { key: "eyebrow", label: "Small heading (optional)", type: "TEXT", defaultValue: "" },
+  { key: "heading", label: "Heading", type: "TEXT", defaultValue: "A Rare Address Between Park And Canal" },
   {
     key: "body",
     label: "Text",
     type: "TEXT",
     long: true,
     defaultValue:
-      "Eden House The Park sits on the Dubai Water Canal beside Al Safa Park, with Burj Khalifa, DIFC and Jumeirah Beach a short drive away and the 6.4 km canal promenade outside.",
+      "Beside Al Safa Park and along the Dubai Water Canal, Eden House The Park brings a quieter residential setting to the heart of Dubai, with the city's most established destinations within easy reach.",
   },
   { key: "project-name", label: "Project name on the map pin and in directions", type: "TEXT", defaultValue: "Eden House The Park" },
   {
@@ -46,18 +48,15 @@ export const LOCATION_FIELDS = [
       { key: "latitude", label: "Latitude (blank to use the matching row)", type: "TEXT" },
       { key: "longitude", label: "Longitude (blank to use the matching row)", type: "TEXT" },
     ],
-    defaultValue: [
-      { label: "8 Min · Jumeirah Beach", name: "Jumeirah Beach", icon: "beach", side: "left", latitude: "25.2122", longitude: "55.2531" },
-      { label: "10 Min · Burj Khalifa", name: "Burj Khalifa", icon: "landmark", side: "left", latitude: "25.1972", longitude: "55.2744" },
-      { label: "16 Min · DIFC", name: "DIFC", icon: "", side: "", latitude: "", longitude: "" },
-      { label: "18 Min · DXB", name: "DXB", icon: "", side: "", latitude: "", longitude: "" },
-    ],
+    // None in the current design; the drive times are all in the rows below.
+    defaultValue: [],
   },
   {
     key: "destinations",
     label: "Destination rows",
     type: "LIST",
     itemLabel: "Destination",
+    helperText: "A row with coordinates gets a pin on the map and can be clicked; a row without them is listed only.",
     itemFields: [
       { key: "name", label: "Place name", type: "TEXT" },
       { key: "time", label: "Drive time (e.g. 3 Min)", type: "TEXT" },
@@ -65,13 +64,26 @@ export const LOCATION_FIELDS = [
       { key: "side", label: "Pin label side", type: "TEXT", options: ["right", "left"] },
       { key: "latitude", label: "Latitude", type: "TEXT" },
       { key: "longitude", label: "Longitude", type: "TEXT" },
+      {
+        key: "in-view",
+        label: "Show in the map's opening view",
+        type: "TEXT",
+        options: ["yes", "no"],
+        helperText: "\"no\" for a far-away place (e.g. Palm Jumeirah), so the map opens on the city centre; its row still flies there.",
+      },
     ],
     defaultValue: [
-      { name: "Al Safa Park", time: "3 Min", icon: "park", side: "right", latitude: "25.1878", longitude: "55.2398" },
+      { name: "Al Safa Park", time: "3 Min", icon: "park", side: "right", latitude: "25.185464", longitude: "55.244706" },
+      { name: "Galleria Mall", time: "5 Min", icon: "shopping", side: "left", latitude: "25.207267", longitude: "55.254434" },
       { name: "City Walk", time: "8 Min", icon: "shopping", side: "right", latitude: "25.2075", longitude: "55.2622" },
-      { name: "Dubai Mall", time: "10 Min", icon: "shopping", side: "right", latitude: "25.1985", longitude: "55.2796" },
+      // From Refine: the J1 (Jumeirah 1) beach, about 100 m from the J1 Beach pin.
+      { name: "Jumeirah Beach", time: "8 Min", icon: "beach", side: "left", latitude: "25.228069", longitude: "55.259102" },
+      { name: "Burj Khalifa", time: "10 Min", icon: "landmark", side: "left", latitude: "25.1972", longitude: "55.2744" },
+      { name: "Dubai Mall", time: "10 Min", icon: "shopping", side: "right", latitude: "25.197044", longitude: "55.278952" },
+      { name: "Dubai Opera", time: "10 Min", icon: "landmark", side: "right", latitude: "25.195758", longitude: "55.272244" },
+      { name: "J1 Beach", time: "13 Min", icon: "beach", side: "right", latitude: "25.227742", longitude: "55.258133" },
       { name: "DIFC", time: "16 Min", icon: "business", side: "right", latitude: "25.2133", longitude: "55.2818" },
-      { name: "DXB", time: "18 Min", icon: "airport", side: "right", latitude: "25.2528", longitude: "55.3644" },
+      { name: "Palm Jumeirah", time: "22 Min", icon: "beach", side: "right", latitude: "25.115802", longitude: "55.140550", "in-view": "no" },
     ],
   },
   { key: "reset-label", label: "Reset button label", type: "TEXT", defaultValue: "Reset View" },

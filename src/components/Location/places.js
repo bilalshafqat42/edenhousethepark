@@ -35,6 +35,7 @@ export function buildPlaces(content = {}) {
       icon: icon(row.icon),
       side: side(row.side),
       coords: lngLat(row.longitude, row.latitude),
+      inView: String(row["in-view"] ?? "").trim().toLowerCase() !== "no",
     }))
     .filter((row) => row.id);
 
@@ -48,6 +49,7 @@ export function buildPlaces(content = {}) {
         icon: icon(chip.icon),
         side: side(chip.side),
         coords: lngLat(chip.longitude, chip.latitude),
+        inView: true,
       };
     })
     .filter((chip) => chip.id);
@@ -56,12 +58,13 @@ export function buildPlaces(content = {}) {
   const seen = new Set();
   const places = [...callouts, ...chips]
     .filter((place) => place.coords && !seen.has(place.id) && seen.add(place.id))
-    .map(({ id, label, icon: placeIcon, side: placeSide, coords }) => ({
+    .map(({ id, label, icon: placeIcon, side: placeSide, coords, inView }) => ({
       id,
       name: label,
       icon: placeIcon,
       side: placeSide,
       coords,
+      inView,
     }));
 
   return { project, callouts, chips, places };

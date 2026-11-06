@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-06T10:04:44.301Z",
+ "generatedAt": "2026-11-06T11:03:16.611Z",
  "sections": {
   "navigation": [
    {
@@ -499,19 +499,19 @@
    {
     "key": "eyebrow",
     "type": "TEXT",
-    "value": "Central Dubai,",
+    "value": "",
     "imageUrl": null
    },
    {
     "key": "heading",
     "type": "TEXT",
-    "value": "Ten Minutes From Burj Khalifa",
+    "value": "A Rare Address Between Park And Canal",
     "imageUrl": null
    },
    {
     "key": "body",
     "type": "TEXT",
-    "value": "Eden House The Park sits on the Dubai Water Canal beside Al Safa Park, with Burj Khalifa, DIFC and Jumeirah Beach a short drive away and the 6.4 km canal promenade outside.",
+    "value": "Beside Al Safa Park and along the Dubai Water Canal, Eden House The Park brings a quieter residential setting to the heart of Dubai, with the city's most established destinations within easy reach.",
     "imageUrl": null
    },
    {
@@ -541,40 +541,7 @@
    {
     "key": "chips",
     "type": "LIST",
-    "items": [
-     {
-      "label": "8 Min · Jumeirah Beach",
-      "name": "Jumeirah Beach",
-      "icon": "beach",
-      "side": "left",
-      "latitude": "25.2122",
-      "longitude": "55.2531"
-     },
-     {
-      "label": "10 Min · Burj Khalifa",
-      "name": "Burj Khalifa",
-      "icon": "landmark",
-      "side": "left",
-      "latitude": "25.1972",
-      "longitude": "55.2744"
-     },
-     {
-      "label": "16 Min · DIFC",
-      "name": "DIFC",
-      "icon": "",
-      "side": "",
-      "latitude": "",
-      "longitude": ""
-     },
-     {
-      "label": "18 Min · DXB",
-      "name": "DXB",
-      "icon": "",
-      "side": "",
-      "latitude": "",
-      "longitude": ""
-     }
-    ]
+    "items": []
    },
    {
     "key": "destinations",
@@ -585,8 +552,16 @@
       "time": "3 Min",
       "icon": "park",
       "side": "right",
-      "latitude": "25.1878",
-      "longitude": "55.2398"
+      "latitude": "25.185464",
+      "longitude": "55.244706"
+     },
+     {
+      "name": "Galleria Mall",
+      "time": "5 Min",
+      "icon": "shopping",
+      "side": "left",
+      "latitude": "25.207267",
+      "longitude": "55.254434"
      },
      {
       "name": "City Walk",
@@ -597,12 +572,44 @@
       "longitude": "55.2622"
      },
      {
+      "name": "Jumeirah Beach",
+      "time": "8 Min",
+      "icon": "beach",
+      "side": "left",
+      "latitude": "25.228069",
+      "longitude": "55.259102"
+     },
+     {
+      "name": "Burj Khalifa",
+      "time": "10 Min",
+      "icon": "landmark",
+      "side": "left",
+      "latitude": "25.1972",
+      "longitude": "55.2744"
+     },
+     {
       "name": "Dubai Mall",
       "time": "10 Min",
       "icon": "shopping",
       "side": "right",
-      "latitude": "25.1985",
-      "longitude": "55.2796"
+      "latitude": "25.197044",
+      "longitude": "55.278952"
+     },
+     {
+      "name": "Dubai Opera",
+      "time": "10 Min",
+      "icon": "landmark",
+      "side": "right",
+      "latitude": "25.195758",
+      "longitude": "55.272244"
+     },
+     {
+      "name": "J1 Beach",
+      "time": "13 Min",
+      "icon": "beach",
+      "side": "right",
+      "latitude": "25.227742",
+      "longitude": "55.258133"
      },
      {
       "name": "DIFC",
@@ -613,12 +620,13 @@
       "longitude": "55.2818"
      },
      {
-      "name": "DXB",
-      "time": "18 Min",
-      "icon": "airport",
+      "name": "Palm Jumeirah",
+      "time": "22 Min",
+      "icon": "beach",
       "side": "right",
-      "latitude": "25.2528",
-      "longitude": "55.3644"
+      "latitude": "25.115802",
+      "longitude": "55.140550",
+      "in-view": "no"
      }
     ]
    },

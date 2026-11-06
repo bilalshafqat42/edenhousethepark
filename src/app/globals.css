@@ -360,11 +360,14 @@ ul { list-style: none; }
     minmax(0, calc(var(--max) / 2 - var(--gutter)))
     minmax(var(--gutter), 1fr);
 }
-.location { background: var(--mint); }
-.location__text { grid-column: 2; padding: var(--section-y) 56px var(--section-y) 0; }
-.location__map { grid-column: 3 / -1; position: relative; min-height: 720px; background: var(--mint); }
-.location .h2 { margin-bottom: 40px; max-width: 600px; }
-.location__text .body { max-width: 480px; margin-bottom: 24px; }
+/* Figma: white section; Ivy Presto 40 heading, Beausite 16 text, drive
+   times as plain rows (name left, time right in Ivy Presto); the map runs
+   from the top of the heading to the bottom of the buttons. */
+.location { background: #fff; padding: 164px 0; }
+.location__text { grid-column: 2; padding: 0 50px 0 0; }
+.location__map { grid-column: 3 / -1; position: relative; min-height: 640px; background: var(--stone-50); }
+.location .display-40 { max-width: 530px; margin-bottom: 26px; }
+.location__text .lead { max-width: 490px; margin-bottom: 62px; }
 /* Beats mapbox-gl.css, which sets .mapboxgl-map to position: relative. */
 .location__map .map { position: absolute; inset: 0; }
 .chips {
@@ -381,17 +384,17 @@ ul { list-style: none; }
 }
 .chip:hover { border-color: var(--caffe-75); }
 .chip[aria-pressed="true"] { background: var(--caffe); border-color: var(--caffe); color: var(--natural); }
-.times { border-top: 1px solid var(--caffe-25); }
-.times li { border-bottom: 1px solid var(--caffe-25); }
-.times li:last-child { border-bottom: 0; }
+.times { max-width: 586px; }
 .times__row {
   display: flex; justify-content: space-between; align-items: center;
   width: 100%; height: 55px; text-align: left;
   transition: color .3s ease;
 }
-.times__row:hover span:first-child,
-.times__row[aria-pressed="true"] span:first-child { color: var(--caffe); text-decoration: underline; text-underline-offset: 4px; }
-.times .figure { color: var(--bronze-deep); font-size: 18px; text-transform: uppercase; letter-spacing: .02em; }
+button.times__row:hover span:first-child,
+button.times__row[aria-pressed="true"] span:first-child { color: var(--caffe); text-decoration: underline; text-underline-offset: 4px; }
+.times__row > span:first-child { font-size: 16px; line-height: 1.5; }
+.times .figure { color: var(--caffe); font-size: 17px; font-weight: 400; text-transform: uppercase; letter-spacing: .02em; }
+div.times__row { cursor: default; }
 
 /* Image strips: narrow, wide, narrow renders across the full width */
 .strip { background: var(--stone-50); padding: clamp(40px, 5.8vw, 84px) 0; overflow: hidden; }
@@ -573,7 +576,7 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
 
 
 /* Location map buttons */
-.location__actions { margin-top: 40px; }
+.location__actions { margin-top: 60px; }
 
 /* Map callouts: a square brand pin with an icon, and the place name */
 .map-marker { display: flex; align-items: center; cursor: pointer; }
@@ -597,6 +600,13 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
 .map-marker.is-active .map-marker__pin { background: var(--bronze); }
 .map-marker.is-active .map-marker__label { background: var(--bronze); border-color: var(--bronze); color: var(--natural); }
 .map-marker.is-active { z-index: 2; }
+/* Crowded places (LocationExplorer's layoutLabels): a label that would
+   overlap hides, and a pin landing on another folds away, until the map is
+   zoomed in or the place is selected. */
+.map-marker.is-label-hidden .map-marker__label,
+.map-marker.is-folded { visibility: hidden; }
+.map-marker.is-label-hidden:hover { z-index: 3; }
+.map-marker.is-label-hidden:hover .map-marker__label { visibility: visible; }
 .map-marker--project .map-marker__pin { width: 30px; height: 30px; background: var(--bronze); }
 .map-marker--project .map-marker__label { font-weight: 500; }
 .location__map .mapboxgl-map { font-family: var(--sans); }
@@ -664,7 +674,8 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   .nav__links { display: none; }
   .location__split { grid-template-columns: var(--gutter) minmax(0, 1fr) var(--gutter); }
   .location__text { grid-column: 2; padding-right: 0; }
-  .location__map { grid-column: 1 / -1; min-height: 420px; }
+  .location { padding: 80px 0 0; }
+  .location__map { grid-column: 1 / -1; min-height: 420px; margin-top: 56px; }
   .about__grid, .contact__grid {
     grid-template-columns: minmax(0, 1fr); gap: 40px;
   }
