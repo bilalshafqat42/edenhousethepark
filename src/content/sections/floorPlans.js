@@ -65,6 +65,33 @@ export const FLOOR_PLANS_FIELDS = [
     ],
     defaultValue: [
       {
+        tab: "Studio",
+        heading: "Studio",
+        image: `${R}/bedroom.jpg`,
+        "image-alt": "Bedroom with an oak-panelled wall and a sculpted rug",
+        // TO CONFIRM: studio areas as shown in the design; not in the approved copy yet.
+        "row-1-label": "Suite Area",
+        "row-1-value": "355 – 477 SQ.FT.",
+        "row-2-label": "Balcony Area",
+        "row-2-value": "73 – 158 SQ.FT.",
+        "row-3-label": "Total Area",
+        "row-3-value": "428 – 635 SQ.FT.",
+        "row-4-label": "",
+        "row-4-value": "",
+        text: "",
+        ...placeholderPlans,
+      },
+      {
+        tab: "1 Bedroom",
+        heading: "One Bedroom",
+        // TODO(content): one-bedroom render, areas and description not supplied yet.
+        image: `${R}/bedroom.jpg`,
+        "image-alt": "Bedroom with an oak-panelled wall and a sculpted rug",
+        ...noRows,
+        text: "",
+        ...placeholderPlans,
+      },
+      {
         tab: "2 Bedroom",
         heading: "Two Bedroom",
         image: `${R}/bedroom.jpg`,

@@ -6,13 +6,13 @@
  */
 export const INTRO_FIELDS = [
   { key: "eyebrow", label: "Small heading", type: "TEXT", defaultValue: "Project Overview" },
-  { key: "heading", label: "Heading", type: "TEXT", defaultValue: "Life Along The Canal" },
+  { key: "heading", label: "Heading", type: "TEXT", defaultValue: "The Eden House Experience" },
   {
     key: "body",
     label: "Text",
     type: "TEXT",
     long: true,
-    defaultValue: "Direct access to the 6.4 km canal promenade, with waterfront views and walkable surroundings.",
+    defaultValue: "Signature hospitality, personalised services and dedicated care bring a more refined approach to everyday living.",
   },
   {
     key: "stats",

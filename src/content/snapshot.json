@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-06T11:03:16.611Z",
+ "generatedAt": "2026-11-06T12:24:06.368Z",
  "sections": {
   "navigation": [
    {
@@ -90,7 +90,7 @@
     "key": "logo-footer",
     "type": "IMAGE",
     "value": null,
-    "imageUrl": "/logo/eden-house-white.svg"
+    "imageUrl": "/logo/eden-house-black.svg"
    },
    {
     "key": "favicon",
@@ -147,13 +147,13 @@
    {
     "key": "heading",
     "type": "TEXT",
-    "value": "Life Along The Canal",
+    "value": "The Eden House Experience",
     "imageUrl": null
    },
    {
     "key": "body",
     "type": "TEXT",
-    "value": "Direct access to the 6.4 km canal promenade, with waterfront views and walkable surroundings.",
+    "value": "Signature hospitality, personalised services and dedicated care bring a more refined approach to everyday living.",
     "imageUrl": null
    },
    {
@@ -311,6 +311,12 @@
   ],
   "imageStrips": [
    {
+    "key": "visible",
+    "type": "BOOLEAN",
+    "value": "false",
+    "imageUrl": null
+   },
+   {
     "key": "interior-label",
     "type": "TEXT",
     "value": "Interiors and amenities",
@@ -342,19 +348,37 @@
    {
     "key": "eyebrow",
     "type": "TEXT",
-    "value": "Designed",
+    "value": "",
     "imageUrl": null
    },
    {
     "key": "heading",
     "type": "TEXT",
-    "value": "Around Everyday Life",
+    "value": "A Life Exceptionally Well Catered For",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "From bespoke in-residence services to private wellness facilities and landscaped retreats, every aspect of life is supported by the signature care of Eden House.",
     "imageUrl": null
    },
    {
     "key": "items",
     "type": "LIST",
     "items": [
+     {
+      "title": "Personalised In-Residence Services",
+      "text": "Private chefs, butlers, housekeeping and tailored home care, arranged around your individual needs.",
+      "image": "/images/renders/residents-lounge.jpg",
+      "alt": "Residents' lounge with seating and a long dining table"
+     },
+     {
+      "title": "Five Pools Across The Community",
+      "text": "Three adult swimming pools and two children's pools, complemented by indoor pool lounges and jacuzzis.",
+      "image": "/images/renders/garden-path.jpg",
+      "alt": "Landscaped garden path between the buildings"
+     },
      {
       "title": "The Park At The Centre",
       "text": "A car-free park sits at the centre of the community, with playgrounds and gardens between the buildings.",
@@ -378,6 +402,47 @@
       "text": "The 6.4 km canal promenade is there for a morning walk or an evening run along the water.",
       "image": "/images/renders/aerial-canal.jpg",
       "alt": "Aerial view of the buildings along the Dubai Water Canal"
+     }
+    ]
+   }
+  ],
+  "interiors": [
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "An Expression Of Understated Luxury",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "A refined approach to architecture and interiors, bringing together natural warmth, contemporary elegance and an enduring sense of home.",
+    "imageUrl": null
+   },
+   {
+    "key": "slides",
+    "type": "LIST",
+    "items": [
+     {
+      "image": "/images/renders/marble-corridor.jpg",
+      "alt": "Corridor with green marble walls",
+      "title": "",
+      "text": "",
+      "position": ""
+     },
+     {
+      "image": "/images/renders/residents-lounge.jpg",
+      "alt": "Lounge with a long dining table, oak panelling and soft seating",
+      "title": "Interiors By H&H",
+      "text": "Open-grained oak, Crema d'Orcia stone and bronze-accented wardrobes create an elegant residential palette.",
+      "position": ""
+     },
+     {
+      "image": "/images/renders/bedroom.jpg",
+      "alt": "Bedroom with an oak-panelled wall and a sculpted rug",
+      "title": "",
+      "text": "",
+      "position": ""
      }
     ]
    }
@@ -423,6 +488,44 @@
     "key": "plans",
     "type": "LIST",
     "items": [
+     {
+      "tab": "Studio",
+      "heading": "Studio",
+      "image": "/images/renders/bedroom.jpg",
+      "image-alt": "Bedroom with an oak-panelled wall and a sculpted rug",
+      "row-1-label": "Suite Area",
+      "row-1-value": "355 – 477 SQ.FT.",
+      "row-2-label": "Balcony Area",
+      "row-2-value": "73 – 158 SQ.FT.",
+      "row-3-label": "Total Area",
+      "row-3-value": "428 – 635 SQ.FT.",
+      "row-4-label": "",
+      "row-4-value": "",
+      "text": "",
+      "plan-1-image": "/images/floor-plans/placeholder.svg",
+      "plan-2-image": "/images/floor-plans/placeholder.svg",
+      "plan-3-image": "",
+      "plan-4-image": ""
+     },
+     {
+      "tab": "1 Bedroom",
+      "heading": "One Bedroom",
+      "image": "/images/renders/bedroom.jpg",
+      "image-alt": "Bedroom with an oak-panelled wall and a sculpted rug",
+      "row-1-label": "",
+      "row-1-value": "",
+      "row-2-label": "",
+      "row-2-value": "",
+      "row-3-label": "",
+      "row-3-value": "",
+      "row-4-label": "",
+      "row-4-value": "",
+      "text": "",
+      "plan-1-image": "/images/floor-plans/placeholder.svg",
+      "plan-2-image": "/images/floor-plans/placeholder.svg",
+      "plan-3-image": "",
+      "plan-4-image": ""
+     },
      {
       "tab": "2 Bedroom",
       "heading": "Two Bedroom",
@@ -653,19 +756,19 @@
    {
     "key": "eyebrow",
     "type": "TEXT",
-    "value": "Payment",
+    "value": "Payment Plan",
     "imageUrl": null
    },
    {
     "key": "heading",
     "type": "TEXT",
-    "value": "Plan",
+    "value": "Favourable Payment Plan For A Distinctive Home",
     "imageUrl": null
    },
    {
     "key": "summary",
     "type": "TEXT",
-    "value": "30 percent Before Handover and 70 percent On Handover",
+    "value": "",
     "imageUrl": null
    },
    {
@@ -721,7 +824,7 @@
    {
     "key": "fine-print",
     "type": "TEXT",
-    "value": "10% on booking, 10% one month later, 5% in February 2027 and 5% in July 2027, then 70% on handover. DLD 4% and an AED 5,000 admin fee + VAT apply.",
+    "value": "A clearly structured payment schedule, offering greater financial flexibility as your future home takes shape.",
     "imageUrl": null
    },
    {
@@ -753,15 +856,21 @@
   ],
   "about": [
    {
+    "key": "logo",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": null
+   },
+   {
     "key": "eyebrow",
     "type": "TEXT",
-    "value": "A Park-Led",
+    "value": "",
     "imageUrl": null
    },
    {
     "key": "heading",
     "type": "TEXT",
-    "value": "About The Developer",
+    "value": "H&H — A Legacy Of Design Excellence",
     "imageUrl": null
    },
    {
@@ -775,19 +884,22 @@
     "type": "LIST",
     "items": [
      {
-      "text": "Eden House The Park is a community of 459 homes in seven low-rise buildings on the Dubai Water Canal, with two- and three-bedroom apartments on sale. The architecture is by dxb lab, the interiors by H&H and the landscape by WAHO, and a car-free park sits at the centre, so the paths between the buildings are for walking, not driving."
-     },
-     {
-      "text": "Eden House is the homegrown residential hospitality brand H&H founded in 2021, independent from hotel operators. H&H has developed in Dubai since 2007, and The Park brings Eden House to a community of seven low-rise buildings, finished in pale terrazzo and curved oak, with views of the canal, the gardens and the skyline."
+      "text": "Established in Dubai in 2007, H&H is a developer and asset manager recognised for its commitment to exceptional craftsmanship, architectural integrity and enduring quality. Its distinguished portfolio includes collaborations with globally renowned names such as Four Seasons, Aman and Rosewood, alongside its own residential hospitality brand, Eden House. Through a carefully curated approach to development, H&H continues to create distinctive addresses that bring together design, quality and a refined way of living."
      }
     ]
    }
   ],
   "contact": [
    {
+    "key": "image",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": "/images/renders/hero-aerial-canal.jpg"
+   },
+   {
     "key": "eyebrow",
     "type": "TEXT",
-    "value": "Reach Out",
+    "value": "Reach Out To Us",
     "imageUrl": null
    },
    {
@@ -799,7 +911,19 @@
    {
     "key": "intro",
     "type": "TEXT",
-    "value": "Our team can take you through the two- and three-bedroom homes, the floor plans and the payment plan, and arrange a visit to the sales gallery at Eden House The Canal.",
+    "value": "Explore an exclusive collection of residences, discover the available floor plans and connect with our sales team to find a home that feels distinctly yours.",
+    "imageUrl": null
+   },
+   {
+    "key": "button-label",
+    "type": "TEXT",
+    "value": "Enquire Now",
+    "imageUrl": null
+   },
+   {
+    "key": "form-title",
+    "type": "TEXT",
+    "value": "Register Your Interest",
     "imageUrl": null
    },
    {
@@ -965,7 +1089,7 @@
    {
     "key": "address",
     "type": "TEXT",
-    "value": "Office 4701, Floor 47, Ubora Tower, Marasi Drive, Business Bay, Dubai",
+    "value": "",
     "imageUrl": null
    },
    {
@@ -1024,15 +1148,18 @@
     "items": [
      {
       "label": "Development By",
-      "name": "H&H"
+      "name": "H&H",
+      "logo": ""
      },
      {
       "label": "Owned By",
-      "name": "Global Partners"
+      "name": "Global Partners",
+      "logo": ""
      },
      {
       "label": "Sales Partner",
-      "name": "Refine"
+      "name": "Refine",
+      "logo": ""
      }
     ]
    },

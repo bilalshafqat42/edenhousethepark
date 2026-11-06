@@ -1,6 +1,6 @@
 /*
- * Logos and favicon. The header shows the black logo and the footer the
- * white one, both drawn at the same 638:458 proportions as the supplied
+ * Logos and favicon. The header and the light footer both show the dark
+ * logo, drawn at the same 638:458 proportions as the supplied
  * SVGs; a replacement should keep that shape and a transparent background.
  */
 export const APPEARANCE_FIELDS = [
@@ -13,10 +13,10 @@ export const APPEARANCE_FIELDS = [
   },
   {
     key: "logo-footer",
-    label: "Footer logo (light, on the dark footer)",
+    label: "Footer logo (dark, on the light footer)",
     type: "IMAGE",
-    helperText: "SVG preferred, or a transparent PNG at least 268×192px. Shown 96px tall.",
-    defaultValue: "/logo/eden-house-white.svg",
+    helperText: "SVG preferred, or a transparent PNG at least 280×204px. Shown 102px tall.",
+    defaultValue: "/logo/eden-house-black.svg",
   },
   {
     key: "favicon",

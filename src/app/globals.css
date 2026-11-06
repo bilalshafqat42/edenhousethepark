@@ -6,7 +6,6 @@
    text is on screen. "block" keeps text hidden for a moment while a font
    loads instead of flashing a non-brand font.
    ========================================================================== */
-@font-face { font-family: "Ivy Presto Display"; src: url("/webfonts/IvyPrestoDisplay-Light.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: block; }
 @font-face { font-family: "Ivy Presto Display"; src: url("/webfonts/IvyPrestoDisplay-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
 @font-face { font-family: "Beausite Classic"; src: url("/webfonts/BeausiteClassicWeb-Light.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: block; }
 @font-face { font-family: "Beausite Classic"; src: url("/webfonts/BeausiteClassicWeb-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
@@ -88,7 +87,7 @@ ul { list-style: none; }
    ========================================================================== */
 .h1, .h2, .h3 {
   font-family: var(--display);
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--caffe);
@@ -99,7 +98,7 @@ ul { list-style: none; }
 
 .figure {
   font-family: var(--display);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -251,7 +250,9 @@ ul { list-style: none; }
 .hero {
   position: relative; overflow: hidden;
   display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: calc(100svh - 102px);
+  /* Figma: 706px tall at 1440 wide, the render's own proportions; never
+     taller than the space below the header, never shorter than 520px */
+  height: clamp(520px, 49vw, calc(100svh - 102px));
   color: #fff;
 }
 .hero__media { position: absolute; inset: 0; }
@@ -288,15 +289,21 @@ ul { list-style: none; }
    body Beausite 16, figures Ivy Presto 28, labels Beausite 11, all centred */
 .overview { padding: 90px 0 84px; text-align: center; }
 .overview .eyebrow { color: var(--caffe); margin-bottom: 24px; }
+.display-46 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(32px, 3.2vw, 46px); line-height: 1.17; letter-spacing: .01em;
+}
 .display-40 {
   font-family: var(--display); font-weight: 400;
   font-size: clamp(30px, 2.78vw, 40px); line-height: 1.2; letter-spacing: .01em;
   margin-bottom: 22px;
 }
-.overview .lead, .place .lead { font-size: 16px; line-height: 27px; max-width: 760px; margin: 0 auto; }
+.overview .lead, .place .lead { font-size: 16px; line-height: 27px; max-width: 700px; margin: 0 auto; }
+/* The carousel sections' intro runs on one line, as designed */
+.place .lead { max-width: 1060px; }
 .overview__stats {
   display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
-  max-width: 1250px; margin: 62px auto 52px;
+  max-width: 1250px; margin: 50px auto 44px;
 }
 .overview__stats > li { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 0 12px; }
 .overview__fig {
@@ -308,6 +315,7 @@ ul { list-style: none; }
 /* A considered sense of place. Figma: Ivy Presto 40 title, Beausite 16
    line, 761 x 676 slides 25px apart with the active one centred */
 .place { padding: 108px 0 96px; text-align: center; background: #fff; }
+.interiors { padding-top: 110px; }
 .place__viewport { overflow: hidden; margin-top: 56px; outline-offset: -3px; }
 .place__track {
   --w: min(761px, 52.85vw); --gap: 25px;
@@ -340,13 +348,15 @@ ul { list-style: none; }
 .feature__text { max-width: 182px; }
 
 /* About */
-.about__grid {
-  display: grid; grid-template-columns: minmax(0, 428px) minmax(0, 700px); gap: 56px;
-}
-.about__body .body { max-width: none; }
-.about .h2 { margin-bottom: 22px; }
-.about__body p { max-width: none; margin-bottom: 0; }
-.about__body p + p { margin-top: 14px; }
+/* About (H&H). Figma: white; logo, Ivy Presto 46 heading and button on the
+   left; the text from 674px, 648px wide. */
+.about { background: #fff; padding: 252px 0 84px; }
+.about__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 648px); gap: 56px; align-items: start; }
+.about__logo { display: block; width: auto; height: 45px; margin-bottom: 66px; }
+.about__head .display-46 { max-width: 420px; margin-bottom: 58px; }
+.about__body { padding-top: 12px; }
+.about__body .lead { max-width: none; }
+.about__body .lead + .lead { margin-top: 14px; }
 .bg-stone { background: var(--stone-50); }
 
 /* Location */
@@ -363,7 +373,7 @@ ul { list-style: none; }
 /* Figma: white section; Ivy Presto 40 heading, Beausite 16 text, drive
    times as plain rows (name left, time right in Ivy Presto); the map runs
    from the top of the heading to the bottom of the buttons. */
-.location { background: #fff; padding: 164px 0; }
+.location { background: #fff; padding: 72px 0 0; }
 .location__text { grid-column: 2; padding: 0 50px 0 0; }
 .location__map { grid-column: 3 / -1; position: relative; min-height: 640px; background: var(--stone-50); }
 .location .display-40 { max-width: 530px; margin-bottom: 26px; }
@@ -405,14 +415,27 @@ div.times__row { cursor: default; }
 .strip__item { position: relative; margin: 0; overflow: hidden; }
 .strip__item img { object-fit: cover; }
 
-/* Lifestyle gallery */
-.gallery .h2 { margin-bottom: 26px; }
-.gallery__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 58px; }
-.card__img { position: relative; aspect-ratio: 596 / 376; margin-bottom: 26px; overflow: hidden; }
-.card__img img { object-fit: cover; }
-.card p { max-width: 280px; }
-.card .h3 { font-size: 20px; letter-spacing: .03em; margin-bottom: 16px; }
-.card p { color: var(--caffe-75); }
+/* Amenities. Figma: white; centred Ivy Presto 40 heading and Beausite 16
+   intro; then 596 x 376 cards 24px apart, starting at the page margin and
+   running off the right edge (AmenitiesCarousel drags them). */
+.amenities { background: #fff; padding: 100px 0 84px; overflow: hidden; }
+.amenities__head { text-align: center; }
+.amenities__head .eyebrow { color: var(--caffe); }
+.amenities__head .display-40 { margin-bottom: 18px; }
+.amenities__head .lead { max-width: 600px; margin: 0 auto; }
+.amenities__viewport { margin-top: 64px; outline-offset: -3px; }
+.amenities__track {
+  /* Figma proportions (1440 frame: 96px margin, 596px cards, 24px gap),
+     scaled up on screens wider than 1440 instead of centring the row. */
+  display: flex; gap: max(24px, 1.667vw);
+  padding-inline: max(var(--gutter), 6.667vw);
+  touch-action: pan-y; user-select: none; -webkit-user-select: none;
+}
+.amenity { flex: 0 0 max(min(596px, 80vw), 41.39vw); }
+.amenity__img { position: relative; aspect-ratio: 596 / 376; overflow: hidden; margin-bottom: 22px; background: var(--mint-50); }
+.amenity__img img { object-fit: cover; pointer-events: none; }
+.amenity__title { font-family: var(--display); font-weight: 400; font-size: 20px; line-height: 1.3; letter-spacing: .01em; margin-bottom: 10px; }
+.amenity__text { font-size: 13px; line-height: 1.65; color: var(--caffe-75); max-width: 560px; }
 
 /* Interiors and floor plans. Figma: render on the left half (720 x 800),
    details on the right; tabs swap the render. */
@@ -494,25 +517,55 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
 .lightbox svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; }
 
 /* Payment plan */
-.payment .h2 { margin-bottom: 30px; }
-.payment__summary { margin-bottom: 22px; }
-.split { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 24px; border-bottom: 1px solid var(--line-light); padding-bottom: 24px; }
-.split > div { padding: 22px 34px 34px; }
-.split > div + div { border-left: 1px solid var(--line-light); }
-.split .figure { color: var(--stone); font-size: 84px; margin-bottom: 8px; }
-.schedule { margin-bottom: 40px; }
-.schedule > li { padding: 18px; min-height: 88px; }
-.schedule .figure { font-size: 24px; margin-bottom: 12px; color: var(--natural); }
-.payment .fine { margin-bottom: 22px; }
+/* Payment plan. Figma: mint, centred; Ivy Presto 40 heading; the 30/70
+   split in dark Ivy Presto with no divider; the instalments between two
+   lines, without dividers; a short centred line and the buttons below. */
+.payment { text-align: center; }
+.payment .eyebrow { color: var(--caffe); margin-bottom: 24px; }
+.payment .display-40 { margin-bottom: 40px; }
+.payment__summary { max-width: 720px; margin: -16px auto 32px; }
+.split { display: grid; grid-template-columns: 1fr 1fr; max-width: 1250px; margin: 0 auto 56px; }
+.split > div { display: flex; flex-direction: column; align-items: center; padding: 0 20px; }
+.split .figure { color: var(--caffe); font-size: 72px; line-height: 1; font-weight: 400; margin-bottom: 8px; }
+.schedule {
+  max-width: 1250px; margin: 0 auto 30px; text-align: left;
+  border-top: 1px solid var(--caffe-75); border-bottom: 1px solid var(--caffe-75);
+}
+.schedule.stats > * { border-left: 0; }
+.schedule > li { padding: 46px 20px 40px; }
+.schedule .figure { font-size: 24px; margin-bottom: 10px; color: var(--caffe); font-weight: 400; }
+.payment .fine { font-size: 11px; margin: 0 auto 26px; max-width: 720px; }
+.payment .btn-row { justify-content: center; }
 
 /* Contact */
-.contact__grid { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 724px); gap: clamp(40px, 7.2vw, 104px); }
-.contact .h2 { margin-bottom: 40px; }
-.contact__intro { font-size: 17px; line-height: 1.6; margin-bottom: 22px; }
-.details li + li { margin-top: 16px; }
-.details .label { color: var(--caffe-75); margin-bottom: 6px; }
-.details a { display: inline-block; padding: 6px 0; font-size: 16px; transition: color .3s ease; }
-.details a:hover { color: var(--caffe-75); }
+/* Register your interest. Figma: a full-width render, darkened, with the
+   white heading, text and an outlined button centred on it. */
+.register { position: relative; overflow: hidden; color: #fff; text-align: center; padding: 88px 0 85px; }
+.register__media { position: absolute; inset: 0; }
+.register__media img { object-fit: cover; }
+.register__media::after { content: ""; position: absolute; inset: 0; background: rgba(28, 27, 24, .62); }
+.register__content { position: relative; }
+.register .eyebrow { color: rgba(255, 255, 255, .78); margin-bottom: 26px; }
+.register .display-46 { margin-bottom: 22px; }
+.register .lead { max-width: 720px; margin: 0 auto 42px; color: #fff; }
+.register__btn { min-width: 141px; border-color: #fff; color: #fff; background: transparent; }
+.register__btn:hover { background: #fff; color: var(--caffe); }
+
+/* Enquiry pop-up (native <dialog>) holding the contact form */
+.enquiry {
+  width: min(760px, calc(100% - 32px)); max-height: calc(100% - 32px);
+  margin: auto; padding: 0; border: 0; background: #fff; color: var(--caffe);
+  overflow: auto; overscroll-behavior: contain;
+}
+.enquiry::backdrop { background: rgba(0, 0, 0, .72); }
+.enquiry__panel { position: relative; padding: 56px clamp(20px, 5vw, 56px) 48px; }
+.enquiry__title { margin-bottom: 28px; padding-right: 40px; }
+.enquiry__close {
+  position: absolute; top: 14px; right: 14px; display: grid; place-items: center;
+  width: 44px; height: 44px; color: var(--caffe);
+}
+.enquiry__close:hover { background: var(--mint-50); }
+.enquiry__close svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; }
 
 .form { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 0; align-content: start; }
 .field { position: relative; height: 45px; border-bottom: 1px solid var(--caffe-50); }
@@ -556,23 +609,29 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
 .form__done .h3 { margin-bottom: 14px; }
 
 /* Footer */
-.footer { padding: 60px 0 50px; }
+/* Footer. Figma: mint; dark logo and permit line; Explore, Contact and the
+   partner logos; one centred line at the bottom. */
+.footer { padding: 91px 0 92px; color: var(--caffe); }
 .footer__grid {
   display: grid; grid-template-columns: minmax(0, 568fr) minmax(0, 229fr) minmax(0, 298fr) minmax(0, 153fr);
 }
-.footer .logo img { height: 96px; }
-.footer__address { margin: 20px 0 22px; max-width: 290px; color: var(--caffe-25); }
-.footer__permit { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; color: var(--caffe-25); }
-.footer__col .label { color: var(--caffe-25); margin-bottom: 14px; }
-.footer__col li + li { margin-top: 10px; }
-.footer__col a { display: inline-block; padding: 4px 0; font-size: 13px; line-height: 1.5; transition: color .3s ease; }
-.footer__col a:hover { color: var(--caffe-25); }
-.footer__partners > div + div { margin-top: 26px; }
+.footer .logo img { height: 102px; }
+.footer__address { margin: 20px 0 0; max-width: 290px; color: var(--caffe-75); }
+.footer__permit { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; margin-top: 44px; color: var(--caffe-75); font-size: 11px; }
+.footer__col .label { color: var(--caffe-75); margin-bottom: 22px; }
+.footer__col li + li { margin-top: 16px; }
+.footer__col a { display: inline-block; font-size: 15px; line-height: 1.6; transition: color .3s ease; }
+.footer__col a:hover { color: var(--caffe-75); text-decoration: underline; text-underline-offset: 4px; }
+.footer__partners > div + div { margin-top: 64px; }
+.footer__partners .label { margin-bottom: 18px; }
 .footer__partner { font-family: var(--display); font-size: 22px; letter-spacing: .02em; line-height: 1; }
+.footer__partner-logo { display: block; width: auto; height: 32px; }
 .footer__base {
-  display: flex; gap: 18px; margin-top: 36px; color: var(--caffe-25);
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px;
+  margin-top: 52px; color: var(--caffe-75); font-size: 11px;
 }
-.footer__base a:hover { color: var(--natural); }
+.footer__link { font: inherit; color: inherit; cursor: pointer; }
+.footer__base a:hover, .footer__link:hover { color: var(--caffe); text-decoration: underline; }
 
 
 /* Location map buttons */
@@ -665,7 +724,7 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   .mobile-menu li { border-bottom: 1px solid var(--line); }
   .mobile-menu li a {
     display: block; padding: 16px 0;
-    font-family: var(--display); font-weight: 300; font-size: 24px;
+    font-family: var(--display); font-weight: 400; font-size: 24px;
     letter-spacing: .04em; text-transform: uppercase;
   }
   .mobile-menu .btn { margin-top: 24px; width: 100%; }
@@ -676,9 +735,13 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   .location__text { grid-column: 2; padding-right: 0; }
   .location { padding: 80px 0 0; }
   .location__map { grid-column: 1 / -1; min-height: 420px; margin-top: 56px; }
-  .about__grid, .contact__grid {
+  .about { padding: 120px 0 72px; }
+  .about__grid {
     grid-template-columns: minmax(0, 1fr); gap: 40px;
   }
+  .about__logo { margin-bottom: 36px; }
+  .about__head .display-46 { margin-bottom: 32px; }
+  .register { padding: 72px 0; }
   /* Split sections stack: render on top, copy below */
   .split-section { grid-template-columns: var(--gutter) minmax(0, 1fr) var(--gutter); min-height: 0; }
   .split-section__media,
@@ -687,14 +750,19 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   .split-section--reverse .split-section__text { grid-column: 2; grid-row: 2; padding: var(--section-y) 0; }
   .stats { grid-template-columns: 1fr 1fr; row-gap: 28px; }
   .stats > *:nth-child(odd) { border-left: 0; }
-  .gallery__grid { gap: 40px 24px; }
-  .split > div { min-width: 0; padding: 18px 18px 24px; }
+  .split > div { min-width: 0; padding: 0 12px; }
+  .schedule.stats { row-gap: 0; padding: 12px 0; }
+  .schedule > li { padding: 16px 12px; }
   .split .figure { font-size: 56px; }
   .footer__grid { grid-template-columns: 1fr 1fr; row-gap: 40px; }
-  .footer__base { flex-direction: column; gap: 6px; }
+  .footer__base { flex-direction: column; align-items: center; gap: 6px; text-align: center; }
 }
 
 @media (max-width: 600px) {
+  /* Footer: one column on phones, so contact lines do not break mid-number */
+  .footer { padding: 64px 0 72px; }
+  .footer__grid { grid-template-columns: minmax(0, 1fr); row-gap: 36px; }
+  .footer__partners > div + div { margin-top: 28px; }
   .overview { padding: 64px 0; }
   .plans { padding: 0 0 64px; }
   .plans__expand-wrap { top: 77px; }
@@ -716,8 +784,10 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   /* Request Callback lives in the menu on phones */
   .nav > .btn { display: none; }
   .form { grid-template-columns: minmax(0, 1fr); }
-  .gallery__grid { grid-template-columns: minmax(0, 1fr); }
-  .card__img { margin-bottom: 18px; }
+  .amenities { padding: 72px 0 80px; }
+  .amenities__viewport { margin-top: 40px; }
+  .amenities__track { gap: 14px; }
+  .amenity { flex-basis: 84vw; }
   /* Strips scroll sideways on phones */
   .strip__row {
     display: flex; aspect-ratio: auto; gap: 12px;
@@ -728,7 +798,7 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   .strip__item { flex: none; height: 260px; width: calc(260px * var(--w) / 376); scroll-snap-align: center; }
   .split-section__media,
   .split-section--reverse .split-section__media { height: 320px; }
-  .card .h3 { font-size: 17px; }
+  .amenity__title { font-size: 18px; }
   /* Narrow map: names only on the selected place, so labels do not pile up */
   .map-marker__label { display: none; }
   .split .figure { font-size: clamp(40px, 13vw, 56px); }

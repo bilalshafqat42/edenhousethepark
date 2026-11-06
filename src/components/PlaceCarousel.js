@@ -22,7 +22,7 @@ gsap.registerPlugin(Draggable);
  * Scrolling up passes through with no sideways movement. Off for reduced
  * motion.
  */
-export default function PlaceCarousel({ slides }) {
+export default function PlaceCarousel({ slides, label = "Renders of Eden House The Park" }) {
   const n = slides.length;
   const start = n + 1; // second slide of the middle set, as in the design
   const viewportRef = useRef(null);
@@ -38,7 +38,10 @@ export default function PlaceCarousel({ slides }) {
     const captions = gsap.utils.toArray(".place__caption", track);
     const current = gsap.utils.toArray(".place__slide.is-active .place__caption", track);
     if (firstCaption.current) { firstCaption.current = false; return; }
-    gsap.to(captions.filter((c) => !current.includes(c)), { autoAlpha: 0, y: 10, duration: 0.3, overwrite: true });
+    // Slides without a caption give empty lists; GSAP warns on those, so skip.
+    const others = captions.filter((c) => !current.includes(c));
+    if (others.length) gsap.to(others, { autoAlpha: 0, y: 10, duration: 0.3, overwrite: true });
+    if (!current.length) return;
     gsap.fromTo(current, { autoAlpha: 0, y: 10 }, {
       autoAlpha: 1, y: 0, duration: reduced ? 0 : 0.6, delay: reduced ? 0 : 0.35, ease: "power2.out", overwrite: true,
     });
@@ -139,7 +142,7 @@ export default function PlaceCarousel({ slides }) {
       tabIndex={0}
       role="region"
       aria-roledescription="carousel"
-      aria-label="Renders of Eden House The Park. Use the left and right arrow keys to move."
+      aria-label={`${label}. Use the left and right arrow keys to move.`}
     >
       <ul className="place__track" ref={trackRef} style={{ "--start": start }}>
         {copies.map((s) => {

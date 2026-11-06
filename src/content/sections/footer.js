@@ -2,9 +2,9 @@
 export const FOOTER_FIELDS = [
   {
     key: "address",
-    label: "Address",
+    label: "Address (optional; not shown in the current design)",
     type: "TEXT",
-    defaultValue: "Office 4701, Floor 47, Ubora Tower, Marasi Drive, Business Bay, Dubai",
+    defaultValue: "",
   },
   {
     key: "permit-text",
@@ -38,15 +38,16 @@ export const FOOTER_FIELDS = [
     label: "Partners",
     type: "LIST",
     itemLabel: "Partner",
-    helperText: "Partner logos are not supplied yet; the names stand in for them.",
+    helperText: "Upload each partner's logo; until one is uploaded, its name shows instead.",
     itemFields: [
       { key: "label", label: "Role (e.g. Development By)", type: "TEXT" },
-      { key: "name", label: "Name", type: "TEXT" },
+      { key: "name", label: "Name (also the logo's alt text)", type: "TEXT" },
+      { key: "logo", label: "Logo (optional, dark on transparent)", type: "IMAGE" },
     ],
     defaultValue: [
-      { label: "Development By", name: "H&H" },
-      { label: "Owned By", name: "Global Partners" },
-      { label: "Sales Partner", name: "Refine" },
+      { label: "Development By", name: "H&H", logo: "" },
+      { label: "Owned By", name: "Global Partners", logo: "" },
+      { label: "Sales Partner", name: "Refine", logo: "" },
     ],
   },
   { key: "copyright", label: "Copyright line", type: "TEXT", defaultValue: "©2026. Refine Project Management. All rights reserved" },

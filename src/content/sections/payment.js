@@ -1,8 +1,8 @@
 // Payment Plan: the 30/70 split, the instalment schedule and the fine print.
 export const PAYMENT_FIELDS = [
-  { key: "eyebrow", label: "Small heading", type: "TEXT", defaultValue: "Payment" },
-  { key: "heading", label: "Heading", type: "TEXT", defaultValue: "Plan" },
-  { key: "summary", label: "Summary line", type: "TEXT", defaultValue: "30 percent Before Handover and 70 percent On Handover" },
+  { key: "eyebrow", label: "Small heading", type: "TEXT", defaultValue: "Payment Plan" },
+  { key: "heading", label: "Heading", type: "TEXT", defaultValue: "Favourable Payment Plan For A Distinctive Home" },
+  { key: "summary", label: "Summary line (optional)", type: "TEXT", defaultValue: "" },
   { key: "before-percent", label: "Before handover: percentage (number only)", type: "TEXT", defaultValue: "30" },
   { key: "before-label", label: "Before handover: label", type: "TEXT", defaultValue: "Before Handover" },
   { key: "handover-percent", label: "On handover: percentage (number only)", type: "TEXT", defaultValue: "70" },
@@ -30,8 +30,7 @@ export const PAYMENT_FIELDS = [
     label: "Fine print",
     type: "TEXT",
     long: true,
-    defaultValue:
-      "10% on booking, 10% one month later, 5% in February 2027 and 5% in July 2027, then 70% on handover. DLD 4% and an AED 5,000 admin fee + VAT apply.",
+    defaultValue: "A clearly structured payment schedule, offering greater financial flexibility as your future home takes shape.",
   },
   { key: "brochure-label", label: "Brochure button label", type: "TEXT", defaultValue: "Download Brochure" },
   { key: "cta-label", label: "Second button label", type: "TEXT", defaultValue: "Submit Request" },

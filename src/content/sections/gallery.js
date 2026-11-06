@@ -1,15 +1,29 @@
-// "Designed Around Everyday Life": the amenities cards, two per row.
+/*
+ * Amenities: a centred heading and intro, then a draggable row of cards
+ * (image, title, text) running off the right edge of the page.
+ * TODO(content): the first two cards use stand-in renders (no lounge or
+ * pool render supplied yet), and the third card's title is cut off in the
+ * design, so it keeps "The Park At The Centre" until confirmed.
+ */
 const R = "/images/renders";
 
 export const GALLERY_FIELDS = [
-  { key: "eyebrow", label: "Small heading", type: "TEXT", defaultValue: "Designed" },
-  { key: "heading", label: "Heading", type: "TEXT", defaultValue: "Around Everyday Life" },
+  { key: "eyebrow", label: "Small heading (optional)", type: "TEXT", defaultValue: "" },
+  { key: "heading", label: "Heading", type: "TEXT", defaultValue: "A Life Exceptionally Well Catered For" },
+  {
+    key: "body",
+    label: "Intro text",
+    type: "TEXT",
+    long: true,
+    defaultValue:
+      "From bespoke in-residence services to private wellness facilities and landscaped retreats, every aspect of life is supported by the signature care of Eden House.",
+  },
   {
     key: "items",
     label: "Cards",
     type: "LIST",
     itemLabel: "Card",
-    helperText: "Images are cropped to 596×376 (landscape).",
+    helperText: "Images are cropped to 596×376 (landscape). Three show at once on a laptop; the rest are dragged into view.",
     itemFields: [
       { key: "title", label: "Title", type: "TEXT" },
       { key: "text", label: "Text", type: "TEXT", multiline: true },
@@ -17,6 +31,18 @@ export const GALLERY_FIELDS = [
       { key: "alt", label: "Image description (alt text)", type: "TEXT" },
     ],
     defaultValue: [
+      {
+        title: "Personalised In-Residence Services",
+        text: "Private chefs, butlers, housekeeping and tailored home care, arranged around your individual needs.",
+        image: `${R}/residents-lounge.jpg`,
+        alt: "Residents' lounge with seating and a long dining table",
+      },
+      {
+        title: "Five Pools Across The Community",
+        text: "Three adult swimming pools and two children's pools, complemented by indoor pool lounges and jacuzzis.",
+        image: `${R}/garden-path.jpg`,
+        alt: "Landscaped garden path between the buildings",
+      },
       {
         title: "The Park At The Centre",
         text: "A car-free park sits at the centre of the community, with playgrounds and gardens between the buildings.",

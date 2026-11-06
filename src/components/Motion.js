@@ -75,7 +75,9 @@ export default function Motion() {
       // settles with a slow zoom-out, then the hero copy rises in.
       gsap.timeline({ defaults: { ease: "power3.out" } })
         .from("[data-header]", { yPercent: -100, opacity: 0, duration: 1, clearProps: "transform,opacity" }, 0)
-        .from("[data-hero-img]", { scale: 1.08, opacity: 0, duration: 1.6, ease: "power2.out" }, 0)
+        // Scale only, no fade: the render stays visible from the first paint,
+        // so it counts as the page's main content straight away (LCP).
+        .from("[data-hero-img]", { scale: 1.08, duration: 1.6, ease: "power2.out" }, 0)
         .from("[data-hero-line]", { yPercent: 112, duration: 0.95, stagger: 0.09 }, 0.35)
         .from("[data-hero-body]", { opacity: 0, y: 14, duration: 0.7 }, 0.75)
         .from("[data-hero-btn]", { opacity: 0, y: 14, duration: 0.7 }, 0.85);

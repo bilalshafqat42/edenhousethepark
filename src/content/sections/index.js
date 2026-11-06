@@ -12,6 +12,7 @@ import { FOOTER_FIELDS } from "@/content/sections/footer";
 import { GALLERY_FIELDS } from "@/content/sections/gallery";
 import { HERO_FIELDS } from "@/content/sections/hero";
 import { IMAGE_STRIPS_FIELDS } from "@/content/sections/imageStrips";
+import { INTERIORS_FIELDS } from "@/content/sections/interiors";
 import { INTRO_FIELDS } from "@/content/sections/intro";
 import { PRIVACY_FIELDS, TERMS_FIELDS } from "@/content/sections/legal";
 import { LOCATION_FIELDS } from "@/content/sections/location";
@@ -40,6 +41,7 @@ export const SECTION_REGISTRY = {
   features: { label: "Project Features", group: "content", minRole: "EDITOR", fields: FEATURES_FIELDS },
   imageStrips: { label: "Image Rows", group: "content", minRole: "EDITOR", fields: IMAGE_STRIPS_FIELDS },
   gallery: { label: "Amenities", group: "content", minRole: "EDITOR", fields: GALLERY_FIELDS },
+  interiors: { label: "Interiors", group: "content", minRole: "EDITOR", fields: INTERIORS_FIELDS },
   floorPlans: { label: "Floor Plans", group: "content", minRole: "EDITOR", fields: FLOOR_PLANS_FIELDS },
   location: { label: "Location & Map", group: "content", minRole: "EDITOR", fields: LOCATION_FIELDS },
   payment: { label: "Payment Plan", group: "content", minRole: "EDITOR", fields: PAYMENT_FIELDS },

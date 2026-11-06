@@ -12,6 +12,13 @@ const stripItemFields = [
 ];
 
 export const IMAGE_STRIPS_FIELDS = [
+  {
+    key: "visible",
+    label: "Show this row",
+    type: "BOOLEAN",
+    helperText: "Hidden in the new design (the interiors carousel replaces it); turn on to bring it back.",
+    defaultValue: "false",
+  },
   { key: "interior-label", label: "Name read by screen readers", type: "TEXT", defaultValue: "Interiors and amenities" },
   {
     key: "interior-items",
