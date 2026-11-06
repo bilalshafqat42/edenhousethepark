@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import InlineText from "@/components/InlineText";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
+import { scrollStep } from "@/lib/scroll-step";
 import { Draggable } from "gsap/Draggable";
 
 gsap.registerPlugin(Draggable);
@@ -12,18 +13,13 @@ gsap.registerPlugin(Draggable);
  * Amenities: a row of cards that starts at the page margin and runs off the
  * right edge.
  *
- * Tablet and desktop: the section pins when it reaches the screen and each
- * scroll moves the row on by one card. After the last card the page carries
- * on scrolling to the next section. Arrow keys step through the same stops.
- *
- * Phones, or with reduced motion on: no scroll hijacking. Drag or swipe the
- * row instead; it settles on the nearest card and stops at the first and last.
+ * Scrolling down moves the row on by one card while the section is pinned;
+ * scrolling up passes through (src/lib/scroll-step.js, shared by every
+ * carousel). Drag or swipe the row, or use the arrow keys, at any size; it
+ * settles on the nearest card and stops at the first and last.
  *
  * items: [{ src, alt, title, text }] (resolved by the page from the panel)
  */
-const PINNED = "(min-width: 601px) and (prefers-reduced-motion: no-preference)";
-const FREE = "(max-width: 600px), (prefers-reduced-motion: reduce)";
-
 export default function AmenitiesCarousel({ items, label }) {
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
@@ -31,8 +27,7 @@ export default function AmenitiesCarousel({ items, label }) {
   useEffect(() => {
     const viewport = viewportRef.current;
     const track = trackRef.current;
-    const section = viewport.closest("section") ?? viewport;
-    const header = document.querySelector("[data-header]");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // x that puts card i at the left margin, clamped so the last card ends
     // at the right margin rather than leaving empty space after it.
@@ -46,128 +41,84 @@ export default function AmenitiesCarousel({ items, label }) {
       const first = track.children[0];
       return Math.max(minX(), Math.min(0, -(card.offsetLeft - first.offsetLeft)));
     };
-    /** Distinct resting positions, as scroll progress 0..1 (cards near the end share one). */
-    const stops = () => {
-      const range = minX();
-      if (range === 0) return [0];
-      const all = [...track.children].map((_, i) => xFor(i) / range);
-      return all.filter((p, i) => i === 0 || p - all[i - 1] > 0.001);
+    const nearest = (x) => {
+      let best = 0;
+      for (let i = 0; i < track.children.length; i++) {
+        if (Math.abs(xFor(i) - x) < Math.abs(xFor(best) - x)) best = i;
+      }
+      return best;
+    };
+    // The last card that still moves the row (later ones share its stop)
+    const lastStop = () => nearest(minX());
+
+    let index = 0;
+    const goTo = (i) => {
+      index = Math.max(0, Math.min(lastStop(), i));
+      gsap.to(track, { x: xFor(index), duration: reduced ? 0 : 0.75, ease: "power3.inOut", overwrite: true });
     };
 
-    const mm = gsap.matchMedia();
+    // A drag counts only when the finger or mouse moved more across than
+    // down; a vertical swipe that starts on the row is the page scrolling.
+    let pressX = 0;
+    let pressY = 0;
+    const sideways = (d) => {
+      const dx = Math.abs(d.pointerX - pressX);
+      const dy = Math.abs(d.pointerY - pressY);
+      return dx > 8 && dx > dy;
+    };
 
-    // ---- Tablet and desktop: pinned, scroll-driven ----
-    mm.add(PINNED, () => {
-      const headerH = () => header?.offsetHeight ?? 0;
-
-      const tween = gsap.to(track, {
-        x: () => minX(),
-        ease: "none",
-        scrollTrigger: {
-          // Pin the section with the row of cards centred in the space below
-          // the header; the heading scrolls up out of view if there's no room.
-          trigger: viewport,
-          start: () => `center center+=${headerH() / 2}`,
-          // About 70% of a screen of scrolling per card
-          end: () => `+=${Math.max(1, stops().length - 1) * window.innerHeight * 0.7}`,
-          pin: section,
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-          snap: {
-            // Ignore GSAP's momentum prediction (it skips cards on a hard
-            // scroll) and step from where the row actually is.
-            inertia: false,
-            snapTo: () => {
-              const value = tween.scrollTrigger.progress;
-              const list = stops();
-              const dir = tween.scrollTrigger.direction;
-              // One scroll gesture moves one card in the direction travelled
-              const ahead = dir > 0 ? list.find((p) => p >= value - 0.001) : [...list].reverse().find((p) => p <= value + 0.001);
-              return ahead ?? gsap.utils.snap(list, value);
-            },
-            duration: { min: 0.35, max: 0.8 },
-            delay: 0.05,
-            ease: "power3.inOut",
-          },
-        },
-      });
-      const st = tween.scrollTrigger;
-
-      const onKey = (e) => {
-        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-        e.preventDefault();
-        const list = stops();
-        const now = gsap.utils.snap(list, st.progress);
-        const i = Math.max(0, Math.min(list.length - 1, list.indexOf(now) + (e.key === "ArrowRight" ? 1 : -1)));
-        gsap.to(window, { scrollTo: st.start + list[i] * (st.end - st.start), duration: 0.7, ease: "power3.out", overwrite: true });
-      };
-      viewport.addEventListener("keydown", onKey);
-
-      // Sections below moved down by the pin: recalculate their triggers.
-      ScrollTrigger.refresh();
-
-      return () => {
-        viewport.removeEventListener("keydown", onKey);
-      };
-    });
-
-    // ---- Phones and reduced motion: drag or swipe ----
-    mm.add(FREE, () => {
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const nearest = (x) => {
-        let best = 0;
-        for (let i = 0; i < track.children.length; i++) {
-          if (Math.abs(xFor(i) - x) < Math.abs(xFor(best) - x)) best = i;
+    const [drag] = Draggable.create(track, {
+      type: "x",
+      bounds: { minX: minX(), maxX: 0 },
+      edgeResistance: 0.85,
+      allowNativeTouchScrolling: true, // vertical swipes still scroll the page
+      cursor: "grab",
+      activeCursor: "grabbing",
+      onPress() { pressX = this.pointerX; pressY = this.pointerY; },
+      // Only a real sideways drag stops a slide in progress; a vertical
+      // swipe that starts on the row (to scroll the page) must not.
+      onDrag() { if (sideways(this)) gsap.killTweensOf(track); },
+      onDragEnd() {
+        // Not a sideways drag: carry on to (or stay on) the current card
+        if (!sideways(this)) { goTo(index); return; }
+        // A flick moves at least one card in its direction
+        const moved = this.x - xFor(index);
+        if (Math.abs(moved) < 40) goTo(index);
+        else {
+          const target = nearest(this.x);
+          goTo(target === index ? index + (moved < 0 ? 1 : -1) : target);
         }
-        return best;
-      };
-      let index = 0;
-      const goTo = (i) => {
-        index = Math.max(0, Math.min(track.children.length - 1, i));
-        gsap.to(track, { x: xFor(index), duration: reduced ? 0 : 0.7, ease: "power3.out", overwrite: true });
-      };
-
-      const [drag] = Draggable.create(track, {
-        type: "x",
-        bounds: { minX: minX(), maxX: 0 },
-        edgeResistance: 0.85,
-        allowNativeTouchScrolling: true,
-        cursor: "grab",
-        activeCursor: "grabbing",
-        onPress() { gsap.killTweensOf(track); },
-        onDragEnd() {
-          // A flick moves at least one card in its direction
-          const moved = this.x - xFor(index);
-          if (Math.abs(moved) < 40) goTo(index);
-          else {
-            const target = nearest(this.x);
-            goTo(target === index ? index + (moved < 0 ? 1 : -1) : target);
-          }
-        },
-      });
-
-      const onKey = (e) => {
-        if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
-        if (e.key === "ArrowLeft") { e.preventDefault(); goTo(index - 1); }
-      };
-      viewport.addEventListener("keydown", onKey);
-
-      const onResize = () => {
-        drag.applyBounds({ minX: minX(), maxX: 0 });
-        gsap.set(track, { x: xFor(index) });
-      };
-      window.addEventListener("resize", onResize);
-
-      return () => {
-        drag.kill();
-        gsap.killTweensOf(track);
-        gsap.set(track, { x: 0 });
-        viewport.removeEventListener("keydown", onKey);
-        window.removeEventListener("resize", onResize);
-      };
+      },
     });
 
-    return () => mm.revert();
+    const onKey = (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goTo(index - 1); }
+    };
+    viewport.addEventListener("keydown", onKey);
+
+    const onResize = () => {
+      drag.applyBounds({ minX: minX(), maxX: 0 });
+      index = Math.min(index, lastStop());
+      gsap.set(track, { x: xFor(index) });
+    };
+    window.addEventListener("resize", onResize);
+
+    // Scroll step (shared with every carousel): one card on the way down
+    // while the section is pinned; nothing on the way up.
+    const stopScrollStep = scrollStep({
+      viewport,
+      section: viewport.closest("section") ?? viewport,
+      onStep: () => goTo(index + 1),
+    });
+
+    return () => {
+      stopScrollStep();
+      drag.kill();
+      gsap.killTweensOf(track);
+      viewport.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+    };
   }, [items.length]);
 
   return (

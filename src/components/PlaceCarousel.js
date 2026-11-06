@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
+import { scrollStep } from "@/lib/scroll-step";
 import { Draggable } from "gsap/Draggable";
 import InlineText from "@/components/InlineText";
 
@@ -16,11 +17,9 @@ gsap.registerPlugin(Draggable);
  * copies), so dragging left or right never runs out. After each move the
  * position quietly jumps back into the middle set.
  *
- * Scrolling down: a GSAP ScrollTrigger pin holds the section in place for a
- * short stretch of scroll while the carousel moves on by one slide, then the
- * page carries on. The page itself never stops responding to the scroll.
- * Scrolling up passes through with no sideways movement. Off for reduced
- * motion.
+ * Scrolling down moves it on by one slide while the section is pinned;
+ * scrolling up passes through (src/lib/scroll-step.js, shared by every
+ * carousel).
  */
 export default function PlaceCarousel({ slides, label = "Renders of Eden House The Park" }) {
   const n = slides.length;
@@ -61,7 +60,7 @@ export default function PlaceCarousel({ slides, label = "Renders of Eden House T
       indexRef.current = k;
       setActive(k % n);
       gsap.to(track, {
-        x: xFor(k), duration: reduced ? 0 : 0.85, ease: "power3.inOut", overwrite: true,
+        x: xFor(k), duration: reduced ? 0 : 0.75, ease: "power3.inOut", overwrite: true,
         onComplete: () => {
           // Back into the middle set, at the same visual position
           if (k < n || k >= 2 * n) {
@@ -75,13 +74,28 @@ export default function PlaceCarousel({ slides, label = "Renders of Eden House T
 
     gsap.set(track, { x: xFor(indexRef.current) });
 
+    // A drag counts only when the finger or mouse moved more across than
+    // down; a vertical swipe that starts on the row is the page scrolling.
+    let pressX = 0;
+    let pressY = 0;
+    const sideways = (d) => {
+      const dx = Math.abs(d.pointerX - pressX);
+      const dy = Math.abs(d.pointerY - pressY);
+      return dx > 8 && dx > dy;
+    };
+
     const [drag] = Draggable.create(track, {
       type: "x",
       allowNativeTouchScrolling: true, // vertical swipes still scroll the page
       cursor: "grab",
       activeCursor: "grabbing",
-      onPress() { gsap.killTweensOf(track); },
+      onPress() { pressX = this.pointerX; pressY = this.pointerY; },
+      // Only a real sideways drag stops a slide in progress; a vertical
+      // swipe that starts on the row (to scroll the page) must not.
+      onDrag() { if (sideways(this)) gsap.killTweensOf(track); },
       onDragEnd() {
+        // Not a sideways drag: carry on to (or stay on) the current slide
+        if (!sideways(this)) { goTo(indexRef.current); return; }
         const moved = this.x - xFor(indexRef.current);
         const count = Math.max(1, Math.round(Math.abs(moved) / step()));
         const by = Math.abs(moved) > 50 ? (moved < 0 ? count : -count) : 0;
@@ -99,37 +113,20 @@ export default function PlaceCarousel({ slides, label = "Renders of Eden House T
     const onResize = () => gsap.set(track, { x: xFor(indexRef.current) });
     window.addEventListener("resize", onResize);
 
-    // Scroll step: one slide on the way down, while the section is pinned.
-    // A menu or button link jumping the page is not a scroll; skip it.
-    let linkUntil = 0;
-    const markLink = (e) => { if (e.target.closest?.('a[href^="#"]')) linkUntil = performance.now() + 2000; };
-    document.addEventListener("click", markLink, true);
-
-    let armed = true;
-    const trigger = reduced ? null : ScrollTrigger.create({
-      trigger: viewport,
-      pin: viewport.closest("section") ?? viewport,
-      start: "center 56%", // carousel centred below the header
-      end: "+=60%", // held for 60% of a screen of scrolling
-      anticipatePin: 1,
-      refreshPriority: 1, // pinned first, so later triggers allow for it
-      onUpdate: (self) => {
-        if (!armed || self.direction !== 1 || self.progress < 0.04) return;
-        armed = false;
-        if (performance.now() > linkUntil) goTo(indexRef.current + 1);
-      },
-      onLeaveBack: () => { armed = true; },
+    // Scroll step (shared with every carousel): one slide on the way down
+    // while the section is pinned; nothing on the way up.
+    const stopScrollStep = scrollStep({
+      viewport,
+      section: viewport.closest("section") ?? viewport,
+      onStep: () => goTo(indexRef.current + 1),
     });
-    // The pin adds scroll space, so every other trigger is measured again
-    requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
-      trigger?.kill();
+      stopScrollStep();
       drag.kill();
       gsap.killTweensOf(track);
       viewport.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
-      document.removeEventListener("click", markLink, true);
     };
   }, [n]);
 
