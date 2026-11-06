@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "@/lib/gsap";
 import Lightbox from "@/components/Lightbox";
 
 const R = "/images/renders";
@@ -62,25 +63,52 @@ export default function FloorPlans() {
   const [active, setActive] = useState(0);
   const [viewer, setViewer] = useState(null); // { images, start, label }
   const plan = PLANS[active];
+  const mediaRef = useRef(null);
+  const specRef = useRef(null);
+  const first = useRef(true);
+
+  // Tab change: the new render crossfades in with a slow settle, and the
+  // layout details rise in. Skipped on first paint (CSS shows tab one).
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const renders = gsap.utils.toArray(".plans__render", mediaRef.current);
+    const d = reduced ? 0 : 1;
+    renders.forEach((el, i) => {
+      if (i === active) {
+        gsap.set(el, { zIndex: 1 });
+        gsap.fromTo(el, { autoAlpha: 0, scale: 1.04 }, { autoAlpha: 1, scale: 1, duration: 0.9 * d, ease: "power2.out", overwrite: true });
+      } else {
+        gsap.set(el, { zIndex: 0 });
+        gsap.to(el, { autoAlpha: 0, duration: 0.9 * d, delay: 0.2 * d, ease: "power1.out", overwrite: true });
+      }
+    });
+    gsap.fromTo(specRef.current.children, { autoAlpha: 0, y: 8 }, {
+      autoAlpha: 1, y: 0, duration: 0.5 * d, stagger: 0.05 * d, ease: "power2.out", overwrite: true,
+    });
+  }, [active]);
 
   return (
     <section className="plans split-section split-section--reverse" id="floor-plans">
-      <div className="split-section__media plans__media">
+      <div className="split-section__media plans__media" ref={mediaRef}>
         {PLANS.map((p, i) => (
           <div key={p.tab} className={`plans__render${i === active ? " is-active" : ""}`} aria-hidden={i !== active}>
             <Image src={p.render.src} alt={i === active ? p.render.alt : ""} fill sizes="(max-width: 1000px) 100vw, 50vw" />
           </div>
         ))}
-        <button
-          type="button"
-          className="plans__expand"
-          aria-label="View the image full screen"
-          onClick={() => setViewer({ images: RENDERS, start: active, label: "Interior renders" })}
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />
-          </svg>
-        </button>
+        {/* Sticky, so the icon stays below the header while the image scrolls */}
+        <div className="plans__expand-wrap">
+          <button
+            type="button"
+            className="plans__expand"
+            aria-label="View the image full screen"
+            onClick={() => setViewer({ images: RENDERS, start: active, label: "Interior renders" })}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="split-section__text plans__text">
@@ -98,7 +126,7 @@ export default function FloorPlans() {
           ))}
         </div>
 
-        <div className="spec" aria-live="polite">
+        <div className="spec" aria-live="polite" ref={specRef}>
           <h3 className="spec__title">{plan.heading}</h3>
           {plan.text && <p className="lead spec__text">{plan.text}</p>}
           {plan.rows.length > 0 && (

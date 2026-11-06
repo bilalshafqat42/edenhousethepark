@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { gsap } from "@/lib/gsap";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 // All content is visible in the server-rendered HTML. Animations only run
 // once GSAP has loaded and reduced motion is off, and every reveal plays
@@ -11,15 +11,51 @@ export default function Motion() {
     const header = document.querySelector("[data-header]");
     const progress = document.querySelector("[data-progress]");
 
-    // Sticky header hairline and scroll progress bar
-    const onScroll = () => {
-      const y = window.scrollY;
-      header?.classList.toggle("is-scrolled", y > 40);
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (progress) progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Header turns frosted once the page has scrolled 40px
+    const headerState = ScrollTrigger.create({
+      start: 40,
+      end: "max",
+      onToggle: (self) => header?.classList.toggle("is-scrolled", self.isActive),
+    });
+    header?.classList.toggle("is-scrolled", window.scrollY > 40);
+
+    // Scroll progress bar, smoothed slightly
+    const progressBar = progress
+      ? gsap.fromTo(progress, { scaleX: 0 }, {
+          scaleX: 1, ease: "none",
+          scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
+        })
+      : null;
+
+    // In-page links (menu, buttons, skip link) glide to their section with
+    // GSAP, stopping just below the sticky header.
+    const onLinkClick = (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = e.target.closest?.('a[href^="#"]');
+      if (!link) return;
+      const id = decodeURIComponent(link.getAttribute("href").slice(1));
+      const target = id ? document.getElementById(id) : null;
+      if (id && !target) return;
+      e.preventDefault();
+      const offset = header?.offsetHeight ?? 0;
+      gsap.to(window, {
+        scrollTo: { y: target ?? 0, offsetY: target ? offset : 0, autoKill: true },
+        duration: reduced ? 0 : 1.1,
+        ease: "power3.inOut",
+        overwrite: true,
+        onComplete: () => {
+          history.replaceState(null, "", id ? `#${id}` : location.pathname);
+          // Move keyboard focus to the section, as a normal link jump does
+          if (target) {
+            if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+            target.focus({ preventScroll: true });
+          }
+        },
+      });
     };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("click", onLinkClick);
 
     // Flags the footer on <html> so the chat teaser steps aside over it.
     const footer = document.querySelector("footer");
@@ -74,7 +110,10 @@ export default function Motion() {
     });
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      headerState.kill();
+      progressBar?.scrollTrigger?.kill();
+      progressBar?.kill();
+      document.removeEventListener("click", onLinkClick);
       footerObserver?.disconnect();
       mm.revert();
     };
