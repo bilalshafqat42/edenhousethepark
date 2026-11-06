@@ -115,6 +115,8 @@ ul { list-style: none; }
   text-transform: uppercase;
 }
 .eyebrow { color: var(--caffe-75); margin-bottom: 20px; }
+/* On the mint and stone panels Caffe 75% falls below 4.5:1, so use Caffe */
+.location .eyebrow, .bg-stone .eyebrow { color: var(--caffe); }
 
 .fine { font-size: 10px; line-height: 1.6; letter-spacing: .01em; }
 
@@ -328,7 +330,7 @@ ul { list-style: none; }
 .chip {
   flex: none; height: 36px; padding: 0 16px;
   border: 1px solid var(--caffe-25);
-  color: var(--caffe-75);
+  color: var(--caffe);
   font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
   transition: background-color .3s ease, color .3s ease, border-color .3s ease;
 }
@@ -607,5 +609,6 @@ ul { list-style: none; }
   .card .h3 { font-size: 17px; }
   /* Narrow map: names only on the selected place, so labels do not pile up */
   .map-marker__label { display: none; }
+  .split .figure { font-size: clamp(40px, 13vw, 56px); }
   .map-marker.is-active .map-marker__label { display: block; }
 }

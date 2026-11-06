@@ -112,7 +112,8 @@ function Logo({ ariaLabel, variant = "black", priority = false }) {
 function ImageStrip({ items, label }) {
   return (
     <section className="strip" aria-label={label}>
-      <div className="strip__row" data-stagger>
+      {/* tabIndex: on phones the row scrolls sideways, so keyboard users must be able to reach it */}
+      <div className="strip__row" data-stagger tabIndex={0}>
         {items.map((item) => (
           <figure key={item.src} className="strip__item" style={{ "--w": item.w }}>
             <Image src={item.src} alt={item.alt} fill sizes={`${Math.round((item.w / 1440) * 100)}vw`} />
