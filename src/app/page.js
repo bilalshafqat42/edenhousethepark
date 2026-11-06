@@ -292,7 +292,7 @@ export default function Home() {
               10% on booking, 10% one month later, 5% in February 2027 and 5% in July 2027, then 70% on handover. DLD 4% and an AED 5,000 admin fee + VAT apply.
             </p>
             <div className="btn-row">
-              <a href="#" className="btn btn--light">Download Brochure</a>
+              <a href="#contact" className="btn btn--light">Download Brochure</a>
               <a href="#contact" className="btn btn--light">Submit Request</a>
             </div>
           </div>
@@ -304,7 +304,7 @@ export default function Home() {
             <div>
               <p className="eyebrow" data-reveal="eyebrow">A Park-Led</p>
               <h2 className="h2" data-reveal="heading">About The Developer</h2>
-              <a href="#" className="btn btn--line">Download Brochure</a>
+              <a href="#contact" className="btn btn--line">Download Brochure</a>
             </div>
             <div className="about__body" data-reveal="body">
               <p className="body">

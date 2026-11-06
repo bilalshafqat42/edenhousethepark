@@ -25,7 +25,12 @@
   --green: #899179;    --green-75: #A6AD9B;  --green-50: #C4C8BC;  --green-25: #E2E4DE;
   --stone: #D3BB96;    --stone-50: #E9DDCB;
   --mint: #D3DBCC;     --mint-50: #E9EDE6;
+  /* Deeper Mid Green for bands with text on them: Natural text 5.3:1 and
+     Stone figures 3.2:1 (large text). The brand Mid Green gives 2.9:1. */
+  --green-deep: #5E6652;
   --bronze: #A3664F;
+  /* Deeper Bronze for small text on Mint: 4.5:1 (the brand Bronze gives 3.2:1) */
+  --bronze-deep: #7D5544;
   --natural: #F3F1EA;  /* page background */
 
   /* Brand fonts only, no system fallbacks. */
@@ -133,7 +138,7 @@ ul { list-style: none; }
 [id] { scroll-margin-top: 103px; }
 
 .bg-mint { background: var(--mint-50); }
-.bg-green { background: var(--green); color: var(--natural); }
+.bg-green { background: var(--green-deep); color: var(--natural); }
 .bg-green .eyebrow, .bg-green .h2 { color: var(--natural); }
 .bg-caffe { background: var(--caffe); color: var(--natural); }
 
@@ -346,7 +351,7 @@ ul { list-style: none; }
 }
 .times__row:hover span:first-child,
 .times__row[aria-pressed="true"] span:first-child { color: var(--caffe); text-decoration: underline; text-underline-offset: 4px; }
-.times .figure { color: var(--bronze); font-size: 18px; text-transform: uppercase; letter-spacing: .02em; }
+.times .figure { color: var(--bronze-deep); font-size: 18px; text-transform: uppercase; letter-spacing: .02em; }
 
 /* Image strips: narrow, wide, narrow renders across the full width */
 .strip { background: var(--stone-50); padding: clamp(40px, 5.8vw, 84px) 0; overflow: hidden; }
