@@ -1,0 +1,55 @@
+# Runs on every pull request and on pushes to main (live) and stg (staging),
+# so a change that breaks the site is caught here rather than on Render.
+#
+# Render only refuses to release when the BUILD fails. A change that builds
+# but breaks behaviour (a manifest the panel refuses, a lead check that turns
+# real enquiries away, a sanitiser that lets a script through) would go
+# straight to visitors, which is what the unit tests are for.
+#
+# Uses no secrets and no environment variables: the site is designed to build
+# and serve with none set (content falls back to the committed snapshot and
+# the code defaults), and the build step proves that stays true.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, stg]
+
+permissions:
+  contents: read
+
+# A newer push makes an in-flight run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Keep in step with .node-version and NODE_VERSION on Render.
+          node-version-file: .node-version
+          cache: npm
+
+      # Exactly the lockfile, as Render's build does.
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npx eslint src scripts test
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build (no environment)
+        run: npm run build
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high

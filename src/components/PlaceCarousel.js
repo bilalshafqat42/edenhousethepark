@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { Draggable } from "gsap/Draggable";
 import { Observer } from "gsap/Observer";
+import InlineText from "@/components/InlineText";
 
 gsap.registerPlugin(Draggable, Observer);
 
@@ -206,8 +207,8 @@ export default function PlaceCarousel({ slides }) {
               />
               {s.title && (
                 <div className="place__caption">
-                  <p className="place__caption-title">{s.title}</p>
-                  {s.text && <p className="place__caption-text">{s.text}</p>}
+                  <p className="place__caption-title"><InlineText value={s.title} /></p>
+                  {s.text && <p className="place__caption-text"><InlineText value={s.text} /></p>}
                 </div>
               )}
             </li>
@@ -215,7 +216,7 @@ export default function PlaceCarousel({ slides }) {
         })}
       </ul>
       <p className="sr-only" aria-live="polite">
-        {`Slide ${active + 1} of ${n}${slides[active].title ? `: ${slides[active].title}` : ""}`}
+        {`Slide ${active + 1} of ${n}${slides[active].titlePlain ? `: ${slides[active].titlePlain}` : ""}`}
       </p>
     </div>
   );

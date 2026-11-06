@@ -2,11 +2,16 @@
   "name": "edenhousethepark",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-alias.mjs --test \"test/*.test.mjs\"",
+    "content:snapshot": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/snapshot-content.mjs"
   },
   "dependencies": {
     "@gsap/react": "2.1.2",
@@ -16,6 +21,7 @@
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-phone-number-input": "3.4.18",
+    "sanitize-html": "2.18.1",
     "server-only": "0.0.1"
   },
   "devDependencies": {

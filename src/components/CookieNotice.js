@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import InlineText from "@/components/InlineText";
 
 const KEY = "eh-cookie-consent";
 
@@ -23,7 +24,7 @@ function saveChoice(value) {
 // Shown on first visit only. The footer "Manage Cookies" link reopens it.
 // "Choose" stores "custom" for now. It should open the Oceara preferences
 // panel once that component is ported.
-export default function CookieNotice() {
+export default function CookieNotice({ content = {} }) {
   const [open, setOpen] = useState(false);
   const barRef = useRef(null);
 
@@ -65,11 +66,11 @@ export default function CookieNotice() {
       onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
     >
       <div className="container cookie__inner">
-        <h2 id="cookie-title" className="h3 cookie__title">Your Privacy</h2>
+        <h2 id="cookie-title" className="h3 cookie__title"><InlineText value={content.title ?? "Your Privacy"} /></h2>
         <div className="btn-row">
-          <button type="button" className="btn btn--line" onClick={() => choose("custom")}>Choose</button>
-          <button type="button" className="btn btn--line" onClick={() => choose("essential")}>Reject non-essential</button>
-          <button type="button" className="btn btn--fill" onClick={() => choose("all")}>Accept</button>
+          <button type="button" className="btn btn--line" onClick={() => choose("custom")}><InlineText value={content["choose-label"] ?? "Choose"} inLink /></button>
+          <button type="button" className="btn btn--line" onClick={() => choose("essential")}><InlineText value={content["reject-label"] ?? "Reject non-essential"} inLink /></button>
+          <button type="button" className="btn btn--fill" onClick={() => choose("all")}><InlineText value={content["accept-label"] ?? "Accept"} inLink /></button>
         </div>
       </div>
     </section>
