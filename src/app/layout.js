@@ -1,11 +1,13 @@
 import "./globals.css";
 
 // Brand fonts are declared by name in globals.css (@font-face). These are the
-// faces every visitor needs straight away, so the browser fetches them first.
+// faces the first screen needs (hero headline and figures in Ivy Presto
+// Regular, hero text and buttons in Beausite Regular, nav in Beausite Light),
+// so the browser fetches them before it reads the stylesheet.
 const PRELOAD_FONTS = [
-  "/webfonts/IvyPrestoDisplay-Light.woff2",
-  "/webfonts/BeausiteClassicWeb-Light.woff2",
+  "/webfonts/IvyPrestoDisplay-Regular.woff2",
   "/webfonts/BeausiteClassicWeb-Regular.woff2",
+  "/webfonts/BeausiteClassicWeb-Light.woff2",
 ];
 
 export const metadata = {
