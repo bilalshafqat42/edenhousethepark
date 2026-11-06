@@ -381,7 +381,7 @@ export default function Home() {
           <div className="footer__base fine">
             <span>©2026. Refine Project Management. All rights reserved</span>
             <span>
-              <a href="#" data-manage-cookies>Manage Cookies</a> · <a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a>
+              <a href="#" data-manage-cookies>Manage Cookies</a> · <a href="https://refinedubai.com/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a>
             </span>
           </div>
         </div>
