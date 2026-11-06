@@ -9,8 +9,9 @@ import MobileMenu from "@/components/MobileMenu";
 import Motion from "@/components/Motion";
 import { chatTextFromContent } from "@/content/sections/chatText";
 import { readSections } from "@/lib/page-content";
-import { hasInlineMarkup, plainTextValues, splitInlineWords, toPlainText } from "@/lib/inline-text";
+import { plainTextValues, toPlainText } from "@/lib/inline-text";
 import { isExternalHref, safeHref, safeImageSrc, wholeNumber } from "@/lib/safe-url";
+import PlaceCarousel from "@/components/PlaceCarousel";
 
 /*
  * Every word and image on this page comes from the admin panel, through
@@ -49,24 +50,6 @@ function ImageStrip({ items, label }) {
   );
 }
 
-// The intro quote, one span per word for the scroll reveal (Motion.js).
-function QuoteWords({ value }) {
-  if (!hasInlineMarkup(value)) {
-    return String(value ?? "").split(" ").map((word, i) => (
-      <span key={i}>
-        <span className="word">{word}</span>{" "}
-      </span>
-    ));
-  }
-  return splitInlineWords(value)
-    .filter((token) => token.type === "word")
-    .map((token, i) => (
-      <span key={i}>
-        <span className="word" dangerouslySetInnerHTML={{ __html: token.html }} />{" "}
-      </span>
-    ));
-}
-
 // A figure that counts up from 0 (Motion.js) when the panel gives a whole number.
 function CountFigure({ figure, count }) {
   const target = wholeNumber(count);
@@ -87,11 +70,11 @@ const list = (value) => (Array.isArray(value) ? value.filter((item) => item && t
 
 export default async function Home() {
   const c = await readSections([
-    "navigation", "appearance", "hero", "intro", "features", "imageStrips", "gallery", "floorPlans",
+    "navigation", "appearance", "hero", "intro", "place", "features", "imageStrips", "gallery", "floorPlans",
     "location", "payment", "brochure", "about", "contact", "contactForm", "footer", "cookies",
     "chatAgent", "chatTextEn", "chatTextAr",
   ]);
-  const { navigation: nav, hero, intro, features, gallery, payment, about, contact, footer } = c;
+  const { navigation: nav, hero, intro, place, features, gallery, payment, about, contact, footer } = c;
 
   const navLinks = list(nav.links).map((item) => ({ label: item.label, href: safeHref(item.href, "#") }));
   const headerLogo = safeImageSrc(c.appearance["logo-header"], DEFAULT_LOGOS.black);
@@ -103,6 +86,16 @@ export default async function Home() {
       .map((item) => ({ src: safeImageSrc(item.image, ""), alt: plain(item.alt), w: wholeNumber(item.width) || 316 }))
       .filter((item) => item.src);
   const brochureHref = safeHref(c.brochure.url, "#contact");
+  const placeSlides = list(place.slides)
+    .map((item) => ({
+      src: safeImageSrc(item.image, ""),
+      alt: plain(item.alt),
+      title: item.title || "",
+      titlePlain: plain(item.title),
+      text: item.text || "",
+      position: /^[\d.]+% [\d.]+%$/.test(String(item.position ?? "").trim()) ? String(item.position).trim() : undefined,
+    }))
+    .filter((item) => item.src);
   const contacts = list(contact.details).map((item) => ({ ...item, href: safeHref(item.href, "#contact") }));
 
   return (
@@ -133,7 +126,7 @@ export default async function Home() {
       </header>
 
       <main id="main">
-        {/* Hero: full-bleed render under the header, centred copy, key figures along the bottom */}
+        {/* Hero: full-width render below the header, centred copy in the lower part */}
         <section className="hero" id="top" data-hero>
           <div className="hero__media" data-hero-img>
             <Image
@@ -154,29 +147,42 @@ export default async function Home() {
               <InlineText value={hero["cta-label"]} inLink />
             </a>
           </div>
-          <ul className="container hero__stats" data-hero-stats>
-            {featureItems.map((f, i) => (
-              <li key={i}>
-                <p className="hero__stat-fig">
-                  <CountFigure figure={f.figure} count={f.count} />
-                </p>
-                <p className="hero__stat-label"><InlineText value={f.label} /></p>
-              </li>
-            ))}
-          </ul>
         </section>
 
-        {/* Intro statement */}
-        <section className="intro bg-mint">
+        {/* Project overview */}
+        <section className="overview bg-mint" aria-labelledby="overview-title">
           <div className="container">
             <p className="eyebrow" data-reveal="eyebrow"><InlineText value={intro.eyebrow} /></p>
-            <p className="quote" data-quote>
-              <QuoteWords value={intro.quote} />
-            </p>
-            <p className="body intro__body" data-reveal="body">
+            <h2 className="display-40" id="overview-title" data-reveal="heading"><InlineText value={intro.heading} /></h2>
+            <p className="lead" data-reveal="body">
               <InlineText value={intro.body} />
             </p>
+            <ul className="overview__stats" data-stagger>
+              {list(intro.stats).map((f, i) => (
+                <li key={i}>
+                  <p className="overview__fig">
+                    <CountFigure figure={f.figure} count={f.count} />
+                  </p>
+                  <p className="label"><InlineText value={f.label} /></p>
+                </li>
+              ))}
+            </ul>
+            <div className="btn-row overview__actions">
+              <BrochureLink href={brochureHref} className="btn btn--line" label={intro["brochure-label"]} />
+              <a href={safeHref(intro["request-href"], "#contact")} className="btn btn--line"><InlineText value={intro["request-label"]} inLink /></a>
+            </div>
           </div>
+        </section>
+
+        {/* A considered sense of place: draggable render carousel */}
+        <section className="place" aria-labelledby="place-title">
+          <div className="container">
+            <h2 className="display-40" id="place-title" data-reveal="heading"><InlineText value={place.heading} /></h2>
+            <p className="lead" data-reveal="body">
+              <InlineText value={place.body} />
+            </p>
+          </div>
+          {placeSlides.length > 0 && <PlaceCarousel slides={placeSlides} />}
         </section>
 
         {/* Project features */}
@@ -197,8 +203,6 @@ export default async function Home() {
             <a href={safeHref(features["cta-href"], "#contact")} className="btn btn--light"><InlineText value={features["cta-label"]} inLink /></a>
           </div>
         </section>
-
-        <ImageStrip items={strip(c.imageStrips["exterior-items"])} label={plain(c.imageStrips["exterior-label"])} />
 
         {/* Lifestyle gallery */}
         <section className="section gallery" id="amenities">

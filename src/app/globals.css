@@ -1,6 +1,6 @@
 /* ==========================================================================
    0. Brand fonts (identity guidelines, pp. 26-31)
-   Ivy Presto Display: headlines, pull quotes, figures.
+   Ivy Presto Display: headlines and figures.
    Beausite Classic: body copy, titles, labels, buttons.
    The Sans Arabic: Arabic text in the chat; downloaded only when Arabic
    text is on screen. "block" keeps text hidden for a moment while a font
@@ -95,14 +95,6 @@ ul { list-style: none; }
 .h2 { font-size: clamp(1.5rem, 3.5vw, 2.85rem); line-height: .92; }
 .h3 { font-size: clamp(1.22rem, 2.2vw, 1.8rem); line-height: 1.02; }
 
-.quote {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: clamp(1.9rem, 4.2vw, 3rem);
-  line-height: 1.12;
-  letter-spacing: .02em;
-}
-
 .figure {
   font-family: var(--display);
   font-weight: 300;
@@ -191,14 +183,18 @@ ul { list-style: none; }
 /* Header */
 .header {
   position: sticky; top: 0; z-index: 50;
-  /* Transparent white with a frosted blur, so sections show through it. */
+  /* Plain white at the top of the page. Once scrolled it turns into
+     transparent white with a frosted blur, so sections show through it. */
+  background: #fff;
+  border-bottom: 1px solid transparent;
+  transition: background-color .3s ease, border-color .3s ease;
+}
+.header.is-scrolled {
   background: rgba(255, 255, 255, .6);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
   backdrop-filter: blur(14px) saturate(1.2);
-  border-bottom: 1px solid transparent;
-  transition: border-color .3s ease;
+  border-bottom-color: var(--line);
 }
-.header.is-scrolled { border-bottom-color: var(--line); }
 .header__inner {
   display: flex; align-items: center; justify-content: space-between;
   height: 101px; /* + the 1px hairline border = 102px, as in Figma */
@@ -238,12 +234,12 @@ ul { list-style: none; }
 .split-section__media img { object-fit: cover; }
 
 /* Hero */
-/* Full bleed: the hero fills the screen and slides up under the sticky
-   header (negative margin = header height), so the header overlays it. */
+/* Full width, sitting below the plain white header and filling the rest
+   of the screen (100svh minus the header height). */
 .hero {
   position: relative; overflow: hidden;
   display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: 100svh; margin-top: -102px;
+  min-height: calc(100svh - 102px);
   color: #fff;
 }
 .hero__media { position: absolute; inset: 0; }
@@ -251,23 +247,23 @@ ul { list-style: none; }
 /* Dims the render so white copy reads anywhere on it */
 .hero__shade {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(55, 53, 48, .62) 0%, rgba(55, 53, 48, .38) 45%, rgba(55, 53, 48, .22) 100%);
+  background: linear-gradient(to top, rgba(55, 53, 48, .55) 0%, rgba(55, 53, 48, .3) 40%, rgba(55, 53, 48, 0) 75%);
 }
 .hero__content {
   position: relative; z-index: 1;
-  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; padding-top: 140px; padding-bottom: 40px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding-top: 48px; padding-bottom: clamp(56px, 12vh, 118px);
 }
 /* Figma: Ivy Presto Display Regular 53/66, 4% tracking, #fff */
 .hero__title {
   font-family: var(--display); font-weight: 400;
   font-size: clamp(34px, 3.68vw, 53px); line-height: 1.245; letter-spacing: .04em;
-  color: #fff; margin-bottom: 14px;
+  color: #fff; margin-bottom: 30px;
 }
 .hero__line { display: block; overflow: hidden; padding-bottom: .04em; }
 .hero__line > span { display: block; }
 /* Figma: Beausite Classic Regular 16/27, #fff */
-.hero__body { font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 27px; letter-spacing: 0; color: #fff; margin-bottom: 28px; }
+.hero__body { font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 27px; letter-spacing: 0; color: #fff; margin-bottom: 32px; }
 /* Figma: 224 x 44, 1px white border, Beausite Classic 11/14, 8% tracking */
 .hero__cta {
   width: 224px; height: 44px; padding: 0;
@@ -275,21 +271,54 @@ ul { list-style: none; }
   font-family: var(--sans); font-size: 11px; line-height: 14px; letter-spacing: .08em;
 }
 .hero__cta:hover { background: #fff; color: var(--caffe); }
-/* Key figures. Figma: boxes padded 26px / 22px, 15px between figure and label */
-.hero__stats {
-  position: relative; z-index: 1;
-  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
-  padding-bottom: 30px;
-}
-.hero__stats > li { display: flex; flex-direction: column; gap: 15px; padding: 26px 22px; }
-.hero__stat-fig { font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 48px; letter-spacing: 0; color: #fff; font-variant-numeric: tabular-nums; }
-.hero__stat-label { font-family: var(--sans); font-size: 11px; line-height: 14px; letter-spacing: .08em; text-transform: uppercase; color: #fff; }
 
-/* Intro statement */
-.intro { padding: 93px 0 85px; }
-.intro .eyebrow { margin-bottom: 16px; }
-.quote .word { display: inline-block; }
-.intro__body { margin-top: 28px; max-width: 680px; }
+/* Project overview. Figma: eyebrow Beausite 11, title Ivy Presto 40,
+   body Beausite 16, figures Ivy Presto 28, labels Beausite 11, all centred */
+.overview { padding: 90px 0 84px; text-align: center; }
+.overview .eyebrow { color: var(--caffe); margin-bottom: 24px; }
+.display-40 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(30px, 2.78vw, 40px); line-height: 1.2; letter-spacing: .01em;
+  margin-bottom: 22px;
+}
+.overview .lead, .place .lead { font-size: 16px; line-height: 27px; max-width: 760px; margin: 0 auto; }
+.overview__stats {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  max-width: 1250px; margin: 62px auto 52px;
+}
+.overview__stats > li { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 0 12px; }
+.overview__fig {
+  font-family: var(--display); font-weight: 400;
+  font-size: 28px; line-height: 36px; font-variant-numeric: tabular-nums;
+}
+.overview__actions { justify-content: center; }
+
+/* A considered sense of place. Figma: Ivy Presto 40 title, Beausite 16
+   line, 761 x 676 slides 25px apart with the active one centred */
+.place { padding: 108px 0 96px; text-align: center; background: #fff; }
+.place__viewport { overflow: hidden; margin-top: 56px; outline-offset: -3px; }
+.place__track {
+  --w: min(761px, 52.85vw); --gap: 25px;
+  display: flex; gap: var(--gap);
+  /* Centres the opening slide before the script measures it */
+  transform: translateX(calc((100vw - var(--w)) / 2 - var(--start) * (var(--w) + var(--gap))));
+  touch-action: pan-y; user-select: none; -webkit-user-select: none;
+}
+.place__slide {
+  position: relative; flex: 0 0 var(--w); aspect-ratio: 761 / 676; overflow: hidden;
+  background: var(--mint-50);
+}
+.place__slide img { object-fit: cover; pointer-events: none; }
+.place__caption {
+  position: absolute; inset: auto 0 0; padding: 90px 50px 46px;
+  text-align: left; color: #fff;
+  background: linear-gradient(to top, rgba(55, 53, 48, .6), rgba(55, 53, 48, 0));
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.place__slide.is-active .place__caption { opacity: 1; transform: none; transition-delay: .35s; }
+.place__caption-title { font-family: var(--display); font-size: 20px; line-height: 1.3; margin-bottom: 8px; }
+.place__caption-text { font-size: 12px; line-height: 1.6; max-width: 520px; }
 
 /* Project features */
 .features .eyebrow { margin-bottom: 32px; }
@@ -531,6 +560,7 @@ ul { list-style: none; }
    ========================================================================== */
 
 @media (max-width: 1000px) {
+  .overview__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 36px; }
   /* Menu button and drop-down panel */
   .menu-toggle {
     display: grid; place-items: center; width: 44px; height: 44px;
@@ -577,7 +607,6 @@ ul { list-style: none; }
   .split-section--reverse .split-section__media { grid-column: 1 / -1; grid-row: 1; height: 420px; }
   .split-section__text,
   .split-section--reverse .split-section__text { grid-column: 2; grid-row: 2; padding: var(--section-y) 0; }
-  .hero__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-bottom: 20px; }
   .stats { grid-template-columns: 1fr 1fr; row-gap: 28px; }
   .stats > *:nth-child(odd) { border-left: 0; }
   .gallery__grid { gap: 40px 24px; }
@@ -588,13 +617,18 @@ ul { list-style: none; }
 }
 
 @media (max-width: 600px) {
+  .overview { padding: 64px 0; }
+  .place { padding: 72px 0 64px; }
+  .place__viewport { margin-top: 36px; }
+  .place__track { --w: 84vw; --gap: 12px; }
+  .place__caption { padding: 70px 22px 24px; }
+  .overview__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; margin: 44px auto 40px; }
+  .overview__stats > li:last-child { grid-column: 1 / -1; }
+  .overview__fig { font-size: 24px; line-height: 32px; white-space: nowrap; }
   .header__inner { height: 76px; }
   .header .logo img { height: 50px; }
-  .hero { margin-top: -77px; }
-  .hero__content { padding-top: 110px; padding-bottom: 24px; }
-  .hero__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
-  .hero__stats > li { padding: 12px 0; gap: 6px; }
-  .hero__stat-fig { font-size: 24px; line-height: 32px; }
+  .hero { min-height: calc(100svh - 77px); }
+  .hero__content { padding-top: 40px; padding-bottom: 24px; }
   [id] { scroll-margin-top: 77px; }
   /* Request Callback lives in the menu on phones */
   .nav > .btn { display: none; }

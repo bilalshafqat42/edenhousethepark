@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-06T06:21:32.343Z",
+ "generatedAt": "2026-11-06T08:51:42.978Z",
  "sections": {
   "navigation": [
    {
@@ -115,13 +115,13 @@
    {
     "key": "title",
     "type": "TEXT",
-    "value": "Life, Set Around A Park On The Canal",
+    "value": "Homes Along The Dubai Water Canal",
     "imageUrl": null
    },
    {
     "key": "body",
     "type": "TEXT",
-    "value": "Low-Rise Residences On The Dubai Water Canal, Developed By H&H",
+    "value": "Seven Low-Rise Buildings Beside Al Safa Park, Developed By H&H.",
     "imageUrl": null
    },
    {
@@ -141,20 +141,110 @@
    {
     "key": "eyebrow",
     "type": "TEXT",
-    "value": "Where The",
+    "value": "Project Overview",
     "imageUrl": null
    },
    {
-    "key": "quote",
+    "key": "heading",
     "type": "TEXT",
-    "value": "City Gives Way To The Park",
+    "value": "Life Along The Canal",
     "imageUrl": null
    },
    {
     "key": "body",
     "type": "TEXT",
-    "value": "Eden House The Park is a community of 459 homes in seven low-rise buildings on the Dubai Water Canal, with two- and three-bedroom apartments on sale.",
+    "value": "Direct access to the 6.4 km canal promenade, with waterfront views and walkable surroundings.",
     "imageUrl": null
+   },
+   {
+    "key": "stats",
+    "type": "LIST",
+    "items": [
+     {
+      "figure": "459",
+      "count": "459",
+      "label": "Residences"
+     },
+     {
+      "figure": "2, 3, 4",
+      "count": "",
+      "label": "Bedroom Homes"
+     },
+     {
+      "figure": "6.4 km",
+      "count": "",
+      "label": "Canal Promenade"
+     },
+     {
+      "figure": "Eden House",
+      "count": "",
+      "label": "Hospitality"
+     },
+     {
+      "figure": "Q3 2027",
+      "count": "",
+      "label": "Handover"
+     }
+    ]
+   },
+   {
+    "key": "brochure-label",
+    "type": "TEXT",
+    "value": "Download Brochure",
+    "imageUrl": null
+   },
+   {
+    "key": "request-label",
+    "type": "TEXT",
+    "value": "Submit Request",
+    "imageUrl": null
+   },
+   {
+    "key": "request-href",
+    "type": "LINK",
+    "value": "#contact",
+    "imageUrl": null
+   }
+  ],
+  "place": [
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "A Considered Sense Of Place",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "A residential setting defined by understated elegance, a connection to nature and a sense of belonging.",
+    "imageUrl": null
+   },
+   {
+    "key": "slides",
+    "type": "LIST",
+    "items": [
+     {
+      "image": "/images/renders/hero-aerial-canal.jpg",
+      "alt": "Aerial view of the buildings along the Dubai Water Canal",
+      "title": "",
+      "text": "",
+      "position": "22% 50%"
+     },
+     {
+      "image": "/images/renders/canal-skyline.jpg",
+      "alt": "Canal promenade beside the buildings, with the city skyline behind",
+      "title": "Life Along The Canal",
+      "text": "Direct access to the 6.4 km canal promenade, with waterfront views and walkable surroundings.",
+      "position": ""
+     },
+     {
+      "image": "/images/renders/garden-path.jpg",
+      "alt": "Garden path between the buildings",
+      "title": "Rooted In The Greenery",
+      "text": "",
+      "position": ""
+     }
+    ]
    }
   ],
   "features": [
@@ -214,33 +304,6 @@
    }
   ],
   "imageStrips": [
-   {
-    "key": "exterior-label",
-    "type": "TEXT",
-    "value": "The buildings and the canal",
-    "imageUrl": null
-   },
-   {
-    "key": "exterior-items",
-    "type": "LIST",
-    "items": [
-     {
-      "image": "/images/renders/aerial-canal.jpg",
-      "alt": "Aerial view of the buildings along the Dubai Water Canal",
-      "width": "316"
-     },
-     {
-      "image": "/images/renders/canal-skyline.jpg",
-      "alt": "Canal promenade beside the community",
-      "width": "760"
-     },
-     {
-      "image": "/images/renders/garden-path.jpg",
-      "alt": "Car-free park between the buildings",
-      "width": "316"
-     }
-    ]
-   },
    {
     "key": "interior-label",
     "type": "TEXT",
@@ -938,6 +1001,12 @@
     "key": "privacy-label",
     "type": "TEXT",
     "value": "Privacy Policy",
+    "imageUrl": null
+   },
+   {
+    "key": "privacy-href",
+    "type": "LINK",
+    "value": "https://refinedubai.com/privacy-policy/",
     "imageUrl": null
    },
    {

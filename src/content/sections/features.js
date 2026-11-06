@@ -1,7 +1,4 @@
-/*
- * The project's key figures. Shown twice: figure and label along the bottom
- * of the hero, and figure, label and text in the Project Features band.
- */
+// The Project Features band: figure, label and text for each key figure.
 export const FEATURES_FIELDS = [
   { key: "eyebrow", label: "Small heading", type: "TEXT", defaultValue: "Project Features" },
   {
@@ -14,7 +11,7 @@ export const FEATURES_FIELDS = [
       { key: "figure", label: "Figure (e.g. 459, Q3 2027)", type: "TEXT" },
       { key: "count", label: "Count up to (a whole number, or blank)", type: "TEXT" },
       { key: "label", label: "Label", type: "TEXT" },
-      { key: "text", label: "Text (Project Features band only)", type: "TEXT", multiline: true },
+      { key: "text", label: "Text", type: "TEXT", multiline: true },
     ],
     defaultValue: [
       { figure: "459", count: "459", label: "Residences", text: "7 low-rise buildings with a car-free park at the centre" },

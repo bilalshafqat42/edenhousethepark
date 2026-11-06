@@ -17,6 +17,7 @@ import { PRIVACY_FIELDS, TERMS_FIELDS } from "@/content/sections/legal";
 import { LOCATION_FIELDS } from "@/content/sections/location";
 import { NAVIGATION_FIELDS } from "@/content/sections/navigation";
 import { PAYMENT_FIELDS } from "@/content/sections/payment";
+import { PLACE_FIELDS } from "@/content/sections/place";
 import { ROBOTS_FIELDS } from "@/content/sections/robotsTxt";
 import { SEO_FIELDS } from "@/content/sections/seo";
 
@@ -34,7 +35,8 @@ export const SECTION_REGISTRY = {
   navigation: { label: "Menu & Header", group: "header", minRole: "EDITOR", fields: NAVIGATION_FIELDS },
   appearance: { label: "Logo & Favicon", group: "header", minRole: "ADMIN", fields: APPEARANCE_FIELDS },
   hero: { label: "Hero", group: "content", minRole: "EDITOR", fields: HERO_FIELDS },
-  intro: { label: "Intro Statement", group: "content", minRole: "EDITOR", fields: INTRO_FIELDS },
+  intro: { label: "Project Overview", group: "content", minRole: "EDITOR", fields: INTRO_FIELDS },
+  place: { label: "Sense Of Place", group: "content", minRole: "EDITOR", fields: PLACE_FIELDS },
   features: { label: "Project Features", group: "content", minRole: "EDITOR", fields: FEATURES_FIELDS },
   imageStrips: { label: "Image Rows", group: "content", minRole: "EDITOR", fields: IMAGE_STRIPS_FIELDS },
   gallery: { label: "Amenities", group: "content", minRole: "EDITOR", fields: GALLERY_FIELDS },
