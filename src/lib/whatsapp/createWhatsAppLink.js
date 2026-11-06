@@ -6,9 +6,11 @@ export function createWhatsAppLink({
   language,
   lead,
   projectName,
+  // The panel's wording (Chat Text sections); chatFlow.js's when absent.
+  template: templateOverride,
 }) {
   const cleanNumber = String(number).replace(/\D/g, "");
-  const template = WHATSAPP_TEMPLATES[templateKey]?.[language] ?? "";
+  const template = templateOverride || WHATSAPP_TEMPLATES[templateKey]?.[language] || "";
 
   const message = fillTemplate(template, {
     first_name: lead.firstName,

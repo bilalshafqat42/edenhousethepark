@@ -1,8 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { CALLOUTS, CHIPS, PLACES, PROJECT, directionsUrl } from "./places";
+import InlineText from "@/components/InlineText";
+import { toPlainText } from "@/lib/inline-text";
+import { buildPlaces, directionsUrl } from "./places";
 
 const TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 const STYLE_URL = process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL || "mapbox://styles/mapbox/light-v11";
@@ -22,6 +24,7 @@ const MarkerIcons = {
 
 // A square brand pin with an icon, and the place's name beside it.
 function markerElement({ name, icon = "project", side = "right" }, kind) {
+  // `name` is plain text and is set with textContent below, never as HTML.
   const el = document.createElement("div");
   el.className = `map-marker map-marker--${kind} map-marker--${side}`;
   el.setAttribute("aria-hidden", "true");
@@ -40,10 +43,21 @@ const markerOptions = (element, side) =>
 /*
  * The left column's controls and the right column's Mapbox map share one
  * selection: clicking a chip or a callout row highlights it and moves the
- * map there. Mapbox GL is only downloaded when the section nears the
- * viewport, and not at all without an access token.
+ * map there. Mapbox GL (and its stylesheet's script) is only downloaded
+ * when the section comes within a screen of the viewport, and not at all
+ * without an access token.
+ *
+ * The places, labels and project coordinate come from the panel's Location
+ * & Map section (`content`), shaped by buildPlaces in ./places.js.
  */
-export default function LocationExplorer({ children }) {
+export default function LocationExplorer({ content, children }) {
+  const { project: PROJECT, callouts: CALLOUTS, chips: CHIPS, places: PLACES } = useMemo(
+    () => buildPlaces(content),
+    [content],
+  );
+  // The map is built once; it reads the places from here rather than
+  // re-running its effect if the props object changes identity.
+  const placesRef = useRef({ PROJECT, PLACES });
   const [active, setActive] = useState(null);
   const [mapReady, setMapReady] = useState(false);
   const containerRef = useRef(null);
@@ -57,6 +71,7 @@ export default function LocationExplorer({ children }) {
     if (!TOKEN || !container) return undefined;
 
     let cancelled = false;
+    const { PROJECT, PLACES } = placesRef.current;
 
     const init = async () => {
       const { default: mapboxgl } = await import("mapbox-gl");
@@ -73,7 +88,7 @@ export default function LocationExplorer({ children }) {
       };
       if (PROJECT.coords) {
         Object.assign(options, { center: PROJECT.coords, zoom: 12.5 });
-      } else {
+      } else if (PLACES.length > 0) {
         // No project coordinate yet: open framed on the destinations rather
         // than on wherever the Mapbox style's default view happens to be.
         const lngs = PLACES.map((p) => p.coords[0]);
@@ -145,13 +160,14 @@ export default function LocationExplorer({ children }) {
       return;
     }
     const place = PLACES.find((p) => p.id === next);
+    if (!place) return;
     const duration = reducedMotion() ? 0 : 1200;
     if (PROJECT.coords) {
       map.fitBounds([PROJECT.coords, place.coords], { padding: 90, maxZoom: 14, duration });
     } else {
       map.flyTo({ center: place.coords, zoom: 14, duration, essential: false });
     }
-  }, [active]);
+  }, [active, PLACES, PROJECT]);
 
   useEffect(() => {
     selectRef.current = select;
@@ -168,40 +184,42 @@ export default function LocationExplorer({ children }) {
       <div className="location__text">
         {children}
 
-        <div className="chips" role="group" aria-label="Drive times">
-          {CHIPS.map((chip) => (
+        <div className="chips" role="group" aria-label={toPlainText(content?.["chips-aria-label"] ?? "")}>
+          {CHIPS.map((chip, i) => (
             <button
-              key={chip.id}
+              key={`${chip.id}-${i}`}
               type="button"
               className="chip"
               aria-pressed={active === chip.id}
               onClick={() => select(chip.id)}
             >
-              {chip.label}
+              <InlineText value={chip.text} inLink />
             </button>
           ))}
         </div>
 
         <ul className="times" data-stagger>
-          {CALLOUTS.map((place) => (
-            <li key={place.id}>
+          {CALLOUTS.map((place, i) => (
+            <li key={`${place.id}-${i}`}>
               <button
                 type="button"
                 className="times__row"
                 aria-pressed={active === place.id}
                 onClick={() => select(place.id)}
               >
-                <span>{place.name}</span>
-                <span className="figure">{place.time}</span>
+                <span><InlineText value={place.name} inLink /></span>
+                <span className="figure"><InlineText value={place.time} inLink /></span>
               </button>
             </li>
           ))}
         </ul>
 
         <div className="btn-row location__actions">
-          <button type="button" className="btn btn--line" onClick={resetView}>Reset View</button>
-          <a className="btn btn--line" href={directionsUrl()} target="_blank" rel="noopener noreferrer">
-            See Directions
+          <button type="button" className="btn btn--line" onClick={resetView}>
+            <InlineText value={content?.["reset-label"]} inLink />
+          </button>
+          <a className="btn btn--line" href={directionsUrl(PROJECT)} target="_blank" rel="noopener noreferrer">
+            <InlineText value={content?.["directions-label"]} inLink />
           </a>
         </div>
       </div>
@@ -212,7 +230,7 @@ export default function LocationExplorer({ children }) {
           id="map"
           className="map"
           role="region"
-          aria-label="Map showing Eden House The Park and nearby destinations"
+          aria-label={toPlainText(content?.["map-aria-label"] ?? "")}
         />
       </div>
     </div>

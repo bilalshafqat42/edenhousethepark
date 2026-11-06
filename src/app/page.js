@@ -3,108 +3,33 @@ import Chat from "@/components/Chat";
 import ContactForm from "@/components/ContactForm";
 import CookieNotice from "@/components/CookieNotice";
 import FloorPlans from "@/components/FloorPlans";
+import InlineText from "@/components/InlineText";
 import LocationExplorer from "@/components/Location/LocationExplorer";
 import MobileMenu from "@/components/MobileMenu";
 import Motion from "@/components/Motion";
+import { chatTextFromContent } from "@/content/sections/chatText";
+import { readSections } from "@/lib/page-content";
+import { hasInlineMarkup, plainTextValues, splitInlineWords, toPlainText } from "@/lib/inline-text";
+import { isExternalHref, safeHref, safeImageSrc, wholeNumber } from "@/lib/safe-url";
 
-const NAV = [
-  { label: "About", href: "#about" },
-  { label: "Location", href: "#location" },
-  { label: "Amenities", href: "#amenities" },
-  { label: "Payment Plan", href: "#payment-plan" },
-  { label: "Contact", href: "#contact" },
-];
+/*
+ * Every word and image on this page comes from the admin panel, through
+ * getSectionContent (src/lib/page-content.js). With the panel empty or
+ * unreachable, each field falls back to the snapshot and then to its default
+ * in src/content/sections/*.js, which are the page's original values, so the
+ * page renders exactly as it did before the panel was connected.
+ *
+ * Visible text renders through <InlineText> (it may hold bold, italic or a
+ * link from the panel); attributes (alt, aria-label) use plain text.
+ */
 
-const FEATURES = [
-  { fig: "459", count: 459, label: "Residences", text: "7 low-rise buildings with a car-free park at the centre" },
-  { fig: "2 & 3", label: "Bedroom Homes", text: "Two-bedroom apartments, plus three-bedroom layouts with a maid's room" },
-  { fig: "6.4 km", label: "Canal Promenade", text: "Direct access from the community to the canal promenade" },
-  { fig: "Eden House", label: "Hospitality", text: "Concierge, resident and guest valet, and an Eden House app with digital key access" },
-  { fig: "Q3 2027", label: "Handover", text: "70% of the price is due on handover" },
-];
-
-const R = "/images/renders";
-
-// Image strips: a narrow, a wide and a narrow render, as in the design.
-const EXTERIOR_STRIP = [
-  { src: `${R}/aerial-canal.jpg`, w: 316, alt: "Aerial view of the buildings along the Dubai Water Canal" },
-  { src: `${R}/canal-skyline.jpg`, w: 760, alt: "Canal promenade beside the community" },
-  { src: `${R}/garden-path.jpg`, w: 316, alt: "Car-free park between the buildings" },
-];
-
-const INTERIOR_STRIP = [
-  { src: `${R}/marble-corridor.jpg`, w: 316, alt: "Corridor with green marble walls" },
-  { src: `${R}/residents-lounge.jpg`, w: 760, alt: "Residents' lounge with seating and a long dining table" },
-  { src: `${R}/gym.jpg`, w: 316, alt: "Gym with weights and garden views" },
-];
-
-const GALLERY = [
-  {
-    title: "The Park At The Centre",
-    text: "A car-free park sits at the centre of the community, with playgrounds and gardens between the buildings.",
-    src: `${R}/park-pavilion.jpg`,
-    alt: "Landscaped park with a pavilion beneath a footbridge",
-  },
-  {
-    title: "Wellness Close To Home",
-    text: "Gyms, movement studios, saunas and steam rooms, and 5 pools, 2 of them for children.",
-    src: `${R}/gym.jpg`,
-    alt: "Gym with weights and garden views",
-  },
-  {
-    title: "Looked After On Site",
-    text: "An Eden House team on site, with 24-hour security and 24-hour maintenance across the community.",
-    src: `${R}/arrival-court.jpg`,
-    alt: "Landscaped arrival court between the buildings at dusk",
-  },
-  {
-    title: "Life On The Canal",
-    text: "The 6.4 km canal promenade is there for a morning walk or an evening run along the water.",
-    src: `${R}/aerial-canal.jpg`,
-    alt: "Aerial view of the buildings along the Dubai Water Canal",
-  },
-];
-
-const SCHEDULE = [
-  { fig: "10%", label: "On booking" },
-  { fig: "10%", label: "One month later" },
-  { fig: "5%", label: "February 2027" },
-  { fig: "5%", label: "July 2027" },
-  { fig: "70%", label: "On handover" },
-];
-
-const CONTACTS = [
-  { label: "Telephone", value: "+971 4 423 0167", href: "tel:+97144230167" },
-  { label: "UAE Toll Free", value: "800 Refine (800 733463)", href: "tel:800733463" },
-  { label: "Email", value: "ehtp@refinedubai.com", href: "mailto:ehtp@refinedubai.com" },
-];
-
-const EXPLORE = [
-  { label: "About", href: "#about" },
-  { label: "Location", href: "#location" },
-  { label: "Amenities", href: "#amenities" },
-  { label: "Floor Plans", href: "#floor-plans" },
-  { label: "Payment Plan", href: "#payment-plan" },
-];
-
-// Partner logos are not supplied yet; their names stand in.
-const PARTNERS = [
-  { label: "Development By", name: "H&H" },
-  { label: "Owned By", name: "Global Partners" },
-  { label: "Sales Partner", name: "Refine" },
-];
+const DEFAULT_LOGOS = { black: "/logo/eden-house-black.svg", white: "/logo/eden-house-white.svg" };
 
 // Black logo in the header, white in the footer.
-function Logo({ ariaLabel, variant = "black", priority = false }) {
+function Logo({ ariaLabel, src, priority = false }) {
   return (
     <a href="#top" className="logo" aria-label={ariaLabel}>
-      <Image
-        src={`/logo/eden-house-${variant}.svg`}
-        alt=""
-        width={638}
-        height={458}
-        priority={priority}
-      />
+      <Image src={src} alt="" width={638} height={458} priority={priority} />
     </a>
   );
 }
@@ -114,8 +39,8 @@ function ImageStrip({ items, label }) {
     <section className="strip" aria-label={label}>
       {/* tabIndex: on phones the row scrolls sideways, so keyboard users must be able to reach it */}
       <div className="strip__row" data-stagger tabIndex={0}>
-        {items.map((item) => (
-          <figure key={item.src} className="strip__item" style={{ "--w": item.w }}>
+        {items.map((item, i) => (
+          <figure key={`${item.src}-${i}`} className="strip__item" style={{ "--w": item.w }}>
             <Image src={item.src} alt={item.alt} fill sizes={`${Math.round((item.w / 1440) * 100)}vw`} />
           </figure>
         ))}
@@ -124,23 +49,85 @@ function ImageStrip({ items, label }) {
   );
 }
 
-export default function Home() {
+// The intro quote, one span per word for the scroll reveal (Motion.js).
+function QuoteWords({ value }) {
+  if (!hasInlineMarkup(value)) {
+    return String(value ?? "").split(" ").map((word, i) => (
+      <span key={i}>
+        <span className="word">{word}</span>{" "}
+      </span>
+    ));
+  }
+  return splitInlineWords(value)
+    .filter((token) => token.type === "word")
+    .map((token, i) => (
+      <span key={i}>
+        <span className="word" dangerouslySetInnerHTML={{ __html: token.html }} />{" "}
+      </span>
+    ));
+}
+
+// A figure that counts up from 0 (Motion.js) when the panel gives a whole number.
+function CountFigure({ figure, count }) {
+  const target = wholeNumber(count);
+  return target !== null ? <span data-count={target}><InlineText value={figure} /></span> : <InlineText value={figure} />;
+}
+
+function BrochureLink({ href, className, label }) {
+  const external = isExternalHref(href);
+  return (
+    <a href={href} className={className} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+      <InlineText value={label} inLink />
+    </a>
+  );
+}
+
+const plain = (value) => toPlainText(value ?? "");
+const list = (value) => (Array.isArray(value) ? value.filter((item) => item && typeof item === "object") : []);
+
+export default async function Home() {
+  const c = await readSections([
+    "navigation", "appearance", "hero", "intro", "features", "imageStrips", "gallery", "floorPlans",
+    "location", "payment", "brochure", "about", "contact", "contactForm", "footer", "cookies",
+    "chatAgent", "chatTextEn", "chatTextAr",
+  ]);
+  const { navigation: nav, hero, intro, features, gallery, payment, about, contact, footer } = c;
+
+  const navLinks = list(nav.links).map((item) => ({ label: item.label, href: safeHref(item.href, "#") }));
+  const headerLogo = safeImageSrc(c.appearance["logo-header"], DEFAULT_LOGOS.black);
+  const footerLogo = safeImageSrc(c.appearance["logo-footer"], DEFAULT_LOGOS.white);
+  const logoLabel = plain(nav["logo-aria-label"]);
+  const featureItems = list(features.items);
+  const strip = (items) =>
+    list(items)
+      .map((item) => ({ src: safeImageSrc(item.image, ""), alt: plain(item.alt), w: wholeNumber(item.width) || 316 }))
+      .filter((item) => item.src);
+  const brochureHref = safeHref(c.brochure.url, "#contact");
+  const contacts = list(contact.details).map((item) => ({ ...item, href: safeHref(item.href, "#contact") }));
+
   return (
     <>
-      <a href="#main" className="skip-link">Skip to content</a>
+      <a href="#main" className="skip-link"><InlineText value={nav["skip-link-label"]} inLink /></a>
       <div className="progress" aria-hidden="true" data-progress />
 
       <header className="header" data-header>
         <div className="container header__inner">
-          <Logo ariaLabel="Return to the Eden House The Park hero section" priority />
-          <nav className="nav" aria-label="Main">
+          <Logo ariaLabel={logoLabel} src={headerLogo} priority />
+          <nav className="nav" aria-label={plain(nav["nav-aria-label"])}>
             <ul className="nav__links label">
-              {NAV.map((item) => (
-                <li key={item.href}><a href={item.href}>{item.label}</a></li>
+              {navLinks.map((item, i) => (
+                <li key={`${item.href}-${i}`}><a href={item.href}><InlineText value={item.label} inLink /></a></li>
               ))}
             </ul>
-            <a href="#contact" className="btn btn--fill">Request Callback</a>
-            <MobileMenu links={NAV} />
+            <a href={safeHref(nav["cta-href"], "#contact")} className="btn btn--fill"><InlineText value={nav["cta-label"]} inLink /></a>
+            <MobileMenu
+              links={navLinks}
+              ctaLabel={nav["cta-label"]}
+              ctaHref={safeHref(nav["cta-href"], "#contact")}
+              menuLabel={plain(nav["mobile-menu-aria-label"])}
+              openLabel={plain(nav["menu-open-label"])}
+              closeLabel={plain(nav["menu-close-label"])}
+            />
           </nav>
         </div>
       </header>
@@ -150,8 +137,8 @@ export default function Home() {
         <section className="hero" id="top" data-hero>
           <div className="hero__media" data-hero-img>
             <Image
-              src={`${R}/hero-aerial-canal.jpg`}
-              alt="Aerial view of the Eden House The Park buildings along the Dubai Water Canal"
+              src={safeImageSrc(hero.image, "/images/renders/hero-aerial-canal.jpg")}
+              alt={plain(hero["image-alt"])}
               fill
               priority
               sizes="100vw"
@@ -160,18 +147,20 @@ export default function Home() {
           <div className="hero__shade" aria-hidden="true" />
           <div className="container hero__content">
             <h1 className="hero__title">
-              <span className="hero__line"><span data-hero-line>Life, Set Around A Park On The Canal</span></span>
+              <span className="hero__line"><span data-hero-line><InlineText value={hero.title} /></span></span>
             </h1>
-            <p className="hero__body" data-hero-body>Low-Rise Residences On The Dubai Water Canal, Developed By H&amp;H</p>
-            <a href="#floor-plans" className="btn hero__cta" data-hero-btn>Get Prices &amp; Floor Plans</a>
+            <p className="hero__body" data-hero-body><InlineText value={hero.body} /></p>
+            <a href={safeHref(hero["cta-href"], "#floor-plans")} className="btn hero__cta" data-hero-btn>
+              <InlineText value={hero["cta-label"]} inLink />
+            </a>
           </div>
           <ul className="container hero__stats" data-hero-stats>
-            {FEATURES.map((f) => (
-              <li key={f.label}>
+            {featureItems.map((f, i) => (
+              <li key={i}>
                 <p className="hero__stat-fig">
-                  {f.count ? <span data-count={f.count}>{f.fig}</span> : f.fig}
+                  <CountFigure figure={f.figure} count={f.count} />
                 </p>
-                <p className="hero__stat-label">{f.label}</p>
+                <p className="hero__stat-label"><InlineText value={f.label} /></p>
               </li>
             ))}
           </ul>
@@ -180,16 +169,12 @@ export default function Home() {
         {/* Intro statement */}
         <section className="intro bg-mint">
           <div className="container">
-            <p className="eyebrow" data-reveal="eyebrow">Where The</p>
+            <p className="eyebrow" data-reveal="eyebrow"><InlineText value={intro.eyebrow} /></p>
             <p className="quote" data-quote>
-              {"City Gives Way To The Park".split(" ").map((word, i) => (
-                <span key={i}>
-                  <span className="word">{word}</span>{" "}
-                </span>
-              ))}
+              <QuoteWords value={intro.quote} />
             </p>
             <p className="body intro__body" data-reveal="body">
-              Eden House The Park is a community of 459 homes in seven low-rise buildings on the Dubai Water Canal, with two- and three-bedroom apartments on sale.
+              <InlineText value={intro.body} />
             </p>
           </div>
         </section>
@@ -197,69 +182,74 @@ export default function Home() {
         {/* Project features */}
         <section className="section features bg-green">
           <div className="container">
-            <p className="eyebrow" data-reveal="eyebrow">Project Features</p>
+            <p className="eyebrow" data-reveal="eyebrow"><InlineText value={features.eyebrow} /></p>
             <ul className="stats" data-stagger>
-              {FEATURES.map((f) => (
-                <li className="feature" key={f.label}>
+              {featureItems.map((f, i) => (
+                <li className="feature" key={i}>
                   <p className="figure feature__fig">
-                    {f.count ? <span data-count={f.count}>{f.fig}</span> : f.fig}
+                    <CountFigure figure={f.figure} count={f.count} />
                   </p>
-                  <p className="label feature__label">{f.label}</p>
-                  <p className="body-sm feature__text">{f.text}</p>
+                  <p className="label feature__label"><InlineText value={f.label} /></p>
+                  <p className="body-sm feature__text"><InlineText value={f.text} /></p>
                 </li>
               ))}
             </ul>
-            <a href="#contact" className="btn btn--light">Submit Request</a>
+            <a href={safeHref(features["cta-href"], "#contact")} className="btn btn--light"><InlineText value={features["cta-label"]} inLink /></a>
           </div>
         </section>
 
-        <ImageStrip items={EXTERIOR_STRIP} label="The buildings and the canal" />
+        <ImageStrip items={strip(c.imageStrips["exterior-items"])} label={plain(c.imageStrips["exterior-label"])} />
 
         {/* Lifestyle gallery */}
         <section className="section gallery" id="amenities">
           <div className="container">
-            <p className="eyebrow" data-reveal="eyebrow">Designed</p>
-            <h2 className="h2" data-reveal="heading">Around Everyday Life</h2>
+            <p className="eyebrow" data-reveal="eyebrow"><InlineText value={gallery.eyebrow} /></p>
+            <h2 className="h2" data-reveal="heading"><InlineText value={gallery.heading} /></h2>
             <ul className="gallery__grid" data-stagger>
-              {GALLERY.map((g) => (
-                <li className="card" key={g.title}>
+              {list(gallery.items).map((g, i) => (
+                <li className="card" key={i}>
                   <div className="card__img">
-                    <Image src={g.src} alt={g.alt} fill sizes="(max-width: 1000px) 50vw, 600px" />
+                    <Image src={safeImageSrc(g.image, "/images/renders/park-pavilion.jpg")} alt={plain(g.alt)} fill sizes="(max-width: 1000px) 50vw, 600px" />
                   </div>
-                  <h3 className="h3">{g.title}</h3>
-                  <p className="body-sm">{g.text}</p>
+                  <h3 className="h3"><InlineText value={g.title} /></h3>
+                  <p className="body-sm"><InlineText value={g.text} /></p>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        <ImageStrip items={INTERIOR_STRIP} label="Interiors and amenities" />
+        <ImageStrip items={strip(c.imageStrips["interior-items"])} label={plain(c.imageStrips["interior-label"])} />
 
         {/* Floor plans: render on the left, details on the right */}
         <section className="plans split-section split-section--reverse" id="floor-plans">
           <div className="split-section__media plans__img">
             <Image
-              src={`${R}/bedroom.jpg`}
-              alt="Bedroom with an oak-panelled wall and a sculpted rug"
+              src={safeImageSrc(c.floorPlans.image, "/images/renders/bedroom.jpg")}
+              alt={plain(c.floorPlans["image-alt"])}
               fill
               sizes="50vw"
             />
           </div>
           <div className="split-section__text plans__text">
-            <p className="eyebrow" data-reveal="eyebrow">Floor Plans</p>
-            <h2 className="h2" data-reveal="heading">Two And Three-Bedroom Layouts</h2>
-            <FloorPlans />
+            <p className="eyebrow" data-reveal="eyebrow"><InlineText value={c.floorPlans.eyebrow} /></p>
+            <h2 className="h2" data-reveal="heading"><InlineText value={c.floorPlans.heading} /></h2>
+            <FloorPlans
+              plans={list(c.floorPlans.plans)}
+              tabsLabel={plain(c.floorPlans["tabs-aria-label"])}
+              ctaLabel={c.floorPlans["cta-label"]}
+              ctaHref={safeHref(c.floorPlans["cta-href"], "#contact")}
+            />
           </div>
         </section>
 
         {/* Location: copy on the left half, Mapbox map on the right half */}
         <section className="location" id="location">
-          <LocationExplorer>
-            <p className="eyebrow" data-reveal="eyebrow">Central Dubai,</p>
-            <h2 className="h2" data-reveal="heading">Ten Minutes From Burj Khalifa</h2>
+          <LocationExplorer content={c.location}>
+            <p className="eyebrow" data-reveal="eyebrow"><InlineText value={c.location.eyebrow} /></p>
+            <h2 className="h2" data-reveal="heading"><InlineText value={c.location.heading} /></h2>
             <p className="body" data-reveal="body">
-              Eden House The Park sits on the Dubai Water Canal beside Al Safa Park, with Burj Khalifa, DIFC and Jumeirah Beach a short drive away and the 6.4 km canal promenade outside.
+              <InlineText value={c.location.body} />
             </p>
           </LocationExplorer>
         </section>
@@ -267,33 +257,33 @@ export default function Home() {
         {/* Payment plan */}
         <section className="section payment bg-green" id="payment-plan">
           <div className="container">
-            <p className="eyebrow" data-reveal="eyebrow">Payment</p>
-            <h2 className="h2" data-reveal="heading">Plan</h2>
-            <p className="body payment__summary" data-reveal="body">30 percent Before Handover and 70 percent On Handover</p>
+            <p className="eyebrow" data-reveal="eyebrow"><InlineText value={payment.eyebrow} /></p>
+            <h2 className="h2" data-reveal="heading"><InlineText value={payment.heading} /></h2>
+            <p className="body payment__summary" data-reveal="body"><InlineText value={payment.summary} /></p>
             <div className="split">
               <div>
-                <p className="figure"><span data-count="30">30</span>%</p>
-                <p className="label">Before Handover</p>
+                <p className="figure"><CountFigure figure={payment["before-percent"]} count={payment["before-percent"]} />%</p>
+                <p className="label"><InlineText value={payment["before-label"]} /></p>
               </div>
               <div>
-                <p className="figure"><span data-count="70">70</span>%</p>
-                <p className="label">On Handover</p>
+                <p className="figure"><CountFigure figure={payment["handover-percent"]} count={payment["handover-percent"]} />%</p>
+                <p className="label"><InlineText value={payment["handover-label"]} /></p>
               </div>
             </div>
             <ul className="stats schedule" data-stagger>
-              {SCHEDULE.map((s) => (
-                <li key={s.label}>
-                  <p className="figure">{s.fig}</p>
-                  <p className="label">{s.label}</p>
+              {list(payment.schedule).map((s, i) => (
+                <li key={i}>
+                  <p className="figure"><InlineText value={s.figure} /></p>
+                  <p className="label"><InlineText value={s.label} /></p>
                 </li>
               ))}
             </ul>
             <p className="fine">
-              10% on booking, 10% one month later, 5% in February 2027 and 5% in July 2027, then 70% on handover. DLD 4% and an AED 5,000 admin fee + VAT apply.
+              <InlineText value={payment["fine-print"]} />
             </p>
             <div className="btn-row">
-              <a href="#contact" className="btn btn--light">Download Brochure</a>
-              <a href="#contact" className="btn btn--light">Submit Request</a>
+              <BrochureLink href={brochureHref} className="btn btn--light" label={payment["brochure-label"]} />
+              <a href={safeHref(payment["cta-href"], "#contact")} className="btn btn--light"><InlineText value={payment["cta-label"]} inLink /></a>
             </div>
           </div>
         </section>
@@ -302,17 +292,16 @@ export default function Home() {
         <section className="section about bg-stone" id="about">
           <div className="container about__grid">
             <div>
-              <p className="eyebrow" data-reveal="eyebrow">A Park-Led</p>
-              <h2 className="h2" data-reveal="heading">About The Developer</h2>
-              <a href="#contact" className="btn btn--line">Download Brochure</a>
+              <p className="eyebrow" data-reveal="eyebrow"><InlineText value={about.eyebrow} /></p>
+              <h2 className="h2" data-reveal="heading"><InlineText value={about.heading} /></h2>
+              <BrochureLink href={brochureHref} className="btn btn--line" label={about["brochure-label"]} />
             </div>
             <div className="about__body" data-reveal="body">
-              <p className="body">
-                Eden House The Park is a community of 459 homes in seven low-rise buildings on the Dubai Water Canal, with two- and three-bedroom apartments on sale. The architecture is by dxb lab, the interiors by H&amp;H and the landscape by WAHO, and a car-free park sits at the centre, so the paths between the buildings are for walking, not driving.
-              </p>
-              <p className="body">
-                Eden House is the homegrown residential hospitality brand H&amp;H founded in 2021, independent from hotel operators. H&amp;H has developed in Dubai since 2007, and The Park brings Eden House to a community of seven low-rise buildings, finished in pale terrazzo and curved oak, with views of the canal, the gardens and the skyline.
-              </p>
+              {list(about.paragraphs).map((p, i) => (
+                <p className="body" key={i}>
+                  <InlineText value={p.text} />
+                </p>
+              ))}
             </div>
           </div>
         </section>
@@ -321,21 +310,21 @@ export default function Home() {
         <section className="section contact" id="contact">
           <div className="container contact__grid">
             <div>
-              <p className="eyebrow" data-reveal="eyebrow">Reach Out</p>
-              <h2 className="h2" data-reveal="heading">Register Your Interest</h2>
+              <p className="eyebrow" data-reveal="eyebrow"><InlineText value={contact.eyebrow} /></p>
+              <h2 className="h2" data-reveal="heading"><InlineText value={contact.heading} /></h2>
               <p className="contact__intro" data-reveal="body">
-                Our team can take you through the two- and three-bedroom homes, the floor plans and the payment plan, and arrange a visit to the sales gallery at Eden House The Canal.
+                <InlineText value={contact.intro} />
               </p>
               <ul className="details">
-                {CONTACTS.map((c) => (
-                  <li key={c.label}>
-                    <p className="label">{c.label}</p>
-                    <a href={c.href}>{c.value}</a>
+                {contacts.map((d, i) => (
+                  <li key={i}>
+                    <p className="label"><InlineText value={d.label} /></p>
+                    <a href={d.href}><InlineText value={d.value} inLink /></a>
                   </li>
                 ))}
               </ul>
             </div>
-            <ContactForm />
+            <ContactForm content={c.contactForm} />
           </div>
         </section>
       </main>
@@ -345,51 +334,82 @@ export default function Home() {
         <div className="container">
           <div className="footer__grid" data-stagger>
             <div>
-              <Logo ariaLabel="Return to the Eden House The Park hero section" variant="white" />
-              <p className="fine footer__address">Office 4701, Floor 47, Ubora Tower, Marasi Drive, Business Bay, Dubai</p>
+              <Logo ariaLabel={logoLabel} src={footerLogo} />
+              <p className="fine footer__address"><InlineText value={footer.address} /></p>
               <p className="fine footer__permit">
-                <span>Trakheesi permit no. [number]</span>
+                <span><InlineText value={footer["permit-text"]} /></span>
                 <span aria-hidden="true">·</span>
-                <span>Madmoun QR</span>
+                <span><InlineText value={footer["qr-text"]} /></span>
               </p>
             </div>
             <div className="footer__col">
-              <p className="label">Explore</p>
+              <p className="label"><InlineText value={footer["explore-heading"]} /></p>
               <ul>
-                {EXPLORE.map((item) => (
-                  <li key={item.href}><a href={item.href}>{item.label}</a></li>
+                {list(footer["explore-links"]).map((item, i) => (
+                  <li key={i}><a href={safeHref(item.href, "#")}><InlineText value={item.label} inLink /></a></li>
                 ))}
               </ul>
             </div>
             <div className="footer__col">
-              <p className="label">Contact</p>
+              <p className="label"><InlineText value={footer["contact-heading"]} /></p>
               <ul>
-                {CONTACTS.map((c) => (
-                  <li key={c.label}><a href={c.href}>{c.value}</a></li>
+                {contacts.map((d, i) => (
+                  <li key={i}><a href={d.href}><InlineText value={d.value} inLink /></a></li>
                 ))}
               </ul>
             </div>
             <div className="footer__col footer__partners">
-              {PARTNERS.map((p) => (
-                <div key={p.label}>
-                  <p className="label">{p.label}</p>
-                  <p className="footer__partner">{p.name}</p>
+              {list(footer.partners).map((p, i) => (
+                <div key={i}>
+                  <p className="label"><InlineText value={p.label} /></p>
+                  <p className="footer__partner"><InlineText value={p.name} /></p>
                 </div>
               ))}
             </div>
           </div>
           <div className="footer__base fine">
-            <span>©2026. Refine Project Management. All rights reserved</span>
+            <span><InlineText value={footer.copyright} /></span>
             <span>
-              <a href="#" data-manage-cookies>Manage Cookies</a> · <a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a>
+              <a href="#" data-manage-cookies><InlineText value={footer["manage-cookies-label"]} inLink /></a> ·{" "}
+              <a href="/privacy"><InlineText value={footer["privacy-label"]} inLink /></a> ·{" "}
+              <a href="/terms"><InlineText value={footer["terms-label"]} inLink /></a>
             </span>
           </div>
         </div>
       </footer>
 
-      <Chat />
-      <CookieNotice />
+      <Chat {...chatProps(c)} />
+      <CookieNotice content={c.cookies} />
       <Motion />
     </>
   );
+}
+
+// The chat widget's props, from the Chat Widget and Chat Text sections.
+function chatProps(c) {
+  const agent = c.chatAgent;
+  return {
+    agentPhoto: safeImageSrc(agent["agent-photo"], "/images/agent/avatar.webp"),
+    agentPhotoSquare: safeImageSrc(agent["agent-photo-square"], "/images/agent/avatar-square.webp"),
+    projectName: plain(agent["project-name"]),
+    projectShortName: plain(agent["project-short-name"]),
+    callNumber: plain(agent["call-number"]).trim(),
+    whatsappNumber: plain(agent["whatsapp-number"]).trim(),
+    teaser: {
+      enabled: String(agent["teaser-enabled"]) === "true",
+      delaySeconds: wholeNumber(agent["teaser-delay-seconds"]) ?? 15,
+      scrollPercent: wholeNumber(agent["teaser-scroll-percent"]) ?? 40,
+    },
+    brokerLinks: list(agent["broker-links"])
+      .map((link) => ({
+        url: safeHref(link.url, ""),
+        label: { en: plain(link["label-en"]), ar: plain(link["label-ar"]) },
+      }))
+      .filter((link) => link.url),
+    // Plain text: chat lines are mixed with what the visitor types, so never HTML.
+    copy: {
+      en: chatTextFromContent(plainTextValues(c.chatTextEn), "en"),
+      ar: chatTextFromContent(plainTextValues(c.chatTextAr), "ar"),
+    },
+  };
 }

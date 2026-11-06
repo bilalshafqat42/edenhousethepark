@@ -1,4 +1,9 @@
 import "./globals.css";
+import { readSections } from "@/lib/page-content";
+import { plainTextValues } from "@/lib/inline-text";
+import { safeImageSrc } from "@/lib/safe-url";
+import { getSiteUrl } from "@/lib/site-url";
+import { isStagingSite } from "@/lib/staging";
 
 // Brand fonts are declared by name in globals.css (@font-face). These are the
 // faces the first screen needs (hero headline and figures in Ivy Presto
@@ -10,11 +15,37 @@ const PRELOAD_FONTS = [
   "/webfonts/BeausiteClassicWeb-Light.woff2",
 ];
 
-export const metadata = {
-  title: "Eden House The Park by Refine | Low-Rise Living On The Canal",
-  description:
-    "Low-Rise Residences On The Dubai Water Canal, Developed By H&H",
-};
+/*
+ * Title, description, share card, canonical address and favicon, from the
+ * panel's SEO & Sharing and Logo & Favicon sections (plain text: meta tags
+ * cannot hold formatting). The staging site (stg- address) always carries
+ * noindex, nofollow, whatever the panel says.
+ */
+export async function generateMetadata() {
+  const { seo: rawSeo, appearance } = await readSections(["seo", "appearance"]);
+  const seo = plainTextValues(rawSeo);
+  const siteUrl = getSiteUrl();
+  const title = seo["meta-title"];
+  const description = seo["meta-description"];
+  const ogImage = safeImageSrc(seo["og-image"], "");
+  const favicon = safeImageSrc(appearance.favicon, "/favicon.ico");
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title,
+    description,
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      url: "/",
+      title: seo["og-title"] || title,
+      description: seo["og-description"] || description,
+      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+    },
+    ...(favicon !== "/favicon.ico" ? { icons: { icon: favicon } } : {}),
+    ...(isStagingSite() ? { robots: { index: false, follow: false } } : {}),
+  };
+}
 
 export default function RootLayout({ children }) {
   return (
