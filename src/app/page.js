@@ -16,14 +16,6 @@ const NAV = [
   { label: "Contact", href: "#contact" },
 ];
 
-const FEATURES = [
-  { fig: "459", count: 459, label: "Residences", text: "7 low-rise buildings with a car-free park at the centre" },
-  { fig: "2 & 3", label: "Bedroom Homes", text: "Two-bedroom apartments, plus three-bedroom layouts with a maid's room" },
-  { fig: "6.4 km", label: "Canal Promenade", text: "Direct access from the community to the canal promenade" },
-  { fig: "Eden House", label: "Hospitality", text: "Concierge, resident and guest valet, and an Eden House app with digital key access" },
-  { fig: "Q3 2027", label: "Handover", text: "70% of the price is due on handover" },
-];
-
 // Key figures in the project overview, as in the design.
 const OVERVIEW_STATS = [
   { fig: "459", count: 459, label: "Residences" },
@@ -229,25 +221,6 @@ export default function Home() {
           <PlaceCarousel slides={PLACE_SLIDES} />
         </section>
 
-        {/* Project features */}
-        <section className="section features bg-green">
-          <div className="container">
-            <p className="eyebrow" data-reveal="eyebrow">Project Features</p>
-            <ul className="stats" data-stagger>
-              {FEATURES.map((f) => (
-                <li className="feature" key={f.label}>
-                  <p className="figure feature__fig">
-                    {f.count ? <span data-count={f.count}>{f.fig}</span> : f.fig}
-                  </p>
-                  <p className="label feature__label">{f.label}</p>
-                  <p className="body-sm feature__text">{f.text}</p>
-                </li>
-              ))}
-            </ul>
-            <a href="#contact" className="btn btn--light">Submit Request</a>
-          </div>
-        </section>
-
         {/* Lifestyle gallery */}
         <section className="section gallery" id="amenities">
           <div className="container">
@@ -269,22 +242,7 @@ export default function Home() {
 
         <ImageStrip items={INTERIOR_STRIP} label="Interiors and amenities" />
 
-        {/* Floor plans: render on the left, details on the right */}
-        <section className="plans split-section split-section--reverse" id="floor-plans">
-          <div className="split-section__media plans__img">
-            <Image
-              src={`${R}/bedroom.jpg`}
-              alt="Bedroom with an oak-panelled wall and a sculpted rug"
-              fill
-              sizes="50vw"
-            />
-          </div>
-          <div className="split-section__text plans__text">
-            <p className="eyebrow" data-reveal="eyebrow">Floor Plans</p>
-            <h2 className="h2" data-reveal="heading">Two And Three-Bedroom Layouts</h2>
-            <FloorPlans />
-          </div>
-        </section>
+        <FloorPlans />
 
         {/* Location: copy on the left half, Mapbox map on the right half */}
         <section className="location" id="location">

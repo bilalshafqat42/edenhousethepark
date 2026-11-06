@@ -16,9 +16,9 @@ gsap.registerPlugin(Draggable, Observer);
  * copies), so dragging left or right never runs out. After each move the
  * position quietly jumps back into the middle set.
  *
- * Scrolling down into the carousel holds the page for one gesture and moves
- * it on by one slide; the next scroll carries on down the page. Scrolling
- * up passes through normally. Off for reduced motion.
+ * Scrolling down into the carousel holds the page still while it moves on
+ * by one slide; once that scroll has stopped, the next one carries on down
+ * the page. Scrolling up passes through normally. Off for reduced motion.
  */
 export default function PlaceCarousel({ slides }) {
   const n = slides.length;
@@ -86,8 +86,6 @@ export default function PlaceCarousel({ slides }) {
     let linkUntil = 0;
     let armed = true;
     let locked = false;
-    let busy = false;
-    let lockY = 0;
     const markInput = () => { lastInput = performance.now(); };
     const markTouch = () => { lastInput = lastTouch = performance.now(); };
     // A menu or button link scrolling the page is not a scroll gesture
@@ -105,39 +103,34 @@ export default function PlaceCarousel({ slides }) {
     };
 
     const root = document.documentElement;
-    const release = () => {
-      locked = false; busy = false; gate.disable();
-      root.style.removeProperty("overflow");
-    };
-    // Wait for trackpad momentum to settle so the gesture that moved the
-    // slide does not also scroll the page.
-    const releaseWhenQuiet = () => {
-      if (performance.now() - lastInput > 220) release();
-      else setTimeout(releaseWhenQuiet, 60);
-    };
+    let holdUntil = 0;
+    let giveUpAt = 0;
 
+    // While held, the page cannot move at all: overflow is hidden (stops
+    // wheel, trackpad momentum and keys in every browser) and the gate
+    // swallows wheel and touch events (stops swipes on phones).
     const gate = Observer.create({
       target: window,
       type: "wheel,touch",
-      tolerance: 10,
       preventDefault: true,
-      onChangeY: (self) => {
-        if (!locked || busy) return;
-        // A wheel turned down, or a finger swiped up, means "scroll down"
-        const down = self.event.type === "wheel" ? self.deltaY > 0 : self.deltaY < 0;
-        if (down) {
-          busy = true;
-          goTo(indexRef.current + 1, () => setTimeout(releaseWhenQuiet, 150));
-        } else {
-          release();
-        }
-      },
     });
     gate.disable();
 
-    // Arrow keys, Page Down or a link moving the page also let it go
-    const onScroll = () => { if (locked && Math.abs(window.scrollY - lockY) > 40) release(); };
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const release = () => {
+      if (!locked) return;
+      locked = false;
+      gate.disable();
+      root.classList.remove("is-scroll-held");
+    };
+    // Let go once the slide has finished moving and the scroll gesture that
+    // brought the page here (including trackpad momentum) has stopped, so
+    // only a new scroll carries on down the page.
+    const releaseWhenQuiet = () => {
+      if (!locked) return;
+      const now = performance.now();
+      if ((now >= holdUntil && now - lastInput > 250) || now > giveUpAt) release();
+      else setTimeout(releaseWhenQuiet, 60);
+    };
 
     const trigger = reduced ? null : ScrollTrigger.create({
       trigger: viewport,
@@ -149,13 +142,17 @@ export default function PlaceCarousel({ slides }) {
         locked = true;
         // One pixel past the start, so ScrollTrigger does not read it as
         // having scrolled back above the carousel.
-        lockY = self.start + 1;
-        // On touch screens, stop the swipe's momentum where the carousel sits
-        if (performance.now() - lastTouch < 1500) root.style.overflow = "hidden";
-        window.scrollTo({ top: lockY, behavior: "instant" });
+        window.scrollTo({ top: self.start + 1, behavior: "instant" });
+        root.classList.add("is-scroll-held");
         gate.enable();
+        // The scroll that arrived here moves the carousel on by one slide
+        const now = performance.now();
+        holdUntil = now + 1000;
+        giveUpAt = now + 3500; // never hold the page longer than this
+        goTo(indexRef.current + 1);
+        setTimeout(releaseWhenQuiet, 1000);
       },
-      onLeaveBack: () => { armed = true; release(); },
+      onLeaveBack: () => { armed = true; },
     });
 
     return () => {
@@ -169,8 +166,7 @@ export default function PlaceCarousel({ slides }) {
       window.removeEventListener("touchmove", markTouch);
       window.removeEventListener("touchend", markTouch);
       document.removeEventListener("click", markLink, true);
-      root.style.removeProperty("overflow");
-      window.removeEventListener("scroll", onScroll);
+      root.classList.remove("is-scroll-held");
     };
   }, [n]);
 

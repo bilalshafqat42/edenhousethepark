@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <rect width="1200" height="800" fill="#F6F4EF"/>
+  <g fill="none" stroke="#373530" stroke-width="6">
+    <path d="M150 120h900v560H150z"/>
+    <path d="M520 120v250M520 450v230M150 400h250M480 400h40M520 330h300M900 330h150M820 330v350"/>
+  </g>
+  <text x="600" y="760" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" letter-spacing="3" fill="#696864">FLOOR PLAN SAMPLE TO BE SUPPLIED</text>
+</svg>
