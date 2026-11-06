@@ -331,6 +331,14 @@ ul { list-style: none; }
 .place__caption-title { font-family: var(--display); font-size: 20px; line-height: 1.3; margin-bottom: 8px; }
 .place__caption-text { font-size: 12px; line-height: 1.6; max-width: 520px; }
 
+/* Project features (hidden unless switched on in the panel) */
+.features .eyebrow { margin-bottom: 32px; }
+.features .stats { min-height: 200px; margin-bottom: 30px; }
+.feature { padding: 34px 22px 0; }
+.feature__fig { color: var(--stone); font-size: 32px; margin-bottom: 26px; letter-spacing: -.01em; }
+.feature__label { margin-bottom: 14px; }
+.feature__text { max-width: 182px; }
+
 /* About */
 .about__grid {
   display: grid; grid-template-columns: minmax(0, 428px) minmax(0, 700px); gap: 56px;
@@ -715,3 +723,16 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   .split .figure { font-size: clamp(40px, 13vw, 56px); }
   .map-marker.is-active .map-marker__label { display: block; }
 }
+
+/* Privacy and Terms (src/components/Legal/LegalPage.js): the About section's
+   type, plus list markers and spacing for the panel's rich text. */
+/* A short page still puts the footer at the bottom of the screen (header 102px, footer about 162px). */
+.legal-main { min-height: calc(100svh - 264px); }
+.legal-body { margin-top: 30px; }
+.legal-body > * + * { margin-top: 14px; }
+.legal-body ul, .legal-body ol { padding-left: 1.4em; }
+.legal-body ul { list-style: disc; }
+.legal-body ol { list-style: decimal; }
+.legal-body li + li { margin-top: 6px; }
+.legal-body h2, .legal-body h3, .legal-body h4 { font-family: var(--display); font-weight: 400; line-height: 1.1; margin-top: 30px; }
+.legal-body a { text-decoration: underline; text-underline-offset: 3px; }

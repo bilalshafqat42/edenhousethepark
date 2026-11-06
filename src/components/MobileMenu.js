@@ -1,9 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import InlineText from "@/components/InlineText";
 
 // Menu for screens up to 1000px, where the header links are hidden.
-export default function MobileMenu({ links }) {
+export default function MobileMenu({
+  links,
+  ctaLabel,
+  ctaHref = "#contact",
+  menuLabel = "Menu",
+  openLabel = "Open menu",
+  closeLabel = "Close menu",
+}) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
   const panelRef = useRef(null);
@@ -31,7 +39,7 @@ export default function MobileMenu({ links }) {
         ref={buttonRef}
         type="button"
         className="menu-toggle"
-        aria-label={open ? "Close menu" : "Open menu"}
+        aria-label={open ? closeLabel : openLabel}
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((o) => !o)}
@@ -43,17 +51,17 @@ export default function MobileMenu({ links }) {
         id="mobile-menu"
         ref={panelRef}
         className={open ? "mobile-menu is-open" : "mobile-menu"}
-        aria-label="Menu"
+        aria-label={menuLabel}
         hidden={!open}
       >
         <ul>
-          {links.map((item) => (
-            <li key={item.href}>
-              <a href={item.href} onClick={() => setOpen(false)}>{item.label}</a>
+          {links.map((item, i) => (
+            <li key={`${item.href}-${i}`}>
+              <a href={item.href} onClick={() => setOpen(false)}><InlineText value={item.label} inLink /></a>
             </li>
           ))}
         </ul>
-        <a href="#contact" className="btn btn--fill" onClick={() => setOpen(false)}>Request Callback</a>
+        <a href={ctaHref} className="btn btn--fill" onClick={() => setOpen(false)}><InlineText value={ctaLabel} inLink /></a>
       </nav>
     </>
   );

@@ -21,6 +21,7 @@ import {
   validateEdenLead,
 } from "@/lib/validation/edenLead";
 import { createWhatsAppLink } from "@/lib/whatsapp/createWhatsAppLink";
+import { newSubmissionId } from "@/lib/submission-id";
 
 import ChatMessage from "./ChatMessage";
 import {
@@ -272,16 +273,63 @@ function formatSlotWindowLabel(window, language, strings, now) {
   return `${formatTime(window.start)} – ${formatTime(window.end)} ${describeSlotDay(window, language, strings, now)}`;
 }
 
+/*
+ * The answer buttons with their wording from the panel's Chat Text sections
+ * (`copy[language].labels` / `.brokerLabels`); ids stay as in chatFlow.js.
+ */
+function withLabels(items, group, copy) {
+  return items.map((item) => ({
+    ...item,
+    label: {
+      en: copy?.en?.labels?.[group]?.[item.id] ?? item.label.en,
+      ar: copy?.ar?.labels?.[group]?.[item.id] ?? item.label.ar,
+    },
+    ...(item.brokerLabel
+      ? {
+          brokerLabel: {
+            en: copy?.en?.brokerLabels?.[group]?.[item.id] ?? item.brokerLabel.en,
+            ar: copy?.ar?.brokerLabels?.[group]?.[item.id] ?? item.brokerLabel.ar,
+          },
+        }
+      : {}),
+  }));
+}
+
+/*
+ * Settings and wording come from the admin panel (Chat Widget, Chat Text
+ * English/Arabic) as plain text, via page.js; every prop falls back to the
+ * defaults in chatFlow.js.
+ */
 export default function Chat({
   agentPhoto = "/images/agent/avatar.webp",
   agentPhotoSquare = "/images/agent/avatar-square.webp",
-  projectName = PROJECT_NAME,
-  projectShortName = PROJECT_SHORT_NAME,
+  projectName: projectNameProp = PROJECT_NAME,
+  projectShortName: projectShortNameProp = PROJECT_SHORT_NAME,
+  callNumber: callNumberProp = "",
+  whatsappNumber: whatsappNumberProp = "",
+  teaser = TEASER,
+  brokerLinks = BROKER_LINKS,
+  copy = null,
 }) {
+  const projectName = projectNameProp || PROJECT_NAME;
+  const projectShortName = projectShortNameProp || PROJECT_SHORT_NAME;
+  const allStrings = useMemo(
+    () => ({ en: copy?.en?.strings ?? STRINGS.en, ar: copy?.ar?.strings ?? STRINGS.ar }),
+    [copy],
+  );
+  const headerSubtitle = useMemo(
+    () => ({ en: copy?.en?.headerSubtitle ?? HEADER_SUBTITLE.en, ar: copy?.ar?.headerSubtitle ?? HEADER_SUBTITLE.ar }),
+    [copy],
+  );
+  const roles = useMemo(() => withLabels(ROLES, "role", copy), [copy]);
+  const searchStages = useMemo(() => withLabels(SEARCH_STAGES, "stage", copy), [copy]);
+  const unitTypes = useMemo(() => withLabels(UNIT_TYPES, "unit", copy), [copy]);
+  const budgetBrackets = useMemo(() => withLabels(BUDGET_BRACKETS, "budget", copy), [copy]);
+
   const [widgetState, setWidgetState] = useState(WIDGET_STATE.CLOSED);
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
 
-  const strings = STRINGS[language];
+  const strings = allStrings[language];
   const isRtl = language === "ar";
 
   /*
@@ -305,7 +353,7 @@ export default function Chat({
   );
 
   const [messages, setMessages] = useState(() =>
-    buildInitialMessages(STRINGS[DEFAULT_LANGUAGE], fillProject),
+    buildInitialMessages(allStrings[DEFAULT_LANGUAGE], fillProject),
   );
 
   const [inputValue, setInputValue] = useState("");
@@ -393,8 +441,8 @@ export default function Chat({
   }, [chatStep, strings]);
 
   const selectedUnitTypeLabel = useMemo(
-    () => findLabel(UNIT_TYPES, leadData.unitType, language),
-    [leadData.unitType, language],
+    () => findLabel(unitTypes, leadData.unitType, language),
+    [leadData.unitType, language, unitTypes],
   );
 
   const progressSteps =
@@ -426,7 +474,7 @@ export default function Chat({
   const resetChat = useCallback(() => {
     setChatStep(CHAT_STEP.ROLE);
     setLeadData(createInitialLeadData(projectName));
-    setMessages(buildInitialMessages(STRINGS[language], fillProject));
+    setMessages(buildInitialMessages(allStrings[language], fillProject));
 
     setInputValue("");
     setFieldError("");
@@ -435,7 +483,7 @@ export default function Chat({
     setCloseVariant("");
     setSlotState("idle");
     setConfirmedSlotLabel("");
-  }, [language, fillProject, projectName]);
+  }, [language, fillProject, projectName, allStrings]);
 
   const toggleLanguage = useCallback(() => {
     const next = language === "en" ? "ar" : "en";
@@ -444,9 +492,9 @@ export default function Chat({
     // Nothing answered yet: show the opening messages in the new language.
     // Once the visitor has answered, earlier messages stay as they were.
     if (chatStep === CHAT_STEP.ROLE) {
-      setMessages(buildInitialMessages(STRINGS[next], fillProject));
+      setMessages(buildInitialMessages(allStrings[next], fillProject));
     }
-  }, [language, chatStep, fillProject]);
+  }, [language, chatStep, fillProject, allStrings]);
 
   const handleToggleClick = useCallback(() => {
     setWidgetState((currentState) => {
@@ -501,13 +549,13 @@ export default function Chat({
   }, [isOpen, closeWidget]);
 
   useEffect(() => {
-    if (!TEASER.enabled || isOpen || teaserDismissed) {
+    if (!teaser.enabled || isOpen || teaserDismissed) {
       return undefined;
     }
 
     const revealTeaser = () => setShowTeaser(true);
 
-    const timer = window.setTimeout(revealTeaser, TEASER.delaySeconds * 1000);
+    const timer = window.setTimeout(revealTeaser, teaser.delaySeconds * 1000);
 
     const handleScroll = () => {
       const scrollable =
@@ -519,7 +567,7 @@ export default function Chat({
 
       const scrolledPercent = (window.scrollY / scrollable) * 100;
 
-      if (scrolledPercent >= TEASER.scrollPercent) {
+      if (scrolledPercent >= teaser.scrollPercent) {
         revealTeaser();
       }
     };
@@ -530,7 +578,7 @@ export default function Chat({
       window.clearTimeout(timer);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isOpen, teaserDismissed]);
+  }, [isOpen, teaserDismissed, teaser.enabled, teaser.delaySeconds, teaser.scrollPercent]);
 
   const dismissTeaser = useCallback((event) => {
     event.stopPropagation();
@@ -1001,7 +1049,7 @@ export default function Chat({
             phone: lead.phone,
             email: lead.email,
             consent: lead.consent,
-            // UTM and click-ID fields are added with the admin panel integration.
+            submissionId: lead.submissionId,
             pageUrl: window.location.href,
             submittedAt: new Date().toISOString(),
           }),
@@ -1135,7 +1183,9 @@ export default function Chat({
       }
 
       if (chatStep === CHAT_STEP.EMAIL) {
-        const finalLead = { ...leadData, email: trimmedValue };
+        // One id per completed set of details: "Try Again" resends the same
+        // lead with the same id, so the panel stores it once.
+        const finalLead = { ...leadData, email: trimmedValue, submissionId: newSubmissionId("ehp-chat") };
         setLeadData(finalLead);
         submitLead(finalLead);
       }
@@ -1179,10 +1229,16 @@ export default function Chat({
     submitLead(leadData);
   }, [leadData, submitLead]);
 
+  // One submission id per enquiry and slot, reused if the visitor retries it.
+  const slotSubmissionIdsRef = useRef({});
+
   const handleSlotSelection = useCallback(
     async (slotLabel) => {
       setSlotState("submitting");
       setFieldError("");
+
+      const slotKey = `${reference}|${slotLabel}`;
+      slotSubmissionIdsRef.current[slotKey] ??= newSubmissionId("ehp-slot");
 
       try {
         const response = await fetch("/api/eden-lead-slot", {
@@ -1200,6 +1256,7 @@ export default function Chat({
             phone: leadData.phone,
             email: leadData.email,
             language,
+            submissionId: slotSubmissionIdsRef.current[slotKey],
           }),
         });
 
@@ -1236,9 +1293,10 @@ export default function Chat({
     ],
   );
 
+  // The panel's number first, then the build's environment, then chatFlow.js.
   const whatsappNumber =
-    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_NUMBER;
-  const callNumber = process.env.NEXT_PUBLIC_CALL_NUMBER || DEFAULT_CALL_NUMBER;
+    whatsappNumberProp || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP_NUMBER;
+  const callNumber = callNumberProp || process.env.NEXT_PUBLIC_CALL_NUMBER || DEFAULT_CALL_NUMBER;
 
   const closeWhatsappUrl = useMemo(() => {
     if (!whatsappNumber || !closeVariant) {
@@ -1265,6 +1323,7 @@ export default function Chat({
         company: leadData.company,
       },
       projectName,
+      template: copy?.[language]?.templates?.[templateKey],
     });
   }, [
     closeVariant,
@@ -1275,6 +1334,7 @@ export default function Chat({
     selectedUnitTypeLabel,
     whatsappNumber,
     projectName,
+    copy,
   ]);
 
   const callUrl = callNumber ? `tel:${callNumber}` : "";
@@ -1492,7 +1552,7 @@ export default function Chat({
 
         {isBroker ? (
           <div className={styles.brokerLinks}>
-            {BROKER_LINKS.map((link) => (
+            {brokerLinks.map((link) => (
               <a
                 key={link.url}
                 href={link.url}
@@ -1519,16 +1579,16 @@ export default function Chat({
   const renderCurrentStep = () => {
     switch (chatStep) {
       case CHAT_STEP.ROLE:
-        return renderChoiceButtons(ROLES, handleRoleSelection);
+        return renderChoiceButtons(roles, handleRoleSelection);
 
       case CHAT_STEP.SEARCH_STAGE:
-        return renderChoiceButtons(SEARCH_STAGES, handleSearchStageSelection);
+        return renderChoiceButtons(searchStages, handleSearchStageSelection);
 
       case CHAT_STEP.BEDROOMS:
-        return renderChoiceButtons(UNIT_TYPES, handleUnitTypeSelection);
+        return renderChoiceButtons(unitTypes, handleUnitTypeSelection);
 
       case CHAT_STEP.BUDGET:
-        return renderChoiceButtons(BUDGET_BRACKETS, handleBudgetSelection);
+        return renderChoiceButtons(budgetBrackets, handleBudgetSelection);
 
       case CHAT_STEP.PHONE:
         return renderPhoneStep();
@@ -1652,7 +1712,7 @@ export default function Chat({
               <span className={styles.agentName}>{projectName}</span>
 
               <span className={styles.agentStatus}>
-                {HEADER_SUBTITLE[language]}
+                {headerSubtitle[language]}
               </span>
 
               {isOnline ? (

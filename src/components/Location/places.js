@@ -1,48 +1,74 @@
+import { toPlainText } from "@/lib/inline-text";
+import { lngLat, slugify } from "@/lib/safe-url";
+
 /*
- * Everything the location map shows, in one place. Coordinates are
+ * Everything the location map shows, built from the panel's Location & Map
+ * section (src/content/sections/location.js). Coordinates come out as
  * [longitude, latitude], the order Mapbox expects.
  *
- * TO CONFIRM BEFORE LAUNCH: the destination coordinates below are
- * approximate public landmark positions, not surveyed points. Check each
- * by dropping a pin in Mapbox Studio or Google Maps and paste the result
- * here. The project coordinate is left empty until Refine supplies it:
- * until then the map opens framed on the destinations and no project pin
- * is drawn.
+ * TO CONFIRM BEFORE LAUNCH: the destination coordinates are approximate
+ * public landmark positions, not surveyed points, and the project
+ * coordinate is blank until Refine supplies it. Until then the map opens
+ * framed on the destinations and no project pin is drawn.
+ *
+ * A place's id is its name made into a slug ("Al Safa Park" ->
+ * "al-safa-park"), so a chip named like a destination row ("DIFC") selects
+ * that row's pin.
  */
-export const PROJECT = {
-  name: "Eden House The Park",
-  coords: null, // e.g. [55.2xxx, 25.1xxx]
-};
+const ICONS = new Set(["park", "shopping", "business", "airport", "beach", "landmark"]);
+const list = (value) => (Array.isArray(value) ? value.filter((item) => item && typeof item === "object") : []);
+const icon = (value) => (ICONS.has(value) ? value : undefined);
+const side = (value) => (value === "left" ? "left" : undefined);
 
-// The callout rows, in the design's order. `icon` picks the map pin's
-// symbol (see MarkerIcons in LocationExplorer.js); `side: "left"` puts the
-// map label on the left of the pin where two places sit close together.
-export const CALLOUTS = [
-  { id: "al-safa-park", name: "Al Safa Park", time: "3 Min", icon: "park", coords: [55.2398, 25.1878] },
-  { id: "city-walk", name: "City Walk", time: "8 Min", icon: "shopping", coords: [55.2622, 25.2075] },
-  { id: "dubai-mall", name: "Dubai Mall", time: "10 Min", icon: "shopping", coords: [55.2796, 25.1985] },
-  { id: "difc", name: "DIFC", time: "16 Min", icon: "business", coords: [55.2818, 25.2133] },
-  { id: "dxb", name: "DXB", time: "18 Min", icon: "airport", coords: [55.3644, 25.2528] },
-];
+export function buildPlaces(content = {}) {
+  const project = {
+    name: toPlainText(content["project-name"] ?? "") || "Eden House The Park",
+    coords: lngLat(content["project-longitude"], content["project-latitude"]),
+  };
 
-// The drive-time chips. DIFC and DXB point at the same places as above.
-export const CHIPS = [
-  { id: "jumeirah-beach", label: "8 Min · Jumeirah Beach", name: "Jumeirah Beach", icon: "beach", side: "left", coords: [55.2531, 25.2122] },
-  { id: "burj-khalifa", label: "10 Min · Burj Khalifa", name: "Burj Khalifa", icon: "landmark", side: "left", coords: [55.2744, 25.1972] },
-  { id: "difc", label: "16 Min · DIFC" },
-  { id: "dxb", label: "18 Min · DXB" },
-];
+  const callouts = list(content.destinations)
+    .map((row) => ({
+      id: slugify(toPlainText(row.name ?? "")),
+      name: row.name ?? "",
+      label: toPlainText(row.name ?? ""),
+      time: row.time ?? "",
+      icon: icon(row.icon),
+      side: side(row.side),
+      coords: lngLat(row.longitude, row.latitude),
+    }))
+    .filter((row) => row.id);
 
-export const PLACES = [
-  ...CALLOUTS,
-  ...CHIPS.filter((chip) => chip.coords).map(({ label, ...place }) => place),
-];
+  const chips = list(content.chips)
+    .map((chip) => {
+      const label = toPlainText(chip.name ?? "");
+      return {
+        id: slugify(label || toPlainText(chip.label ?? "")),
+        text: chip.label ?? "",
+        label,
+        icon: icon(chip.icon),
+        side: side(chip.side),
+        coords: lngLat(chip.longitude, chip.latitude),
+      };
+    })
+    .filter((chip) => chip.id);
 
-// Google Maps directions to the project. Falls back to a search by name
-// until the project coordinate is set.
-export function directionsUrl() {
-  const destination = PROJECT.coords
-    ? `${PROJECT.coords[1]},${PROJECT.coords[0]}`
-    : `${PROJECT.name}, Dubai`;
+  // Map pins: every destination with coordinates, then every chip with its own.
+  const seen = new Set();
+  const places = [...callouts, ...chips]
+    .filter((place) => place.coords && !seen.has(place.id) && seen.add(place.id))
+    .map(({ id, label, icon: placeIcon, side: placeSide, coords }) => ({
+      id,
+      name: label,
+      icon: placeIcon,
+      side: placeSide,
+      coords,
+    }));
+
+  return { project, callouts, chips, places };
+}
+
+// Google Maps directions to the project; a search by name until its coordinate is set.
+export function directionsUrl(project) {
+  const destination = project.coords ? `${project.coords[1]},${project.coords[0]}` : `${project.name}, Dubai`;
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
 }

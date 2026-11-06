@@ -1,0 +1,2249 @@
+{
+ "site": "edenhousethepark",
+ "source": "defaults",
+ "generatedAt": "2026-11-06T10:04:44.301Z",
+ "sections": {
+  "navigation": [
+   {
+    "key": "links",
+    "type": "LIST",
+    "items": [
+     {
+      "label": "About",
+      "href": "#about"
+     },
+     {
+      "label": "Location",
+      "href": "#location"
+     },
+     {
+      "label": "Amenities",
+      "href": "#amenities"
+     },
+     {
+      "label": "Payment Plan",
+      "href": "#payment-plan"
+     },
+     {
+      "label": "Contact",
+      "href": "#contact"
+     }
+    ]
+   },
+   {
+    "key": "cta-label",
+    "type": "TEXT",
+    "value": "Request Callback",
+    "imageUrl": null
+   },
+   {
+    "key": "cta-href",
+    "type": "LINK",
+    "value": "#contact",
+    "imageUrl": null
+   },
+   {
+    "key": "skip-link-label",
+    "type": "TEXT",
+    "value": "Skip to content",
+    "imageUrl": null
+   },
+   {
+    "key": "logo-aria-label",
+    "type": "TEXT",
+    "value": "Return to the Eden House The Park hero section",
+    "imageUrl": null
+   },
+   {
+    "key": "nav-aria-label",
+    "type": "TEXT",
+    "value": "Main",
+    "imageUrl": null
+   },
+   {
+    "key": "mobile-menu-aria-label",
+    "type": "TEXT",
+    "value": "Menu",
+    "imageUrl": null
+   },
+   {
+    "key": "menu-open-label",
+    "type": "TEXT",
+    "value": "Open menu",
+    "imageUrl": null
+   },
+   {
+    "key": "menu-close-label",
+    "type": "TEXT",
+    "value": "Close menu",
+    "imageUrl": null
+   }
+  ],
+  "appearance": [
+   {
+    "key": "logo-header",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": "/logo/eden-house-black.svg"
+   },
+   {
+    "key": "logo-footer",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": "/logo/eden-house-white.svg"
+   },
+   {
+    "key": "favicon",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": "/favicon.ico"
+   }
+  ],
+  "hero": [
+   {
+    "key": "image",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": "/images/renders/hero-aerial-canal.jpg"
+   },
+   {
+    "key": "image-alt",
+    "type": "TEXT",
+    "value": "Aerial view of the Eden House The Park buildings along the Dubai Water Canal",
+    "imageUrl": null
+   },
+   {
+    "key": "title",
+    "type": "TEXT",
+    "value": "Homes Along The Dubai Water Canal",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "Seven Low-Rise Buildings Beside Al Safa Park, Developed By H&H.",
+    "imageUrl": null
+   },
+   {
+    "key": "cta-label",
+    "type": "TEXT",
+    "value": "Get Prices & Floor Plans",
+    "imageUrl": null
+   },
+   {
+    "key": "cta-href",
+    "type": "LINK",
+    "value": "#floor-plans",
+    "imageUrl": null
+   }
+  ],
+  "intro": [
+   {
+    "key": "eyebrow",
+    "type": "TEXT",
+    "value": "Project Overview",
+    "imageUrl": null
+   },
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "Life Along The Canal",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "Direct access to the 6.4 km canal promenade, with waterfront views and walkable surroundings.",
+    "imageUrl": null
+   },
+   {
+    "key": "stats",
+    "type": "LIST",
+    "items": [
+     {
+      "figure": "459",
+      "count": "459",
+      "label": "Residences"
+     },
+     {
+      "figure": "2, 3, 4",
+      "count": "",
+      "label": "Bedroom Homes"
+     },
+     {
+      "figure": "6.4 km",
+      "count": "",
+      "label": "Canal Promenade"
+     },
+     {
+      "figure": "Eden House",
+      "count": "",
+      "label": "Hospitality"
+     },
+     {
+      "figure": "Q3 2027",
+      "count": "",
+      "label": "Handover"
+     }
+    ]
+   },
+   {
+    "key": "brochure-label",
+    "type": "TEXT",
+    "value": "Download Brochure",
+    "imageUrl": null
+   },
+   {
+    "key": "request-label",
+    "type": "TEXT",
+    "value": "Submit Request",
+    "imageUrl": null
+   },
+   {
+    "key": "request-href",
+    "type": "LINK",
+    "value": "#contact",
+    "imageUrl": null
+   }
+  ],
+  "place": [
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "A Considered Sense Of Place",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "A residential setting defined by understated elegance, a connection to nature and a sense of belonging.",
+    "imageUrl": null
+   },
+   {
+    "key": "slides",
+    "type": "LIST",
+    "items": [
+     {
+      "image": "/images/renders/hero-aerial-canal.jpg",
+      "alt": "Aerial view of the buildings along the Dubai Water Canal",
+      "title": "",
+      "text": "",
+      "position": "22% 50%"
+     },
+     {
+      "image": "/images/renders/canal-skyline.jpg",
+      "alt": "Canal promenade beside the buildings, with the city skyline behind",
+      "title": "Life Along The Canal",
+      "text": "Direct access to the 6.4 km canal promenade, with waterfront views and walkable surroundings.",
+      "position": ""
+     },
+     {
+      "image": "/images/renders/garden-path.jpg",
+      "alt": "Garden path between the buildings",
+      "title": "Rooted In The Greenery",
+      "text": "",
+      "position": ""
+     }
+    ]
+   }
+  ],
+  "features": [
+   {
+    "key": "visible",
+    "type": "BOOLEAN",
+    "value": "false",
+    "imageUrl": null
+   },
+   {
+    "key": "eyebrow",
+    "type": "TEXT",
+    "value": "Project Features",
+    "imageUrl": null
+   },
+   {
+    "key": "items",
+    "type": "LIST",
+    "items": [
+     {
+      "figure": "459",
+      "count": "459",
+      "label": "Residences",
+      "text": "7 low-rise buildings with a car-free park at the centre"
+     },
+     {
+      "figure": "2 & 3",
+      "count": "",
+      "label": "Bedroom Homes",
+      "text": "Two-bedroom apartments, plus three-bedroom layouts with a maid's room"
+     },
+     {
+      "figure": "6.4 km",
+      "count": "",
+      "label": "Canal Promenade",
+      "text": "Direct access from the community to the canal promenade"
+     },
+     {
+      "figure": "Eden House",
+      "count": "",
+      "label": "Hospitality",
+      "text": "Concierge, resident and guest valet, and an Eden House app with digital key access"
+     },
+     {
+      "figure": "Q3 2027",
+      "count": "",
+      "label": "Handover",
+      "text": "70% of the price is due on handover"
+     }
+    ]
+   },
+   {
+    "key": "cta-label",
+    "type": "TEXT",
+    "value": "Submit Request",
+    "imageUrl": null
+   },
+   {
+    "key": "cta-href",
+    "type": "LINK",
+    "value": "#contact",
+    "imageUrl": null
+   }
+  ],
+  "imageStrips": [
+   {
+    "key": "interior-label",
+    "type": "TEXT",
+    "value": "Interiors and amenities",
+    "imageUrl": null
+   },
+   {
+    "key": "interior-items",
+    "type": "LIST",
+    "items": [
+     {
+      "image": "/images/renders/marble-corridor.jpg",
+      "alt": "Corridor with green marble walls",
+      "width": "316"
+     },
+     {
+      "image": "/images/renders/residents-lounge.jpg",
+      "alt": "Residents' lounge with seating and a long dining table",
+      "width": "760"
+     },
+     {
+      "image": "/images/renders/gym.jpg",
+      "alt": "Gym with weights and garden views",
+      "width": "316"
+     }
+    ]
+   }
+  ],
+  "gallery": [
+   {
+    "key": "eyebrow",
+    "type": "TEXT",
+    "value": "Designed",
+    "imageUrl": null
+   },
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "Around Everyday Life",
+    "imageUrl": null
+   },
+   {
+    "key": "items",
+    "type": "LIST",
+    "items": [
+     {
+      "title": "The Park At The Centre",
+      "text": "A car-free park sits at the centre of the community, with playgrounds and gardens between the buildings.",
+      "image": "/images/renders/park-pavilion.jpg",
+      "alt": "Landscaped park with a pavilion beneath a footbridge"
+     },
+     {
+      "title": "Wellness Close To Home",
+      "text": "Gyms, movement studios, saunas and steam rooms, and 5 pools, 2 of them for children.",
+      "image": "/images/renders/gym.jpg",
+      "alt": "Gym with weights and garden views"
+     },
+     {
+      "title": "Looked After On Site",
+      "text": "An Eden House team on site, with 24-hour security and 24-hour maintenance across the community.",
+      "image": "/images/renders/arrival-court.jpg",
+      "alt": "Landscaped arrival court between the buildings at dusk"
+     },
+     {
+      "title": "Life On The Canal",
+      "text": "The 6.4 km canal promenade is there for a morning walk or an evening run along the water.",
+      "image": "/images/renders/aerial-canal.jpg",
+      "alt": "Aerial view of the buildings along the Dubai Water Canal"
+     }
+    ]
+   }
+  ],
+  "floorPlans": [
+   {
+    "key": "image",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": "/images/renders/bedroom.jpg"
+   },
+   {
+    "key": "image-alt",
+    "type": "TEXT",
+    "value": "Bedroom with an oak-panelled wall and a sculpted rug",
+    "imageUrl": null
+   },
+   {
+    "key": "eyebrow",
+    "type": "TEXT",
+    "value": "Interiors To Elevate Your Living",
+    "imageUrl": null
+   },
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "The Comfort Of Space And Privacy",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "Generously proportioned two-bedroom residences with private outdoor spaces and a welcoming sense of comfort.",
+    "imageUrl": null
+   },
+   {
+    "key": "tabs-aria-label",
+    "type": "TEXT",
+    "value": "Choose a layout",
+    "imageUrl": null
+   },
+   {
+    "key": "plans",
+    "type": "LIST",
+    "items": [
+     {
+      "tab": "2 Bedroom",
+      "heading": "Two Bedroom",
+      "image": "/images/renders/bedroom.jpg",
+      "image-alt": "Bedroom with an oak-panelled wall and a sculpted rug",
+      "row-1-label": "Suite Area",
+      "row-1-value": "1,477 – 1,500 SQ.FT.",
+      "row-2-label": "Balcony Area",
+      "row-2-value": "435 – 461 SQ.FT.",
+      "row-3-label": "Total Area",
+      "row-3-value": "1,933 – 1,961 SQ.FT.",
+      "row-4-label": "",
+      "row-4-value": "",
+      "text": "Two-bedroom apartments with open living and dining space, a private balcony and park views.",
+      "plan-1-image": "/images/floor-plans/placeholder.svg",
+      "plan-2-image": "/images/floor-plans/placeholder.svg",
+      "plan-3-image": "",
+      "plan-4-image": ""
+     },
+     {
+      "tab": "3 Bedroom",
+      "heading": "Three Bedroom",
+      "image": "/images/renders/residents-lounge.jpg",
+      "image-alt": "Lounge with seating and a long dining table",
+      "row-1-label": "Suite Area",
+      "row-1-value": "1,782 – 1,855 SQ.FT.",
+      "row-2-label": "Outdoor Area",
+      "row-2-value": "501 – 2,142 SQ.FT.",
+      "row-3-label": "",
+      "row-3-value": "",
+      "row-4-label": "",
+      "row-4-value": "",
+      "text": "Three-bedroom apartments with a maid's room, private outdoor space and skyline, park or canal views, depending on the unit.",
+      "plan-1-image": "/images/floor-plans/placeholder.svg",
+      "plan-2-image": "/images/floor-plans/placeholder.svg",
+      "plan-3-image": "",
+      "plan-4-image": ""
+     },
+     {
+      "tab": "4 Bedroom",
+      "heading": "Four Bedroom",
+      "image": "/images/renders/marble-corridor.jpg",
+      "image-alt": "Corridor with green marble walls",
+      "row-1-label": "",
+      "row-1-value": "",
+      "row-2-label": "",
+      "row-2-value": "",
+      "row-3-label": "",
+      "row-3-value": "",
+      "row-4-label": "",
+      "row-4-value": "",
+      "text": "",
+      "plan-1-image": "/images/floor-plans/placeholder.svg",
+      "plan-2-image": "/images/floor-plans/placeholder.svg",
+      "plan-3-image": "",
+      "plan-4-image": ""
+     }
+    ]
+   },
+   {
+    "key": "cta-label",
+    "type": "TEXT",
+    "value": "View Floor Plan Samples",
+    "imageUrl": null
+   },
+   {
+    "key": "cta-href",
+    "type": "LINK",
+    "value": "#contact",
+    "imageUrl": null
+   }
+  ],
+  "location": [
+   {
+    "key": "eyebrow",
+    "type": "TEXT",
+    "value": "Central Dubai,",
+    "imageUrl": null
+   },
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "Ten Minutes From Burj Khalifa",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "Eden House The Park sits on the Dubai Water Canal beside Al Safa Park, with Burj Khalifa, DIFC and Jumeirah Beach a short drive away and the 6.4 km canal promenade outside.",
+    "imageUrl": null
+   },
+   {
+    "key": "project-name",
+    "type": "TEXT",
+    "value": "Eden House The Park",
+    "imageUrl": null
+   },
+   {
+    "key": "project-latitude",
+    "type": "TEXT",
+    "value": "",
+    "imageUrl": null
+   },
+   {
+    "key": "project-longitude",
+    "type": "TEXT",
+    "value": "",
+    "imageUrl": null
+   },
+   {
+    "key": "chips-aria-label",
+    "type": "TEXT",
+    "value": "Drive times",
+    "imageUrl": null
+   },
+   {
+    "key": "chips",
+    "type": "LIST",
+    "items": [
+     {
+      "label": "8 Min · Jumeirah Beach",
+      "name": "Jumeirah Beach",
+      "icon": "beach",
+      "side": "left",
+      "latitude": "25.2122",
+      "longitude": "55.2531"
+     },
+     {
+      "label": "10 Min · Burj Khalifa",
+      "name": "Burj Khalifa",
+      "icon": "landmark",
+      "side": "left",
+      "latitude": "25.1972",
+      "longitude": "55.2744"
+     },
+     {
+      "label": "16 Min · DIFC",
+      "name": "DIFC",
+      "icon": "",
+      "side": "",
+      "latitude": "",
+      "longitude": ""
+     },
+     {
+      "label": "18 Min · DXB",
+      "name": "DXB",
+      "icon": "",
+      "side": "",
+      "latitude": "",
+      "longitude": ""
+     }
+    ]
+   },
+   {
+    "key": "destinations",
+    "type": "LIST",
+    "items": [
+     {
+      "name": "Al Safa Park",
+      "time": "3 Min",
+      "icon": "park",
+      "side": "right",
+      "latitude": "25.1878",
+      "longitude": "55.2398"
+     },
+     {
+      "name": "City Walk",
+      "time": "8 Min",
+      "icon": "shopping",
+      "side": "right",
+      "latitude": "25.2075",
+      "longitude": "55.2622"
+     },
+     {
+      "name": "Dubai Mall",
+      "time": "10 Min",
+      "icon": "shopping",
+      "side": "right",
+      "latitude": "25.1985",
+      "longitude": "55.2796"
+     },
+     {
+      "name": "DIFC",
+      "time": "16 Min",
+      "icon": "business",
+      "side": "right",
+      "latitude": "25.2133",
+      "longitude": "55.2818"
+     },
+     {
+      "name": "DXB",
+      "time": "18 Min",
+      "icon": "airport",
+      "side": "right",
+      "latitude": "25.2528",
+      "longitude": "55.3644"
+     }
+    ]
+   },
+   {
+    "key": "reset-label",
+    "type": "TEXT",
+    "value": "Reset View",
+    "imageUrl": null
+   },
+   {
+    "key": "directions-label",
+    "type": "TEXT",
+    "value": "See Directions",
+    "imageUrl": null
+   },
+   {
+    "key": "map-aria-label",
+    "type": "TEXT",
+    "value": "Map showing Eden House The Park and nearby destinations",
+    "imageUrl": null
+   }
+  ],
+  "payment": [
+   {
+    "key": "eyebrow",
+    "type": "TEXT",
+    "value": "Payment",
+    "imageUrl": null
+   },
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "Plan",
+    "imageUrl": null
+   },
+   {
+    "key": "summary",
+    "type": "TEXT",
+    "value": "30 percent Before Handover and 70 percent On Handover",
+    "imageUrl": null
+   },
+   {
+    "key": "before-percent",
+    "type": "TEXT",
+    "value": "30",
+    "imageUrl": null
+   },
+   {
+    "key": "before-label",
+    "type": "TEXT",
+    "value": "Before Handover",
+    "imageUrl": null
+   },
+   {
+    "key": "handover-percent",
+    "type": "TEXT",
+    "value": "70",
+    "imageUrl": null
+   },
+   {
+    "key": "handover-label",
+    "type": "TEXT",
+    "value": "On Handover",
+    "imageUrl": null
+   },
+   {
+    "key": "schedule",
+    "type": "LIST",
+    "items": [
+     {
+      "figure": "10%",
+      "label": "On booking"
+     },
+     {
+      "figure": "10%",
+      "label": "One month later"
+     },
+     {
+      "figure": "5%",
+      "label": "February 2027"
+     },
+     {
+      "figure": "5%",
+      "label": "July 2027"
+     },
+     {
+      "figure": "70%",
+      "label": "On handover"
+     }
+    ]
+   },
+   {
+    "key": "fine-print",
+    "type": "TEXT",
+    "value": "10% on booking, 10% one month later, 5% in February 2027 and 5% in July 2027, then 70% on handover. DLD 4% and an AED 5,000 admin fee + VAT apply.",
+    "imageUrl": null
+   },
+   {
+    "key": "brochure-label",
+    "type": "TEXT",
+    "value": "Download Brochure",
+    "imageUrl": null
+   },
+   {
+    "key": "cta-label",
+    "type": "TEXT",
+    "value": "Submit Request",
+    "imageUrl": null
+   },
+   {
+    "key": "cta-href",
+    "type": "LINK",
+    "value": "#contact",
+    "imageUrl": null
+   }
+  ],
+  "brochure": [
+   {
+    "key": "url",
+    "type": "LINK",
+    "value": "",
+    "imageUrl": null
+   }
+  ],
+  "about": [
+   {
+    "key": "eyebrow",
+    "type": "TEXT",
+    "value": "A Park-Led",
+    "imageUrl": null
+   },
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "About The Developer",
+    "imageUrl": null
+   },
+   {
+    "key": "brochure-label",
+    "type": "TEXT",
+    "value": "Download Brochure",
+    "imageUrl": null
+   },
+   {
+    "key": "paragraphs",
+    "type": "LIST",
+    "items": [
+     {
+      "text": "Eden House The Park is a community of 459 homes in seven low-rise buildings on the Dubai Water Canal, with two- and three-bedroom apartments on sale. The architecture is by dxb lab, the interiors by H&H and the landscape by WAHO, and a car-free park sits at the centre, so the paths between the buildings are for walking, not driving."
+     },
+     {
+      "text": "Eden House is the homegrown residential hospitality brand H&H founded in 2021, independent from hotel operators. H&H has developed in Dubai since 2007, and The Park brings Eden House to a community of seven low-rise buildings, finished in pale terrazzo and curved oak, with views of the canal, the gardens and the skyline."
+     }
+    ]
+   }
+  ],
+  "contact": [
+   {
+    "key": "eyebrow",
+    "type": "TEXT",
+    "value": "Reach Out",
+    "imageUrl": null
+   },
+   {
+    "key": "heading",
+    "type": "TEXT",
+    "value": "Register Your Interest",
+    "imageUrl": null
+   },
+   {
+    "key": "intro",
+    "type": "TEXT",
+    "value": "Our team can take you through the two- and three-bedroom homes, the floor plans and the payment plan, and arrange a visit to the sales gallery at Eden House The Canal.",
+    "imageUrl": null
+   },
+   {
+    "key": "details",
+    "type": "LIST",
+    "items": [
+     {
+      "label": "Telephone",
+      "value": "+971 4 423 0167",
+      "href": "tel:+97144230167"
+     },
+     {
+      "label": "UAE Toll Free",
+      "value": "800 Refine (800 733463)",
+      "href": "tel:800733463"
+     },
+     {
+      "label": "Email",
+      "value": "ehtp@refinedubai.com",
+      "href": "mailto:ehtp@refinedubai.com"
+     }
+    ]
+   }
+  ],
+  "contactForm": [
+   {
+    "key": "first-name-label",
+    "type": "TEXT",
+    "value": "First Name",
+    "imageUrl": null
+   },
+   {
+    "key": "last-name-label",
+    "type": "TEXT",
+    "value": "Last Name",
+    "imageUrl": null
+   },
+   {
+    "key": "role-label",
+    "type": "TEXT",
+    "value": "I'm a",
+    "imageUrl": null
+   },
+   {
+    "key": "role-options",
+    "type": "LIST",
+    "items": [
+     {
+      "label": "Broker"
+     },
+     {
+      "label": "Buyer"
+     }
+    ]
+   },
+   {
+    "key": "residence-label",
+    "type": "TEXT",
+    "value": "Residence Type",
+    "imageUrl": null
+   },
+   {
+    "key": "residence-options",
+    "type": "LIST",
+    "items": [
+     {
+      "label": "2 Bedroom"
+     },
+     {
+      "label": "3 Bedroom"
+     }
+    ]
+   },
+   {
+    "key": "phone-label",
+    "type": "TEXT",
+    "value": "Mobile Phone",
+    "imageUrl": null
+   },
+   {
+    "key": "country-code-label",
+    "type": "TEXT",
+    "value": "Country code",
+    "imageUrl": null
+   },
+   {
+    "key": "country-codes",
+    "type": "LIST",
+    "items": [
+     {
+      "code": "+971"
+     },
+     {
+      "code": "+966"
+     },
+     {
+      "code": "+974"
+     },
+     {
+      "code": "+965"
+     },
+     {
+      "code": "+973"
+     },
+     {
+      "code": "+968"
+     },
+     {
+      "code": "+44"
+     },
+     {
+      "code": "+1"
+     },
+     {
+      "code": "+91"
+     }
+    ]
+   },
+   {
+    "key": "email-label",
+    "type": "TEXT",
+    "value": "Email",
+    "imageUrl": null
+   },
+   {
+    "key": "consent-text",
+    "type": "TEXT",
+    "value": "By submitting this form, you agree to our <a href=\"/terms\">Terms of Use</a> and <a href=\"https://refinedubai.com/privacy-policy/\" target=\"_blank\">Privacy Policy</a>, and you consent to Refine contacting you about Eden House The Park.",
+    "imageUrl": null
+   },
+   {
+    "key": "missing-fields-message",
+    "type": "TEXT",
+    "value": "Please complete the highlighted fields.",
+    "imageUrl": null
+   },
+   {
+    "key": "send-error-message",
+    "type": "TEXT",
+    "value": "We could not send your request. Please try again.",
+    "imageUrl": null
+   },
+   {
+    "key": "submit-label",
+    "type": "TEXT",
+    "value": "Submit A Request",
+    "imageUrl": null
+   },
+   {
+    "key": "thank-you-title",
+    "type": "TEXT",
+    "value": "Thank You",
+    "imageUrl": null
+   },
+   {
+    "key": "thank-you-text",
+    "type": "TEXT",
+    "value": "Our team will be in touch shortly.",
+    "imageUrl": null
+   }
+  ],
+  "footer": [
+   {
+    "key": "address",
+    "type": "TEXT",
+    "value": "Office 4701, Floor 47, Ubora Tower, Marasi Drive, Business Bay, Dubai",
+    "imageUrl": null
+   },
+   {
+    "key": "permit-text",
+    "type": "TEXT",
+    "value": "Trakheesi permit no. [number]",
+    "imageUrl": null
+   },
+   {
+    "key": "qr-text",
+    "type": "TEXT",
+    "value": "Madmoun QR",
+    "imageUrl": null
+   },
+   {
+    "key": "explore-heading",
+    "type": "TEXT",
+    "value": "Explore",
+    "imageUrl": null
+   },
+   {
+    "key": "explore-links",
+    "type": "LIST",
+    "items": [
+     {
+      "label": "About",
+      "href": "#about"
+     },
+     {
+      "label": "Location",
+      "href": "#location"
+     },
+     {
+      "label": "Amenities",
+      "href": "#amenities"
+     },
+     {
+      "label": "Floor Plans",
+      "href": "#floor-plans"
+     },
+     {
+      "label": "Payment Plan",
+      "href": "#payment-plan"
+     }
+    ]
+   },
+   {
+    "key": "contact-heading",
+    "type": "TEXT",
+    "value": "Contact",
+    "imageUrl": null
+   },
+   {
+    "key": "partners",
+    "type": "LIST",
+    "items": [
+     {
+      "label": "Development By",
+      "name": "H&H"
+     },
+     {
+      "label": "Owned By",
+      "name": "Global Partners"
+     },
+     {
+      "label": "Sales Partner",
+      "name": "Refine"
+     }
+    ]
+   },
+   {
+    "key": "copyright",
+    "type": "TEXT",
+    "value": "©2026. Refine Project Management. All rights reserved",
+    "imageUrl": null
+   },
+   {
+    "key": "manage-cookies-label",
+    "type": "TEXT",
+    "value": "Manage Cookies",
+    "imageUrl": null
+   },
+   {
+    "key": "privacy-label",
+    "type": "TEXT",
+    "value": "Privacy Policy",
+    "imageUrl": null
+   },
+   {
+    "key": "privacy-href",
+    "type": "LINK",
+    "value": "https://refinedubai.com/privacy-policy/",
+    "imageUrl": null
+   },
+   {
+    "key": "terms-label",
+    "type": "TEXT",
+    "value": "Terms & Conditions",
+    "imageUrl": null
+   }
+  ],
+  "cookies": [
+   {
+    "key": "title",
+    "type": "TEXT",
+    "value": "Your Privacy",
+    "imageUrl": null
+   },
+   {
+    "key": "choose-label",
+    "type": "TEXT",
+    "value": "Choose",
+    "imageUrl": null
+   },
+   {
+    "key": "reject-label",
+    "type": "TEXT",
+    "value": "Reject non-essential",
+    "imageUrl": null
+   },
+   {
+    "key": "accept-label",
+    "type": "TEXT",
+    "value": "Accept",
+    "imageUrl": null
+   }
+  ],
+  "chatAgent": [
+   {
+    "key": "agent-photo",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": "/images/agent/avatar.webp"
+   },
+   {
+    "key": "agent-photo-square",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": "/images/agent/avatar-square.webp"
+   },
+   {
+    "key": "project-name",
+    "type": "TEXT",
+    "value": "Eden House The Park",
+    "imageUrl": null
+   },
+   {
+    "key": "project-short-name",
+    "type": "TEXT",
+    "value": "Eden House The Park",
+    "imageUrl": null
+   },
+   {
+    "key": "call-number",
+    "type": "TEXT",
+    "value": "",
+    "imageUrl": null
+   },
+   {
+    "key": "whatsapp-number",
+    "type": "TEXT",
+    "value": "",
+    "imageUrl": null
+   },
+   {
+    "key": "teaser-enabled",
+    "type": "BOOLEAN",
+    "value": "true",
+    "imageUrl": null
+   },
+   {
+    "key": "teaser-delay-seconds",
+    "type": "TEXT",
+    "value": "15",
+    "imageUrl": null
+   },
+   {
+    "key": "teaser-scroll-percent",
+    "type": "TEXT",
+    "value": "40",
+    "imageUrl": null
+   },
+   {
+    "key": "broker-links",
+    "type": "LIST",
+    "items": [
+     {
+      "label-en": "📝 Agency registration",
+      "label-ar": "📝 تسجيل الوكالات",
+      "url": "https://bit.ly/Refine_Agency_Registration"
+     },
+     {
+      "label-en": "🏗 All projects",
+      "label-ar": "🏗 جميع المشاريع",
+      "url": "https://portfolio.refinedubai.com/"
+     }
+    ]
+   }
+  ],
+  "chatTextEn": [
+   {
+    "key": "headerSubtitle",
+    "type": "TEXT",
+    "value": "by Refine",
+    "imageUrl": null
+   },
+   {
+    "key": "agentName",
+    "type": "TEXT",
+    "value": "Refine",
+    "imageUrl": null
+   },
+   {
+    "key": "onlineBadge",
+    "type": "TEXT",
+    "value": "We Are Online",
+    "imageUrl": null
+   },
+   {
+    "key": "teaserText",
+    "type": "TEXT",
+    "value": "Want the {{project_short}} project's payment plan?",
+    "imageUrl": null
+   },
+   {
+    "key": "introTitle",
+    "type": "TEXT",
+    "value": "Reach Out To Us",
+    "imageUrl": null
+   },
+   {
+    "key": "introSubtitle",
+    "type": "TEXT",
+    "value": "Let Us Know How We Can Help You",
+    "imageUrl": null
+   },
+   {
+    "key": "textUsButton",
+    "type": "TEXT",
+    "value": "Text Us",
+    "imageUrl": null
+   },
+   {
+    "key": "closeChatAria",
+    "type": "TEXT",
+    "value": "Close chat",
+    "imageUrl": null
+   },
+   {
+    "key": "openChatAria",
+    "type": "TEXT",
+    "value": "Open chat",
+    "imageUrl": null
+   },
+   {
+    "key": "minimiseChatAria",
+    "type": "TEXT",
+    "value": "Minimise chat",
+    "imageUrl": null
+   },
+   {
+    "key": "toggleHoverLabel",
+    "type": "TEXT",
+    "value": "Talk to Us",
+    "imageUrl": null
+   },
+   {
+    "key": "greetingTitle",
+    "type": "TEXT",
+    "value": "Hi there, thanks for visiting {{project_name}} by Refine.",
+    "imageUrl": null
+   },
+   {
+    "key": "greetingSubtitle",
+    "type": "TEXT",
+    "value": "Answer a few quick questions and I'll get you the floor plans, the payment plan and a direct line to our team.",
+    "imageUrl": null
+   },
+   {
+    "key": "roleQuestion",
+    "type": "TEXT",
+    "value": "I'm here as a…",
+    "imageUrl": null
+   },
+   {
+    "key": "stageQuestion",
+    "type": "TEXT",
+    "value": "What best describes your current buying intent?",
+    "imageUrl": null
+   },
+   {
+    "key": "stageQuestionBroker",
+    "type": "TEXT",
+    "value": "Do you have a client for {{project_short}} right now?",
+    "imageUrl": null
+   },
+   {
+    "key": "bedroomsQuestion",
+    "type": "TEXT",
+    "value": "How many bedrooms are you interested in?",
+    "imageUrl": null
+   },
+   {
+    "key": "bedroomsQuestionBroker",
+    "type": "TEXT",
+    "value": "Which unit types are your clients asking for?",
+    "imageUrl": null
+   },
+   {
+    "key": "budgetQuestion",
+    "type": "TEXT",
+    "value": "What is your budget?",
+    "imageUrl": null
+   },
+   {
+    "key": "budgetQuestionBroker",
+    "type": "TEXT",
+    "value": "Typical client budget?",
+    "imageUrl": null
+   },
+   {
+    "key": "companyQuestion",
+    "type": "TEXT",
+    "value": "What's your company name?",
+    "imageUrl": null
+   },
+   {
+    "key": "companyPlaceholder",
+    "type": "TEXT",
+    "value": "Enter your company name...",
+    "imageUrl": null
+   },
+   {
+    "key": "companyError",
+    "type": "TEXT",
+    "value": "Please enter your company name.",
+    "imageUrl": null
+   },
+   {
+    "key": "nameQuestion",
+    "type": "TEXT",
+    "value": "What's your name?",
+    "imageUrl": null
+   },
+   {
+    "key": "firstNameFieldLabel",
+    "type": "TEXT",
+    "value": "First name",
+    "imageUrl": null
+   },
+   {
+    "key": "lastNameFieldLabel",
+    "type": "TEXT",
+    "value": "Last name",
+    "imageUrl": null
+   },
+   {
+    "key": "firstNamePlaceholder",
+    "type": "TEXT",
+    "value": "Enter your first name...",
+    "imageUrl": null
+   },
+   {
+    "key": "lastNamePlaceholder",
+    "type": "TEXT",
+    "value": "Enter your last name...",
+    "imageUrl": null
+   },
+   {
+    "key": "nameError",
+    "type": "TEXT",
+    "value": "Please enter your name (at least 2 characters).",
+    "imageUrl": null
+   },
+   {
+    "key": "phoneQuestion",
+    "type": "TEXT",
+    "value": "Your phone number:",
+    "imageUrl": null
+   },
+   {
+    "key": "phonePlaceholder",
+    "type": "TEXT",
+    "value": "Phone number with country code...",
+    "imageUrl": null
+   },
+   {
+    "key": "phoneError",
+    "type": "TEXT",
+    "value": "That number doesn't look complete — please include your country code.",
+    "imageUrl": null
+   },
+   {
+    "key": "continueCta",
+    "type": "TEXT",
+    "value": "Continue",
+    "imageUrl": null
+   },
+   {
+    "key": "consentText",
+    "type": "TEXT",
+    "value": "By continuing, you agree to be contacted by Refine about this project.",
+    "imageUrl": null
+   },
+   {
+    "key": "consentError",
+    "type": "TEXT",
+    "value": "Please confirm you agree to be contacted before continuing.",
+    "imageUrl": null
+   },
+   {
+    "key": "emailQuestion",
+    "type": "TEXT",
+    "value": "And your email address:",
+    "imageUrl": null
+   },
+   {
+    "key": "emailPlaceholder",
+    "type": "TEXT",
+    "value": "Enter your email address...",
+    "imageUrl": null
+   },
+   {
+    "key": "emailError",
+    "type": "TEXT",
+    "value": "Please enter a valid email.",
+    "imageUrl": null
+   },
+   {
+    "key": "submittingText",
+    "type": "TEXT",
+    "value": "Submitting your enquiry...",
+    "imageUrl": null
+   },
+   {
+    "key": "submitFallbackText",
+    "type": "TEXT",
+    "value": "All saved — our team will reach out shortly.",
+    "imageUrl": null
+   },
+   {
+    "key": "thanksLine",
+    "type": "TEXT",
+    "value": "Thanks, {{first_name}} — your details are in.",
+    "imageUrl": null
+   },
+   {
+    "key": "talkNowText",
+    "type": "TEXT",
+    "value": "🟢 Our expert is online now — get your answers right away.",
+    "imageUrl": null
+   },
+   {
+    "key": "talkNowTextBroker",
+    "type": "TEXT",
+    "value": "🟢 Our expert is online now — get availability, prices and commission details right away.",
+    "imageUrl": null
+   },
+   {
+    "key": "callButtonLabel",
+    "type": "TEXT",
+    "value": "📞 Call now",
+    "imageUrl": null
+   },
+   {
+    "key": "whatsappButtonLabel",
+    "type": "TEXT",
+    "value": "💬 WhatsApp",
+    "imageUrl": null
+   },
+   {
+    "key": "scheduleText",
+    "type": "TEXT",
+    "value": "Our experts are back Mon–Fri, 9 AM–6 PM. When should we call you?",
+    "imageUrl": null
+   },
+   {
+    "key": "slotTodayLabel",
+    "type": "TEXT",
+    "value": "Today",
+    "imageUrl": null
+   },
+   {
+    "key": "slotTomorrowLabel",
+    "type": "TEXT",
+    "value": "Tomorrow",
+    "imageUrl": null
+   },
+   {
+    "key": "slotAnytimeLabel",
+    "type": "TEXT",
+    "value": "Anytime",
+    "imageUrl": null
+   },
+   {
+    "key": "slotConfirmText",
+    "type": "TEXT",
+    "value": "Booked ✅ We'll call you {{slot_label}}.",
+    "imageUrl": null
+   },
+   {
+    "key": "scheduleWhatsappLabel",
+    "type": "TEXT",
+    "value": "💬 Message us — we reply at 9",
+    "imageUrl": null
+   },
+   {
+    "key": "nurtureText",
+    "type": "TEXT",
+    "value": "We'll send you the {{project_name}} brochure and payment plan on WhatsApp.",
+    "imageUrl": null
+   },
+   {
+    "key": "nurtureTextBroker",
+    "type": "TEXT",
+    "value": "We'll send you the broker pack — brochure, payment plan and registration link — on WhatsApp.",
+    "imageUrl": null
+   },
+   {
+    "key": "nurtureWhatsappLabel",
+    "type": "TEXT",
+    "value": "📲 Get it on WhatsApp",
+    "imageUrl": null
+   },
+   {
+    "key": "nurtureWhatsappLabelBroker",
+    "type": "TEXT",
+    "value": "📲 Get the broker pack",
+    "imageUrl": null
+   },
+   {
+    "key": "referenceLabel",
+    "type": "TEXT",
+    "value": "Reference:",
+    "imageUrl": null
+   },
+   {
+    "key": "startNewEnquiry",
+    "type": "TEXT",
+    "value": "Start New Enquiry",
+    "imageUrl": null
+   },
+   {
+    "key": "errorTitle",
+    "type": "TEXT",
+    "value": "Submission Not Completed",
+    "imageUrl": null
+   },
+   {
+    "key": "errorFallback",
+    "type": "TEXT",
+    "value": "We could not submit your enquiry. Please try again.",
+    "imageUrl": null
+   },
+   {
+    "key": "tryAgain",
+    "type": "TEXT",
+    "value": "Try Again",
+    "imageUrl": null
+   },
+   {
+    "key": "editDetails",
+    "type": "TEXT",
+    "value": "Edit Details",
+    "imageUrl": null
+   },
+   {
+    "key": "lastNameQuestion",
+    "type": "TEXT",
+    "value": "And your last name?",
+    "imageUrl": null
+   },
+   {
+    "key": "whatsappUnavailable",
+    "type": "TEXT",
+    "value": "WhatsApp is not configured yet.",
+    "imageUrl": null
+   },
+   {
+    "key": "callUnavailable",
+    "type": "TEXT",
+    "value": "Call is not configured yet.",
+    "imageUrl": null
+   },
+   {
+    "key": "metaBot",
+    "type": "TEXT",
+    "value": "Refine • Just Now",
+    "imageUrl": null
+   },
+   {
+    "key": "metaVisitor",
+    "type": "TEXT",
+    "value": "You • Just Now",
+    "imageUrl": null
+   },
+   {
+    "key": "option-role-buyer",
+    "type": "TEXT",
+    "value": "Buyer / Investor",
+    "imageUrl": null
+   },
+   {
+    "key": "option-role-broker",
+    "type": "TEXT",
+    "value": "Broker / Agent",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-actively-looking",
+    "type": "TEXT",
+    "value": "Actively looking & ready to book",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-actively-looking-broker",
+    "type": "TEXT",
+    "value": "Yes — actively closing",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-shortlisting",
+    "type": "TEXT",
+    "value": "Shortlisting options",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-shortlisting-broker",
+    "type": "TEXT",
+    "value": "Yes — shortlisting for them",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-gathering-info",
+    "type": "TEXT",
+    "value": "Gathering information",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-gathering-info-broker",
+    "type": "TEXT",
+    "value": "Building my knowledge",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-not-planning",
+    "type": "TEXT",
+    "value": "Not planning yet",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-not-planning-broker",
+    "type": "TEXT",
+    "value": "Just registering",
+    "imageUrl": null
+   },
+   {
+    "key": "option-unit-2br",
+    "type": "TEXT",
+    "value": "2 Bedroom",
+    "imageUrl": null
+   },
+   {
+    "key": "option-unit-3br",
+    "type": "TEXT",
+    "value": "3 Bedroom",
+    "imageUrl": null
+   },
+   {
+    "key": "option-budget-500k-1m",
+    "type": "TEXT",
+    "value": "AED 500K – AED 1M",
+    "imageUrl": null
+   },
+   {
+    "key": "option-budget-1m-2m",
+    "type": "TEXT",
+    "value": "AED 1M – AED 2M",
+    "imageUrl": null
+   },
+   {
+    "key": "option-budget-2m-3m",
+    "type": "TEXT",
+    "value": "AED 2M – AED 3M",
+    "imageUrl": null
+   },
+   {
+    "key": "option-budget-3m-plus",
+    "type": "TEXT",
+    "value": "AED 3M and Above",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-hot",
+    "type": "TEXT",
+    "value": "Hi, I'm {{first_name}}. I'm interested in a {{unit_type_label}} at {{project_name}} and ready to move. #EDENHOUSETHEPARK",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-nurture",
+    "type": "TEXT",
+    "value": "Hi, I'm {{first_name}}. Please send me the {{project_name}} brochure. #EDENHOUSETHEPARK",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-broker",
+    "type": "TEXT",
+    "value": "Hi, I'm {{first_name}} from {{company}} — interested in partnering on {{project_name}}. #EDENHOUSETHEPARKPARTNER",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-hot-broker",
+    "type": "TEXT",
+    "value": "Hi, I'm {{first_name}} from {{company}}. I have a client for a {{unit_type_label}} at {{project_name}}. #EDENHOUSETHEPARKPARTNER",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-nurture-broker",
+    "type": "TEXT",
+    "value": "Hi, I'm {{first_name}} from {{company}}. Please send me the {{project_name}} broker pack. #EDENHOUSETHEPARKPARTNER",
+    "imageUrl": null
+   }
+  ],
+  "chatTextAr": [
+   {
+    "key": "headerSubtitle",
+    "type": "TEXT",
+    "value": "من Refine",
+    "imageUrl": null
+   },
+   {
+    "key": "agentName",
+    "type": "TEXT",
+    "value": "Refine",
+    "imageUrl": null
+   },
+   {
+    "key": "onlineBadge",
+    "type": "TEXT",
+    "value": "نحن متصلون الآن",
+    "imageUrl": null
+   },
+   {
+    "key": "teaserText",
+    "type": "TEXT",
+    "value": "هل تريد الاطلاع على خطة الدفع لمشروع {{project_short}}؟",
+    "imageUrl": null
+   },
+   {
+    "key": "introTitle",
+    "type": "TEXT",
+    "value": "تواصل معنا",
+    "imageUrl": null
+   },
+   {
+    "key": "introSubtitle",
+    "type": "TEXT",
+    "value": "أخبرنا كيف يمكننا مساعدتك",
+    "imageUrl": null
+   },
+   {
+    "key": "textUsButton",
+    "type": "TEXT",
+    "value": "راسلنا",
+    "imageUrl": null
+   },
+   {
+    "key": "closeChatAria",
+    "type": "TEXT",
+    "value": "إغلاق المحادثة",
+    "imageUrl": null
+   },
+   {
+    "key": "openChatAria",
+    "type": "TEXT",
+    "value": "فتح المحادثة",
+    "imageUrl": null
+   },
+   {
+    "key": "minimiseChatAria",
+    "type": "TEXT",
+    "value": "تصغير المحادثة",
+    "imageUrl": null
+   },
+   {
+    "key": "toggleHoverLabel",
+    "type": "TEXT",
+    "value": "تحدث معنا",
+    "imageUrl": null
+   },
+   {
+    "key": "greetingTitle",
+    "type": "TEXT",
+    "value": "مرحباً، شكراً لزيارتك {{project_name}} من Refine.",
+    "imageUrl": null
+   },
+   {
+    "key": "greetingSubtitle",
+    "type": "TEXT",
+    "value": "أجب عن بضعة أسئلة سريعة وسأزودك بالمخططات وخطة الدفع وخط تواصل مباشر مع فريقنا.",
+    "imageUrl": null
+   },
+   {
+    "key": "roleQuestion",
+    "type": "TEXT",
+    "value": "أنا هنا بصفتي…",
+    "imageUrl": null
+   },
+   {
+    "key": "stageQuestion",
+    "type": "TEXT",
+    "value": "ما الذي يصف نيتك الشرائية الحالية بشكل أفضل؟",
+    "imageUrl": null
+   },
+   {
+    "key": "stageQuestionBroker",
+    "type": "TEXT",
+    "value": "هل لديك عميل لمشروع {{project_short}} حالياً؟",
+    "imageUrl": null
+   },
+   {
+    "key": "bedroomsQuestion",
+    "type": "TEXT",
+    "value": "كم عدد غرف النوم التي تهمك؟",
+    "imageUrl": null
+   },
+   {
+    "key": "bedroomsQuestionBroker",
+    "type": "TEXT",
+    "value": "ما أنواع الوحدات التي يطلبها عملاؤك؟",
+    "imageUrl": null
+   },
+   {
+    "key": "budgetQuestion",
+    "type": "TEXT",
+    "value": "ما هي ميزانيتك؟",
+    "imageUrl": null
+   },
+   {
+    "key": "budgetQuestionBroker",
+    "type": "TEXT",
+    "value": "ما الميزانية المعتادة لعملائك؟",
+    "imageUrl": null
+   },
+   {
+    "key": "companyQuestion",
+    "type": "TEXT",
+    "value": "ما اسم شركتك؟",
+    "imageUrl": null
+   },
+   {
+    "key": "companyPlaceholder",
+    "type": "TEXT",
+    "value": "أدخل اسم شركتك...",
+    "imageUrl": null
+   },
+   {
+    "key": "companyError",
+    "type": "TEXT",
+    "value": "يرجى إدخال اسم شركتك.",
+    "imageUrl": null
+   },
+   {
+    "key": "nameQuestion",
+    "type": "TEXT",
+    "value": "ما اسمك؟",
+    "imageUrl": null
+   },
+   {
+    "key": "firstNameFieldLabel",
+    "type": "TEXT",
+    "value": "الاسم الأول",
+    "imageUrl": null
+   },
+   {
+    "key": "lastNameFieldLabel",
+    "type": "TEXT",
+    "value": "اسم العائلة",
+    "imageUrl": null
+   },
+   {
+    "key": "firstNamePlaceholder",
+    "type": "TEXT",
+    "value": "أدخل اسمك الأول...",
+    "imageUrl": null
+   },
+   {
+    "key": "lastNamePlaceholder",
+    "type": "TEXT",
+    "value": "أدخل اسم عائلتك...",
+    "imageUrl": null
+   },
+   {
+    "key": "nameError",
+    "type": "TEXT",
+    "value": "يرجى إدخال اسمك (حرفان على الأقل).",
+    "imageUrl": null
+   },
+   {
+    "key": "phoneQuestion",
+    "type": "TEXT",
+    "value": "رقم هاتفك:",
+    "imageUrl": null
+   },
+   {
+    "key": "phonePlaceholder",
+    "type": "TEXT",
+    "value": "رقم الهاتف مع رمز الدولة...",
+    "imageUrl": null
+   },
+   {
+    "key": "phoneError",
+    "type": "TEXT",
+    "value": "يبدو أن الرقم غير مكتمل — يرجى إدخال رمز الدولة.",
+    "imageUrl": null
+   },
+   {
+    "key": "continueCta",
+    "type": "TEXT",
+    "value": "متابعة",
+    "imageUrl": null
+   },
+   {
+    "key": "consentText",
+    "type": "TEXT",
+    "value": "بالمتابعة، أنت توافق على أن يتواصل معك فريق Refine بخصوص هذا المشروع.",
+    "imageUrl": null
+   },
+   {
+    "key": "consentError",
+    "type": "TEXT",
+    "value": "يرجى تأكيد موافقتك على التواصل قبل الاستمرار.",
+    "imageUrl": null
+   },
+   {
+    "key": "emailQuestion",
+    "type": "TEXT",
+    "value": "وبريدك الإلكتروني:",
+    "imageUrl": null
+   },
+   {
+    "key": "emailPlaceholder",
+    "type": "TEXT",
+    "value": "أدخل بريدك الإلكتروني...",
+    "imageUrl": null
+   },
+   {
+    "key": "emailError",
+    "type": "TEXT",
+    "value": "يرجى إدخال بريد إلكتروني صحيح.",
+    "imageUrl": null
+   },
+   {
+    "key": "submittingText",
+    "type": "TEXT",
+    "value": "جارٍ إرسال طلبك...",
+    "imageUrl": null
+   },
+   {
+    "key": "submitFallbackText",
+    "type": "TEXT",
+    "value": "تم الحفظ — سيتواصل معك فريقنا قريباً.",
+    "imageUrl": null
+   },
+   {
+    "key": "thanksLine",
+    "type": "TEXT",
+    "value": "شكراً {{first_name}} — تم استلام بياناتك.",
+    "imageUrl": null
+   },
+   {
+    "key": "talkNowText",
+    "type": "TEXT",
+    "value": "🟢 خبيرنا متواجد الآن — احصل على إجاباتك فوراً.",
+    "imageUrl": null
+   },
+   {
+    "key": "talkNowTextBroker",
+    "type": "TEXT",
+    "value": "🟢 خبيرنا متواجد الآن — احصل على التوفر والأسعار وتفاصيل العمولة فوراً.",
+    "imageUrl": null
+   },
+   {
+    "key": "callButtonLabel",
+    "type": "TEXT",
+    "value": "📞 اتصل الآن",
+    "imageUrl": null
+   },
+   {
+    "key": "whatsappButtonLabel",
+    "type": "TEXT",
+    "value": "💬 واتساب",
+    "imageUrl": null
+   },
+   {
+    "key": "scheduleText",
+    "type": "TEXT",
+    "value": "خبراؤنا متاحون من الاثنين إلى الجمعة، من 9 صباحاً حتى 6 مساءً. متى نتصل بك؟",
+    "imageUrl": null
+   },
+   {
+    "key": "slotTodayLabel",
+    "type": "TEXT",
+    "value": "اليوم",
+    "imageUrl": null
+   },
+   {
+    "key": "slotTomorrowLabel",
+    "type": "TEXT",
+    "value": "غداً",
+    "imageUrl": null
+   },
+   {
+    "key": "slotAnytimeLabel",
+    "type": "TEXT",
+    "value": "أي وقت",
+    "imageUrl": null
+   },
+   {
+    "key": "slotConfirmText",
+    "type": "TEXT",
+    "value": "تم الحجز ✅ سنتصل بك {{slot_label}}.",
+    "imageUrl": null
+   },
+   {
+    "key": "scheduleWhatsappLabel",
+    "type": "TEXT",
+    "value": "💬 راسلنا الآن — سنرد في التاسعة صباحاً",
+    "imageUrl": null
+   },
+   {
+    "key": "nurtureText",
+    "type": "TEXT",
+    "value": "سنرسل لك بروشور {{project_name}} وخطة الدفع عبر واتساب.",
+    "imageUrl": null
+   },
+   {
+    "key": "nurtureTextBroker",
+    "type": "TEXT",
+    "value": "سنرسل لك حزمة الوسيط — البروشور وخطة الدفع ورابط التسجيل — عبر واتساب.",
+    "imageUrl": null
+   },
+   {
+    "key": "nurtureWhatsappLabel",
+    "type": "TEXT",
+    "value": "📲 استلمه عبر واتساب",
+    "imageUrl": null
+   },
+   {
+    "key": "nurtureWhatsappLabelBroker",
+    "type": "TEXT",
+    "value": "📲 استلم حزمة الوسيط",
+    "imageUrl": null
+   },
+   {
+    "key": "referenceLabel",
+    "type": "TEXT",
+    "value": "الرقم المرجعي:",
+    "imageUrl": null
+   },
+   {
+    "key": "startNewEnquiry",
+    "type": "TEXT",
+    "value": "بدء طلب جديد",
+    "imageUrl": null
+   },
+   {
+    "key": "errorTitle",
+    "type": "TEXT",
+    "value": "لم يتم إرسال الطلب",
+    "imageUrl": null
+   },
+   {
+    "key": "errorFallback",
+    "type": "TEXT",
+    "value": "لم نتمكن من إرسال طلبك. يرجى المحاولة مرة أخرى.",
+    "imageUrl": null
+   },
+   {
+    "key": "tryAgain",
+    "type": "TEXT",
+    "value": "حاول مرة أخرى",
+    "imageUrl": null
+   },
+   {
+    "key": "editDetails",
+    "type": "TEXT",
+    "value": "تعديل التفاصيل",
+    "imageUrl": null
+   },
+   {
+    "key": "lastNameQuestion",
+    "type": "TEXT",
+    "value": "وما اسم عائلتك؟",
+    "imageUrl": null
+   },
+   {
+    "key": "whatsappUnavailable",
+    "type": "TEXT",
+    "value": "خدمة واتساب غير مُفعّلة حالياً.",
+    "imageUrl": null
+   },
+   {
+    "key": "callUnavailable",
+    "type": "TEXT",
+    "value": "خدمة الاتصال غير مُفعّلة حالياً.",
+    "imageUrl": null
+   },
+   {
+    "key": "metaBot",
+    "type": "TEXT",
+    "value": "Refine • الآن",
+    "imageUrl": null
+   },
+   {
+    "key": "metaVisitor",
+    "type": "TEXT",
+    "value": "أنت • الآن",
+    "imageUrl": null
+   },
+   {
+    "key": "option-role-buyer",
+    "type": "TEXT",
+    "value": "مشترٍ / مستثمر",
+    "imageUrl": null
+   },
+   {
+    "key": "option-role-broker",
+    "type": "TEXT",
+    "value": "وسيط / وكيل عقاري",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-actively-looking",
+    "type": "TEXT",
+    "value": "أبحث بجدية وجاهز للحجز",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-actively-looking-broker",
+    "type": "TEXT",
+    "value": "نعم — أعمل على إتمام صفقة",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-shortlisting",
+    "type": "TEXT",
+    "value": "أضع قائمة مختصرة بالخيارات",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-shortlisting-broker",
+    "type": "TEXT",
+    "value": "نعم — أضع قائمة مختصرة له",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-gathering-info",
+    "type": "TEXT",
+    "value": "أجمع المعلومات",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-gathering-info-broker",
+    "type": "TEXT",
+    "value": "أبني معرفتي بالمشروع",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-not-planning",
+    "type": "TEXT",
+    "value": "لا أخطط بعد",
+    "imageUrl": null
+   },
+   {
+    "key": "option-stage-not-planning-broker",
+    "type": "TEXT",
+    "value": "أسجل فقط",
+    "imageUrl": null
+   },
+   {
+    "key": "option-unit-2br",
+    "type": "TEXT",
+    "value": "غرفتا نوم",
+    "imageUrl": null
+   },
+   {
+    "key": "option-unit-3br",
+    "type": "TEXT",
+    "value": "ثلاث غرف نوم",
+    "imageUrl": null
+   },
+   {
+    "key": "option-budget-500k-1m",
+    "type": "TEXT",
+    "value": "500 ألف – مليون درهم",
+    "imageUrl": null
+   },
+   {
+    "key": "option-budget-1m-2m",
+    "type": "TEXT",
+    "value": "1–2 مليون درهم",
+    "imageUrl": null
+   },
+   {
+    "key": "option-budget-2m-3m",
+    "type": "TEXT",
+    "value": "2–3 ملايين درهم",
+    "imageUrl": null
+   },
+   {
+    "key": "option-budget-3m-plus",
+    "type": "TEXT",
+    "value": "3 ملايين درهم فأكثر",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-hot",
+    "type": "TEXT",
+    "value": "مرحباً، أنا {{first_name}}. مهتم بوحدة {{unit_type_label}} في {{project_name}} وجاهز للمتابعة. #EDENHOUSETHEPARK",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-nurture",
+    "type": "TEXT",
+    "value": "مرحباً، أنا {{first_name}}. أرجو إرسال بروشور {{project_name}}. #EDENHOUSETHEPARK",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-broker",
+    "type": "TEXT",
+    "value": "مرحباً، أنا {{first_name}} من {{company}} — مهتم بالشراكة في مشروع {{project_name}}. #EDENHOUSETHEPARKPARTNER",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-hot-broker",
+    "type": "TEXT",
+    "value": "مرحباً، أنا {{first_name}} من {{company}}. لديّ عميل مهتم بوحدة {{unit_type_label}} في {{project_name}}. #EDENHOUSETHEPARKPARTNER",
+    "imageUrl": null
+   },
+   {
+    "key": "wa-nurture-broker",
+    "type": "TEXT",
+    "value": "مرحباً، أنا {{first_name}} من {{company}}. أرجو إرسال حزمة الوسيط لمشروع {{project_name}}. #EDENHOUSETHEPARKPARTNER",
+    "imageUrl": null
+   }
+  ],
+  "seo": [
+   {
+    "key": "meta-title",
+    "type": "TEXT",
+    "value": "Eden House The Park by Refine | Low-Rise Living On The Canal",
+    "imageUrl": null
+   },
+   {
+    "key": "meta-description",
+    "type": "TEXT",
+    "value": "Low-Rise Residences On The Dubai Water Canal, Developed By H&H",
+    "imageUrl": null
+   },
+   {
+    "key": "og-title",
+    "type": "TEXT",
+    "value": "",
+    "imageUrl": null
+   },
+   {
+    "key": "og-description",
+    "type": "TEXT",
+    "value": "",
+    "imageUrl": null
+   },
+   {
+    "key": "og-image",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": null
+   }
+  ],
+  "robots": [
+   {
+    "key": "allow-indexing",
+    "type": "BOOLEAN",
+    "value": "false",
+    "imageUrl": null
+   }
+  ]
+ }
+}
