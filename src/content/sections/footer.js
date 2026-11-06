@@ -52,5 +52,12 @@ export const FOOTER_FIELDS = [
   { key: "copyright", label: "Copyright line", type: "TEXT", defaultValue: "©2026. Refine Project Management. All rights reserved" },
   { key: "manage-cookies-label", label: "Manage Cookies link", type: "TEXT", defaultValue: "Manage Cookies" },
   { key: "privacy-label", label: "Privacy Policy link", type: "TEXT", defaultValue: "Privacy Policy" },
+  {
+    key: "privacy-href",
+    label: "Privacy Policy link address",
+    type: "LINK",
+    helperText: "Refine's company privacy policy by default. Use /privacy for this site's own Privacy page instead.",
+    defaultValue: "https://refinedubai.com/privacy-policy/",
+  },
   { key: "terms-label", label: "Terms link", type: "TEXT", defaultValue: "Terms & Conditions" },
 ];

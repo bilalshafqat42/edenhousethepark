@@ -371,7 +371,12 @@ export default async function Home() {
             <span><InlineText value={footer.copyright} /></span>
             <span>
               <a href="#" data-manage-cookies><InlineText value={footer["manage-cookies-label"]} inLink /></a> ·{" "}
-              <a href="/privacy"><InlineText value={footer["privacy-label"]} inLink /></a> ·{" "}
+              <a
+                href={footer["privacy-href"] || "/privacy"}
+                {...(/^https?:/i.test(footer["privacy-href"] || "") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                <InlineText value={footer["privacy-label"]} inLink />
+              </a> ·{" "}
               <a href="/terms"><InlineText value={footer["terms-label"]} inLink /></a>
             </span>
           </div>

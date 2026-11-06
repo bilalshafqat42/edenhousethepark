@@ -813,7 +813,7 @@
    {
     "key": "consent-text",
     "type": "TEXT",
-    "value": "By submitting this form, you agree to our <a href=\"/terms\">Terms of Use</a> and <a href=\"/privacy\">Privacy Policy</a>, and you consent to Refine contacting you about Eden House The Park.",
+    "value": "By submitting this form, you agree to our <a href=\"/terms\">Terms of Use</a> and <a href=\"https://refinedubai.com/privacy-policy/\" target=\"_blank\">Privacy Policy</a>, and you consent to Refine contacting you about Eden House The Park.",
     "imageUrl": null
    },
    {

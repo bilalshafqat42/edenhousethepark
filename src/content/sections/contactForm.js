@@ -41,9 +41,9 @@ export const CONTACT_FORM_FIELDS = [
     label: "Consent text next to the tick box",
     type: "TEXT",
     long: true,
-    helperText: "The links to /terms and /privacy are part of the text.",
+    helperText: "The links to /terms and Refine's privacy policy are part of the text.",
     defaultValue:
-      'By submitting this form, you agree to our <a href="/terms">Terms of Use</a> and <a href="/privacy">Privacy Policy</a>, and you consent to Refine contacting you about Eden House The Park.',
+      'By submitting this form, you agree to our <a href="/terms">Terms of Use</a> and <a href="https://refinedubai.com/privacy-policy/" target="_blank">Privacy Policy</a>, and you consent to Refine contacting you about Eden House The Park.',
   },
   { key: "missing-fields-message", label: "Message when fields are missing", type: "TEXT", defaultValue: "Please complete the highlighted fields." },
   {

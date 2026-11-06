@@ -61,15 +61,24 @@ export default function Motion() {
         });
       });
 
-      // Pull quote, word by word on scrub
+      // Pull quote, word by word on scrub. immediateRender: false keeps the
+      // words at full strength until the quote reaches the viewport, so the
+      // faint 0.14 start only exists on screen while it is being revealed
+      // (and a page checked without scrolling never sees faint text).
       const quote = document.querySelector("[data-quote]");
       if (quote) {
+        const words = quote.querySelectorAll(".word");
         gsap.fromTo(
-          quote.querySelectorAll(".word"),
+          words,
           { opacity: 0.14 },
           {
-            opacity: 1, stagger: 0.1, ease: "none",
-            scrollTrigger: { trigger: quote, start: "top 85%", end: "top 45%", scrub: 0.6 },
+            opacity: 1, stagger: 0.1, ease: "none", immediateRender: false,
+            scrollTrigger: {
+              trigger: quote, start: "top bottom", end: "top 45%", scrub: 0.6,
+              // All words go faint the moment the quote enters, so the ones
+              // whose turn has not come yet do not show at full strength.
+              onEnter: () => gsap.set(words, { opacity: 0.14 }),
+            },
           }
         );
       }

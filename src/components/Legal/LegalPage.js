@@ -61,7 +61,12 @@ export default async function LegalPage({ slug }) {
           <div className="footer__base fine">
             <span><InlineText value={c.footer.copyright} /></span>
             <span>
-              <Link href="/privacy"><InlineText value={c.footer["privacy-label"]} inLink /></Link> ·{" "}
+              <a
+                href={c.footer["privacy-href"] || "/privacy"}
+                {...(/^https?:/i.test(c.footer["privacy-href"] || "") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                <InlineText value={c.footer["privacy-label"]} inLink />
+              </a> ·{" "}
               <Link href="/terms"><InlineText value={c.footer["terms-label"]} inLink /></Link>
             </span>
           </div>
