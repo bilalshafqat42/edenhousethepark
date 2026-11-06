@@ -6,6 +6,7 @@ import FloorPlans from "@/components/FloorPlans";
 import LocationExplorer from "@/components/Location/LocationExplorer";
 import MobileMenu from "@/components/MobileMenu";
 import Motion from "@/components/Motion";
+import PlaceCarousel from "@/components/PlaceCarousel";
 
 const NAV = [
   { label: "About", href: "#about" },
@@ -23,15 +24,40 @@ const FEATURES = [
   { fig: "Q3 2027", label: "Handover", text: "70% of the price is due on handover" },
 ];
 
-const R = "/images/renders";
-
-// Image strips: a narrow, a wide and a narrow render, as in the design.
-const EXTERIOR_STRIP = [
-  { src: `${R}/aerial-canal.jpg`, w: 316, alt: "Aerial view of the buildings along the Dubai Water Canal" },
-  { src: `${R}/canal-skyline.jpg`, w: 760, alt: "Canal promenade beside the community" },
-  { src: `${R}/garden-path.jpg`, w: 316, alt: "Car-free park between the buildings" },
+// Key figures in the project overview, as in the design.
+const OVERVIEW_STATS = [
+  { fig: "459", count: 459, label: "Residences" },
+  { fig: "2, 3, 4", label: "Bedroom Homes" },
+  { fig: "6.4 km", label: "Canal Promenade" },
+  { fig: "Eden House", label: "Hospitality" },
+  { fig: "Q3 2027", label: "Handover" },
 ];
 
+const R = "/images/renders";
+
+// "A Considered Sense Of Place" carousel. The second slide opens in the centre.
+// TODO(copy): captions for the aerial slide and the line under "Rooted In The
+// Greenery" are not in the design screenshot yet.
+const PLACE_SLIDES = [
+  {
+    src: `${R}/hero-aerial-canal.jpg`,
+    position: "22% 50%",
+    alt: "Aerial view of the buildings along the Dubai Water Canal",
+  },
+  {
+    src: `${R}/canal-skyline.jpg`,
+    alt: "Canal promenade beside the buildings, with the city skyline behind",
+    title: "Life Along The Canal",
+    text: "Direct access to the 6.4 km canal promenade, with waterfront views and walkable surroundings.",
+  },
+  {
+    src: `${R}/garden-path.jpg`,
+    alt: "Garden path between the buildings",
+    title: "Rooted In The Greenery",
+  },
+];
+
+// Image strips: a narrow, a wide and a narrow render, as in the design.
 const INTERIOR_STRIP = [
   { src: `${R}/marble-corridor.jpg`, w: 316, alt: "Corridor with green marble walls" },
   { src: `${R}/residents-lounge.jpg`, w: 760, alt: "Residents' lounge with seating and a long dining table" },
@@ -146,7 +172,7 @@ export default function Home() {
       </header>
 
       <main id="main">
-        {/* Hero: full-bleed render under the header, centred copy, key figures along the bottom */}
+        {/* Hero: full-width render below the header, centred copy in the lower part */}
         <section className="hero" id="top" data-hero>
           <div className="hero__media" data-hero-img>
             <Image
@@ -160,38 +186,47 @@ export default function Home() {
           <div className="hero__shade" aria-hidden="true" />
           <div className="container hero__content">
             <h1 className="hero__title">
-              <span className="hero__line"><span data-hero-line>Life, Set Around A Park On The Canal</span></span>
+              <span className="hero__line"><span data-hero-line>Homes Along The Dubai Water Canal</span></span>
             </h1>
-            <p className="hero__body" data-hero-body>Low-Rise Residences On The Dubai Water Canal, Developed By H&amp;H</p>
+            <p className="hero__body" data-hero-body>Seven Low-Rise Buildings Beside Al Safa Park, Developed By H&amp;H.</p>
             <a href="#floor-plans" className="btn hero__cta" data-hero-btn>Get Prices &amp; Floor Plans</a>
           </div>
-          <ul className="container hero__stats" data-hero-stats>
-            {FEATURES.map((f) => (
-              <li key={f.label}>
-                <p className="hero__stat-fig">
-                  {f.count ? <span data-count={f.count}>{f.fig}</span> : f.fig}
-                </p>
-                <p className="hero__stat-label">{f.label}</p>
-              </li>
-            ))}
-          </ul>
         </section>
 
-        {/* Intro statement */}
-        <section className="intro bg-mint">
+        {/* Project overview */}
+        <section className="overview bg-mint" aria-labelledby="overview-title">
           <div className="container">
-            <p className="eyebrow" data-reveal="eyebrow">Where The</p>
-            <p className="quote" data-quote>
-              {"City Gives Way To The Park".split(" ").map((word, i) => (
-                <span key={i}>
-                  <span className="word">{word}</span>{" "}
-                </span>
-              ))}
+            <p className="eyebrow" data-reveal="eyebrow">Project Overview</p>
+            <h2 className="display-40" id="overview-title" data-reveal="heading">Life Along The Canal</h2>
+            <p className="lead" data-reveal="body">
+              Direct access to the 6.4 km canal promenade, with waterfront views and walkable surroundings.
             </p>
-            <p className="body intro__body" data-reveal="body">
-              Eden House The Park is a community of 459 homes in seven low-rise buildings on the Dubai Water Canal, with two- and three-bedroom apartments on sale.
+            <ul className="overview__stats" data-stagger>
+              {OVERVIEW_STATS.map((f) => (
+                <li key={f.label}>
+                  <p className="overview__fig">
+                    {f.count ? <span data-count={f.count}>{f.fig}</span> : f.fig}
+                  </p>
+                  <p className="label">{f.label}</p>
+                </li>
+              ))}
+            </ul>
+            <div className="btn-row overview__actions">
+              <a href="#contact" className="btn btn--line">Download Brochure</a>
+              <a href="#contact" className="btn btn--line">Submit Request</a>
+            </div>
+          </div>
+        </section>
+
+        {/* A considered sense of place: draggable render carousel */}
+        <section className="place" aria-labelledby="place-title">
+          <div className="container">
+            <h2 className="display-40" id="place-title" data-reveal="heading">A Considered Sense Of Place</h2>
+            <p className="lead" data-reveal="body">
+              A residential setting defined by understated elegance, a connection to nature and a sense of belonging.
             </p>
           </div>
+          <PlaceCarousel slides={PLACE_SLIDES} />
         </section>
 
         {/* Project features */}
@@ -212,8 +247,6 @@ export default function Home() {
             <a href="#contact" className="btn btn--light">Submit Request</a>
           </div>
         </section>
-
-        <ImageStrip items={EXTERIOR_STRIP} label="The buildings and the canal" />
 
         {/* Lifestyle gallery */}
         <section className="section gallery" id="amenities">
