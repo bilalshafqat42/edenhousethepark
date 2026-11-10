@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-import { originalImageFor } from "@/lib/cdn-cgi-fallback";
 import { isAuthorised } from "@/lib/staging-auth";
 
 /*
@@ -11,19 +10,6 @@ import { isAuthorised } from "@/lib/staging-auth";
  * every request passes straight through there.
  */
 export function proxy(request) {
-  // Resized-image requests only reach the site off Cloudflare (the Render
-  // address): answer with the original image (src/lib/cdn-cgi-fallback.js).
-  if (request.nextUrl.pathname.startsWith("/cdn-cgi/")) {
-    const original = originalImageFor(request.nextUrl.pathname);
-    if (original?.rewrite) {
-      return NextResponse.rewrite(new URL(original.rewrite, request.url));
-    }
-    if (original?.redirect) {
-      return NextResponse.redirect(original.redirect, 302);
-    }
-    return new NextResponse("Not found.", { status: 404 });
-  }
-
   const password = process.env.STAGING_PASSWORD;
   if (!password) {
     return NextResponse.next();
