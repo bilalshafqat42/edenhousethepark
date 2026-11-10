@@ -7,6 +7,8 @@ export const LABELS_FIELDS = [
   { key: "close-label", label: "Close buttons (image viewer and enquiry form; screen readers)", type: "TEXT", defaultValue: "Close" },
   { key: "previous-image-label", label: "Image viewer: previous button (screen readers)", type: "TEXT", defaultValue: "Previous image" },
   { key: "next-image-label", label: "Image viewer: next button (screen readers)", type: "TEXT", defaultValue: "Next image" },
+  { key: "previous-slide-label", label: "Carousels: previous arrow (screen readers)", type: "TEXT", defaultValue: "Previous slide" },
+  { key: "next-slide-label", label: "Carousels: next arrow (screen readers)", type: "TEXT", defaultValue: "Next slide" },
   {
     key: "carousel-hint",
     label: "Carousels: how to move with the keyboard (screen readers)",

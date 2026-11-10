@@ -115,6 +115,8 @@ export default async function Home() {
     hint: ui["carousel-hint"],
     positionLabel: ui["slide-position"],
     announcement: ui["slide-announcement"],
+    previousLabel: plain(ui["previous-slide-label"]),
+    nextLabel: plain(ui["next-slide-label"]),
   };
   const fp = c.floorPlans;
   const fallbackRender = safeImageSrc(fp.image, "/images/renders/bedroom.jpg");

@@ -16,19 +16,35 @@ gsap.registerPlugin(Draggable);
  * The slides are rendered three times (the outer two sets are hidden
  * copies), so dragging left or right never runs out. After each move the
  * position quietly jumps back into the middle set.
+ *
+ * Drag or swipe the centre slide, click a side slide to bring it to the
+ * centre, or use the long arrows (over the side slides; below the row on
+ * phones) and the keyboard's arrow keys.
  */
+
+// A long, thin arrow pointing right; the previous button mirrors it in CSS.
+function LongArrow() {
+  return (
+    <svg width="56" height="14" viewBox="0 0 56 14" fill="none" aria-hidden="true" focusable="false">
+      <path d="M0 7h54M48 1l6 6-6 6" stroke="currentColor" strokeWidth="1.25" />
+    </svg>
+  );
+}
 export default function PlaceCarousel({
   slides,
   label = "Renders of Eden House The Park",
   hint = "Use the left and right arrow keys to move.",
   positionLabel = "{n} of {total}",
   announcement = "Slide {n} of {total}",
+  previousLabel = "Previous slide",
+  nextLabel = "Next slide",
 }) {
   const n = slides.length;
   const start = n + 1; // second slide of the middle set, as in the design
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const indexRef = useRef(start);
+  const goToRef = useRef(null);
   const [active, setActive] = useState(start % n);
   const firstCaption = useRef(true);
 
@@ -74,6 +90,7 @@ export default function PlaceCarousel({
       });
     };
 
+    goToRef.current = goTo;
     gsap.set(track, { x: xFor(indexRef.current) });
 
     // A drag counts only when the finger or mouse moved more across than
@@ -92,6 +109,12 @@ export default function PlaceCarousel({
       cursor: "grab",
       activeCursor: "grabbing",
       onPress() { pressX = this.pointerX; pressY = this.pointerY; },
+      // A click (no drag) on a side slide brings that slide to the centre
+      onClick(e) {
+        const slide = e.target.closest?.(".place__slide");
+        const k = slide ? Array.prototype.indexOf.call(track.children, slide) : -1;
+        if (k >= 0 && k !== indexRef.current) goTo(k);
+      },
       // Only a real sideways drag stops a slide in progress; a vertical
       // swipe that starts on the row (to scroll the page) must not.
       onDrag() { if (sideways(this)) gsap.killTweensOf(track); },
@@ -117,6 +140,7 @@ export default function PlaceCarousel({
 
 
     return () => {
+      goToRef.current = null;
       drag.kill();
       gsap.killTweensOf(track);
       viewport.removeEventListener("keydown", onKey);
@@ -150,7 +174,7 @@ export default function PlaceCarousel({
                 src={s.src}
                 alt={clone ? "" : s.alt}
                 fill
-                sizes="(max-width: 600px) 84vw, 53vw"
+                sizes="(max-width: 600px) 76vw, 53vw"
                 style={s.position ? { objectPosition: s.position } : undefined}
                 draggable={false}
               />
@@ -164,6 +188,14 @@ export default function PlaceCarousel({
           );
         })}
       </ul>
+      <div className="place__nav">
+        <button type="button" className="place__arrow place__arrow--prev" aria-label={previousLabel} onClick={() => goToRef.current?.(indexRef.current - 1)}>
+          <LongArrow />
+        </button>
+        <button type="button" className="place__arrow place__arrow--next" aria-label={nextLabel} onClick={() => goToRef.current?.(indexRef.current + 1)}>
+          <LongArrow />
+        </button>
+      </div>
       <p className="sr-only" aria-live="polite">
         {`${fillTokens(announcement, { n: active + 1, total: n })}${slides[active].titlePlain ? `: ${slides[active].titlePlain}` : ""}`}
       </p>

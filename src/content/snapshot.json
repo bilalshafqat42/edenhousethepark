@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-10T07:40:53.872Z",
+ "generatedAt": "2026-11-10T12:03:55.193Z",
  "sections": {
   "navigation": [
    {
@@ -1261,6 +1261,18 @@
     "key": "next-image-label",
     "type": "TEXT",
     "value": "Next image",
+    "imageUrl": null
+   },
+   {
+    "key": "previous-slide-label",
+    "type": "TEXT",
+    "value": "Previous slide",
+    "imageUrl": null
+   },
+   {
+    "key": "next-slide-label",
+    "type": "TEXT",
+    "value": "Next slide",
     "imageUrl": null
    },
    {
