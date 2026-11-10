@@ -3,6 +3,7 @@ import { readSections } from "@/lib/page-content";
 import { plainTextValues } from "@/lib/inline-text";
 import { safeImageSrc } from "@/lib/safe-url";
 import { getSiteUrl } from "@/lib/site-url";
+import { shareImage } from "@/lib/share-image";
 import { isStagingSite } from "@/lib/staging";
 
 // Brand fonts are declared by name in globals.css (@font-face). These are the
@@ -22,12 +23,16 @@ const PRELOAD_FONTS = [
  * noindex, nofollow, whatever the panel says.
  */
 export async function generateMetadata() {
-  const { seo: rawSeo, appearance } = await readSections(["seo", "appearance"]);
+  const { seo: rawSeo, appearance, hero } = await readSections(["seo", "appearance", "hero"]);
   const seo = plainTextValues(rawSeo);
   const siteUrl = getSiteUrl();
   const title = seo["meta-title"];
   const description = seo["meta-description"];
-  const ogImage = safeImageSrc(seo["og-image"], "");
+  const ogImage = shareImage({
+    shareSrc: safeImageSrc(seo["og-image"], ""),
+    heroSrc: safeImageSrc(hero.image, ""),
+    resize: process.env.CLOUDFLARE_IMAGE_RESIZING === "true",
+  });
   const favicon = safeImageSrc(appearance.favicon, "/favicon.ico");
 
   return {
@@ -40,7 +45,13 @@ export async function generateMetadata() {
       url: "/",
       title: seo["og-title"] || title,
       description: seo["og-description"] || description,
-      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+      ...(ogImage ? { images: [{ ...ogImage, alt: seo["og-title"] || title }] } : {}),
+    },
+    twitter: {
+      card: ogImage ? "summary_large_image" : "summary",
+      title: seo["og-title"] || title,
+      description: seo["og-description"] || description,
+      ...(ogImage ? { images: [ogImage.url] } : {}),
     },
     ...(favicon !== "/favicon.ico" ? { icons: { icon: favicon } } : {}),
     ...(isStagingSite() ? { robots: { index: false, follow: false } } : {}),

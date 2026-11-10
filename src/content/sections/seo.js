@@ -22,7 +22,7 @@ export const SEO_FIELDS = [
     key: "og-image",
     label: "Share image",
     type: "IMAGE",
-    helperText: "1200×630px JPEG or PNG. Blank: no image in share previews. WhatsApp keeps an old preview for a while; share the link to yourself once after changing it.",
+    helperText: "Optional, 1200×630px JPEG or PNG. Blank: the hero image is used. WhatsApp keeps an old preview for a while; share the link to yourself once after changing it.",
     defaultValue: "",
   },
 ];
