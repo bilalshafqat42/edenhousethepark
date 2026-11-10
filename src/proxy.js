@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { canonicalRedirect } from "@/lib/canonical-host";
+import { getSiteUrl } from "@/lib/site-url";
 import { isAuthorised } from "@/lib/staging-auth";
 
 /*
@@ -10,6 +12,22 @@ import { isAuthorised } from "@/lib/staging-auth";
  * every request passes straight through there.
  */
 export function proxy(request) {
+  // The Render address cannot show resized images: send page loads to SITE_URL.
+  const moveTo = process.env.SITE_URL
+    ? canonicalRedirect(
+        {
+          method: request.method,
+          host: request.headers.get("x-forwarded-host") || request.headers.get("host"),
+          pathname: request.nextUrl.pathname,
+          search: request.nextUrl.search,
+        },
+        getSiteUrl(),
+      )
+    : null;
+  if (moveTo) {
+    return NextResponse.redirect(moveTo, 308);
+  }
+
   const password = process.env.STAGING_PASSWORD;
   if (!password) {
     return NextResponse.next();
