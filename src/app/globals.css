@@ -357,7 +357,7 @@ ul { list-style: none; }
 /* About (H&H). Figma: white; logo, Ivy Presto 46 heading and button on the
    left; the text from 674px, 648px wide. */
 .about { background: #fff; padding: var(--pad-section) 0; }
-.about__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 648px); gap: 56px; align-items: start; }
+.about__grid { display: grid; grid-template-columns: minmax(300px, 1fr) minmax(0, 648px); gap: 56px; align-items: start; }
 .about__logo { display: block; width: auto; height: 45px; margin-bottom: var(--gap-content); }
 .about__head .display-46 { max-width: 420px; margin-bottom: var(--gap-actions); }
 .about__body { padding-top: 12px; }
@@ -770,8 +770,16 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   .footer__partners > div + div { margin-top: 28px; }
   .plans__expand-wrap { top: 77px; }
   .tab { padding: 0 12px; }
-  /* Button pairs share the width equally, so they read as a pair */
-  .btn-row > .btn { flex: 1 1 0; min-width: 0; padding-inline: 12px; }
+  /* Button pairs (exactly two) share the width equally, so they read as a pair */
+  .btn-row > .btn:first-child:nth-last-child(2),
+  .btn-row > .btn:first-child:nth-last-child(2) ~ .btn { flex: 1 1 0; min-width: 0; padding-inline: 12px; }
+  /* A label too long for a narrow button wraps inside it instead of spilling out */
+  .btn-row > .btn { white-space: normal; height: auto; min-height: 44px; padding-block: 10px; line-height: 1.25; }
+  /* Cookie notice: title on top, Choose | Reject side by side, Accept full width */
+  .cookie__inner { flex-direction: column; align-items: stretch; gap: 14px; min-height: 0; padding-top: 18px; padding-bottom: 18px; }
+  .cookie .btn-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .cookie .btn-row > .btn { width: 100%; padding-inline: 10px; }
+  .cookie .btn-row > .btn--fill { grid-column: 1 / -1; }
   .lightbox__nav { top: auto; bottom: 20px; transform: none; }
   .lightbox__frame { height: 70vh; }
   .place__track { --w: 84vw; --gap: 12px; }
