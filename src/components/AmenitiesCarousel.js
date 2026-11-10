@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import InlineText from "@/components/InlineText";
 import { gsap } from "@/lib/gsap";
-import { scrollStep } from "@/lib/scroll-step";
 import { Draggable } from "gsap/Draggable";
 import { fillTokens } from "@/lib/fill-tokens";
 
@@ -14,10 +13,8 @@ gsap.registerPlugin(Draggable);
  * Amenities: a row of cards that starts at the page margin and runs off the
  * right edge.
  *
- * Scrolling down moves the row on by one card while the section is pinned;
- * scrolling up passes through (src/lib/scroll-step.js, shared by every
- * carousel). Drag or swipe the row, or use the arrow keys, at any size; it
- * settles on the nearest card and stops at the first and last.
+ * Drag or swipe the row, or use the arrow keys, at any size; it settles on
+ * the nearest card and stops at the first and last.
  *
  * items: [{ src, alt, title, text }] (resolved by the page from the panel)
  */
@@ -105,16 +102,8 @@ export default function AmenitiesCarousel({ items, label, hint = "Use the left a
     };
     window.addEventListener("resize", onResize);
 
-    // Scroll step (shared with every carousel): one card on the way down
-    // while the section is pinned; nothing on the way up.
-    const stopScrollStep = scrollStep({
-      viewport,
-      section: viewport.closest("section") ?? viewport,
-      onStep: () => goTo(index + 1),
-    });
 
     return () => {
-      stopScrollStep();
       drag.kill();
       gsap.killTweensOf(track);
       viewport.removeEventListener("keydown", onKey);

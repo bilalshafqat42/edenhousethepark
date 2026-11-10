@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
-import { scrollStep } from "@/lib/scroll-step";
 import { Draggable } from "gsap/Draggable";
 import InlineText from "@/components/InlineText";
 import { fillTokens } from "@/lib/fill-tokens";
@@ -17,10 +16,6 @@ gsap.registerPlugin(Draggable);
  * The slides are rendered three times (the outer two sets are hidden
  * copies), so dragging left or right never runs out. After each move the
  * position quietly jumps back into the middle set.
- *
- * Scrolling down moves it on by one slide while the section is pinned;
- * scrolling up passes through (src/lib/scroll-step.js, shared by every
- * carousel).
  */
 export default function PlaceCarousel({
   slides,
@@ -120,16 +115,8 @@ export default function PlaceCarousel({
     const onResize = () => gsap.set(track, { x: xFor(indexRef.current) });
     window.addEventListener("resize", onResize);
 
-    // Scroll step (shared with every carousel): one slide on the way down
-    // while the section is pinned; nothing on the way up.
-    const stopScrollStep = scrollStep({
-      viewport,
-      section: viewport.closest("section") ?? viewport,
-      onStep: () => goTo(indexRef.current + 1),
-    });
 
     return () => {
-      stopScrollStep();
       drag.kill();
       gsap.killTweensOf(track);
       viewport.removeEventListener("keydown", onKey);

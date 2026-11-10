@@ -45,11 +45,8 @@ export default function Motion() {
       if (id && !target) return;
       e.preventDefault();
       const offset = header?.offsetHeight ?? 0;
-      // A carousel section is wrapped in GSAP's pin spacer; aim at the spacer
-      // so the section lands just below the header, before its pin starts.
-      const aim = target?.parentElement?.classList.contains("pin-spacer") ? target.parentElement : target;
       gsap.to(window, {
-        scrollTo: { y: aim ?? 0, offsetY: aim ? offset : 0, autoKill: true },
+        scrollTo: { y: target ?? 0, offsetY: target ? offset : 0, autoKill: true },
         duration: reduced ? 0 : 1.1,
         ease: "power3.inOut",
         overwrite: true,
