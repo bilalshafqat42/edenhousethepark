@@ -54,7 +54,9 @@ export async function generateMetadata() {
       description: seo["og-description"] || description,
       ...(ogImage ? { images: [ogImage.url] } : {}),
     },
-    ...(favicon !== "/favicon.ico" ? { icons: { icon: favicon } } : {}),
+    // Always set here: an app/favicon.ico file would override the panel's
+    // favicon (file-based metadata wins), so the built-in icon lives in public/.
+    icons: { icon: favicon, shortcut: favicon, apple: favicon },
     ...(isStagingSite() ? { robots: { index: false, follow: false } } : {}),
   };
 }
