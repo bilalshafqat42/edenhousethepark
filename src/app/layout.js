@@ -1,4 +1,5 @@
 import "./globals.css";
+import { HERO_IMAGE_FALLBACK } from "@/content/sections/hero";
 import { readSections } from "@/lib/page-content";
 import { plainTextValues } from "@/lib/inline-text";
 import { safeImageSrc } from "@/lib/safe-url";
@@ -30,7 +31,7 @@ export async function generateMetadata() {
   const description = seo["meta-description"];
   const ogImage = shareImage({
     shareSrc: safeImageSrc(seo["og-image"], ""),
-    heroSrc: safeImageSrc(hero.image, ""),
+    heroSrc: safeImageSrc(hero.image, HERO_IMAGE_FALLBACK),
     resize: process.env.CLOUDFLARE_IMAGE_RESIZING === "true",
   });
   const favicon = safeImageSrc(appearance.favicon, "/favicon.ico");

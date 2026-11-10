@@ -1,6 +1,9 @@
 // The first screen: full-width render below the header, centred headline, call to action.
+// Used whenever the panel's hero image is blank, by the page and the link preview alike.
+export const HERO_IMAGE_FALLBACK = "/images/renders/hero-aerial-canal.jpg";
+
 export const HERO_FIELDS = [
-  { key: "image", label: "Background image", type: "IMAGE", helperText: "Landscape, at least 2400px wide.", defaultValue: "/images/renders/hero-aerial-canal.jpg" },
+  { key: "image", label: "Background image", type: "IMAGE", helperText: "Landscape, at least 2400px wide.", defaultValue: HERO_IMAGE_FALLBACK },
   {
     key: "image-alt",
     label: "Background image description (alt text)",

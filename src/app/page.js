@@ -7,6 +7,7 @@ import LocationExplorer from "@/components/Location/LocationExplorer";
 import MobileMenu from "@/components/MobileMenu";
 import Motion from "@/components/Motion";
 import { chatTextFromContent } from "@/content/sections/chatText";
+import { HERO_IMAGE_FALLBACK } from "@/content/sections/hero";
 import { readSections } from "@/lib/page-content";
 import { plainTextValues, toPlainText } from "@/lib/inline-text";
 import { isExternalHref, safeHref, safeImageSrc, wholeNumber } from "@/lib/safe-url";
@@ -182,7 +183,7 @@ export default async function Home() {
         <section className="hero" id="top" data-hero>
           <div className="hero__media" data-hero-img>
             <Image
-              src={safeImageSrc(hero.image, "/images/renders/hero-aerial-canal.jpg")}
+              src={safeImageSrc(hero.image, HERO_IMAGE_FALLBACK)}
               alt={plain(hero["image-alt"])}
               fill
               priority
