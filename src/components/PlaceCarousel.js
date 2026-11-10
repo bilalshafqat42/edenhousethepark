@@ -6,6 +6,7 @@ import { gsap } from "@/lib/gsap";
 import { scrollStep } from "@/lib/scroll-step";
 import { Draggable } from "gsap/Draggable";
 import InlineText from "@/components/InlineText";
+import { fillTokens } from "@/lib/fill-tokens";
 
 gsap.registerPlugin(Draggable);
 
@@ -21,7 +22,13 @@ gsap.registerPlugin(Draggable);
  * scrolling up passes through (src/lib/scroll-step.js, shared by every
  * carousel).
  */
-export default function PlaceCarousel({ slides, label = "Renders of Eden House The Park" }) {
+export default function PlaceCarousel({
+  slides,
+  label = "Renders of Eden House The Park",
+  hint = "Use the left and right arrow keys to move.",
+  positionLabel = "{n} of {total}",
+  announcement = "Slide {n} of {total}",
+}) {
   const n = slides.length;
   const start = n + 1; // second slide of the middle set, as in the design
   const viewportRef = useRef(null);
@@ -139,7 +146,7 @@ export default function PlaceCarousel({ slides, label = "Renders of Eden House T
       tabIndex={0}
       role="region"
       aria-roledescription="carousel"
-      aria-label={`${label}. Use the left and right arrow keys to move.`}
+      aria-label={[label, hint].filter(Boolean).join(". ")}
     >
       <ul className="place__track" ref={trackRef} style={{ "--start": start }}>
         {copies.map((s) => {
@@ -150,7 +157,7 @@ export default function PlaceCarousel({ slides, label = "Renders of Eden House T
               className={`place__slide${s.i === active ? " is-active" : ""}`}
               aria-hidden={clone || undefined}
               aria-roledescription={clone ? undefined : "slide"}
-              aria-label={clone ? undefined : `${s.i + 1} of ${n}`}
+              aria-label={clone ? undefined : fillTokens(positionLabel, { n: s.i + 1, total: n })}
             >
               <Image
                 src={s.src}
@@ -171,7 +178,7 @@ export default function PlaceCarousel({ slides, label = "Renders of Eden House T
         })}
       </ul>
       <p className="sr-only" aria-live="polite">
-        {`Slide ${active + 1} of ${n}${slides[active].titlePlain ? `: ${slides[active].titlePlain}` : ""}`}
+        {`${fillTokens(announcement, { n: active + 1, total: n })}${slides[active].titlePlain ? `: ${slides[active].titlePlain}` : ""}`}
       </p>
     </div>
   );

@@ -30,7 +30,7 @@ export const CONTACT_FIELDS = [
     itemLabel: "Detail",
     helperText: "Link: tel:+97144230167 for a phone number, mailto:name@refinedubai.com for an email.",
     itemFields: [
-      { key: "label", label: "Label (e.g. Telephone)", type: "TEXT" },
+      { key: "label", label: "Label (e.g. Telephone; read out by screen readers)", type: "TEXT" },
       { key: "value", label: "Shown as (e.g. +971 4 423 0167)", type: "TEXT" },
       { key: "href", label: "Link (tel: or mailto:)", type: "LINK" },
     ],

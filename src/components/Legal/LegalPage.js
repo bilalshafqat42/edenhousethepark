@@ -4,7 +4,7 @@ import Link from "next/link";
 import InlineText from "@/components/InlineText";
 import { readSections } from "@/lib/page-content";
 import { plainTextValues, toPlainText } from "@/lib/inline-text";
-import { safeHref, safeImageSrc } from "@/lib/safe-url";
+import { isExternalHref, safeHref, safeImageSrc } from "@/lib/safe-url";
 import { sanitizeRichText } from "@/lib/sanitize-rich-text";
 
 /*
@@ -32,6 +32,7 @@ export async function legalMetadata(slug, path) {
 
 export default async function LegalPage({ slug }) {
   const c = await readSections([slug, "navigation", "appearance", "footer"]);
+  const privacyHref = safeHref(c.footer["privacy-href"], "/privacy");
   const page = c[slug];
   const nav = c.navigation;
 
@@ -62,8 +63,8 @@ export default async function LegalPage({ slug }) {
             <span><InlineText value={c.footer.copyright} /></span>
             <span>
               <a
-                href={c.footer["privacy-href"] || "/privacy"}
-                {...(/^https?:/i.test(c.footer["privacy-href"] || "") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                href={privacyHref}
+                {...(isExternalHref(privacyHref) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 <InlineText value={c.footer["privacy-label"]} inLink />
               </a> ·{" "}

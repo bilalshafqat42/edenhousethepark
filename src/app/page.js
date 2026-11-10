@@ -72,7 +72,7 @@ const list = (value) => (Array.isArray(value) ? value.filter((item) => item && t
 export default async function Home() {
   const c = await readSections([
     "navigation", "appearance", "hero", "intro", "place", "features", "imageStrips", "gallery", "interiors", "floorPlans",
-    "location", "payment", "brochure", "about", "contact", "contactForm", "footer", "cookies",
+    "location", "payment", "brochure", "about", "contact", "contactForm", "footer", "cookies", "labels",
     "chatAgent", "chatTextEn", "chatTextAr",
   ]);
   const { navigation: nav, hero, intro, place, features, gallery, interiors, payment, about, contact, footer } = c;
@@ -103,6 +103,18 @@ export default async function Home() {
   const placeSlides = slidesOf(place.slides);
   const interiorSlides = slidesOf(interiors.slides);
   // Interiors and floor plans: each layout's render, area rows and plans
+  // Screen-reader and viewer labels (Viewer & Carousel Labels section)
+  const ui = plainTextValues(c.labels);
+  const viewerLabels = {
+    closeLabel: ui["close-label"],
+    previousLabel: ui["previous-image-label"],
+    nextLabel: ui["next-image-label"],
+  };
+  const carouselLabels = {
+    hint: ui["carousel-hint"],
+    positionLabel: ui["slide-position"],
+    announcement: ui["slide-announcement"],
+  };
   const fp = c.floorPlans;
   const fallbackRender = safeImageSrc(fp.image, "/images/renders/bedroom.jpg");
   const floorPlans = {
@@ -112,6 +124,11 @@ export default async function Home() {
     tabsLabel: plain(fp["tabs-aria-label"]),
     ctaLabel: fp["cta-label"],
     ctaHref: safeHref(fp["cta-href"], "#contact"),
+    planCaption: plain(fp["plan-caption"]),
+    plansViewerLabel: plain(fp["plans-viewer-label"]),
+    expandLabel: plain(fp["expand-aria-label"]),
+    rendersViewerLabel: plain(fp["renders-viewer-label"]),
+    viewerLabels,
     layouts: list(fp.plans).map((plan) => ({
       tab: plan.tab,
       heading: plan.heading,
@@ -131,6 +148,7 @@ export default async function Home() {
     .map((g) => ({ src: safeImageSrc(g.image, ""), alt: plain(g.alt), title: g.title || "", text: g.text || "" }))
     .filter((g) => g.src);
   const contacts = list(contact.details).map((item) => ({ ...item, href: safeHref(item.href, "#contact") }));
+  const privacyHref = safeHref(footer["privacy-href"], "/privacy");
 
   return (
     <>
@@ -217,7 +235,7 @@ export default async function Home() {
               <InlineText value={place.body} />
             </p>
           </div>
-          {placeSlides.length > 0 && <PlaceCarousel slides={placeSlides} label={plain(place.heading)} />}
+          {placeSlides.length > 0 && <PlaceCarousel slides={placeSlides} label={plain(place.heading)} {...carouselLabels} />}
         </section>
 
         {/* Project features: hidden in the new design, switched on from the panel */}
@@ -287,7 +305,7 @@ export default async function Home() {
             <h2 className="display-40" id="amenities-title" data-reveal="heading"><InlineText value={gallery.heading} /></h2>
             {plain(gallery.body) && <p className="lead" data-reveal="body"><InlineText value={gallery.body} /></p>}
           </div>
-          {amenities.length > 0 && <AmenitiesCarousel items={amenities} label={plain(gallery.heading)} />}
+          {amenities.length > 0 && <AmenitiesCarousel items={amenities} label={plain(gallery.heading)} hint={carouselLabels.hint} positionLabel={carouselLabels.positionLabel} />}
         </section>
 
         {/* An expression of understated luxury: interiors carousel */}
@@ -298,7 +316,7 @@ export default async function Home() {
               <InlineText value={interiors.body} />
             </p>
           </div>
-          {interiorSlides.length > 0 && <PlaceCarousel slides={interiorSlides} label={plain(interiors.heading)} />}
+          {interiorSlides.length > 0 && <PlaceCarousel slides={interiorSlides} label={plain(interiors.heading)} {...carouselLabels} />}
         </section>
 
         {/* Location: copy on the left half, Mapbox map on the right half */}
@@ -342,7 +360,7 @@ export default async function Home() {
             <p className="eyebrow" data-reveal="eyebrow"><InlineText value={contact.eyebrow} /></p>
             <h2 className="display-46" id="register-title" data-reveal="heading"><InlineText value={contact.heading} /></h2>
             <p className="lead" data-reveal="body"><InlineText value={contact.intro} /></p>
-            <EnquiryDialog buttonLabel={contact["button-label"]} title={contact["form-title"]} formContent={c.contactForm} />
+            <EnquiryDialog buttonLabel={contact["button-label"]} title={contact["form-title"]} formContent={c.contactForm} closeLabel={ui["close-label"]} />
           </div>
         </section>
       </main>
@@ -372,7 +390,7 @@ export default async function Home() {
               <p className="label"><InlineText value={footer["contact-heading"]} /></p>
               <ul>
                 {contacts.map((d, i) => (
-                  <li key={i}><a href={d.href}><InlineText value={d.value} inLink /></a></li>
+                  <li key={i}><a href={d.href} aria-label={plain(d.label) ? `${plain(d.label)}: ${plain(d.value)}` : undefined}><InlineText value={d.value} inLink /></a></li>
                 ))}
               </ul>
             </div>
@@ -397,8 +415,8 @@ export default async function Home() {
             <span>
               <button type="button" className="footer__link" data-manage-cookies><InlineText value={footer["manage-cookies-label"]} inLink /></button> ·{" "}
               <a
-                href={footer["privacy-href"] || "/privacy"}
-                {...(/^https?:/i.test(footer["privacy-href"] || "") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                href={privacyHref}
+                {...(isExternalHref(privacyHref) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 <InlineText value={footer["privacy-label"]} inLink />
               </a> ·{" "}

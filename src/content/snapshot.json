@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-10T07:30:35.673Z",
+ "generatedAt": "2026-11-10T07:40:53.872Z",
  "sections": {
   "navigation": [
    {
@@ -482,6 +482,30 @@
     "key": "tabs-aria-label",
     "type": "TEXT",
     "value": "Choose a layout",
+    "imageUrl": null
+   },
+   {
+    "key": "plan-caption",
+    "type": "TEXT",
+    "value": "{layout} floor plan {n}",
+    "imageUrl": null
+   },
+   {
+    "key": "plans-viewer-label",
+    "type": "TEXT",
+    "value": "{layout} floor plans",
+    "imageUrl": null
+   },
+   {
+    "key": "expand-aria-label",
+    "type": "TEXT",
+    "value": "View the image full screen",
+    "imageUrl": null
+   },
+   {
+    "key": "renders-viewer-label",
+    "type": "TEXT",
+    "value": "Interior renders",
     "imageUrl": null
    },
    {
@@ -1217,6 +1241,44 @@
     "key": "accept-label",
     "type": "TEXT",
     "value": "Accept",
+    "imageUrl": null
+   }
+  ],
+  "labels": [
+   {
+    "key": "close-label",
+    "type": "TEXT",
+    "value": "Close",
+    "imageUrl": null
+   },
+   {
+    "key": "previous-image-label",
+    "type": "TEXT",
+    "value": "Previous image",
+    "imageUrl": null
+   },
+   {
+    "key": "next-image-label",
+    "type": "TEXT",
+    "value": "Next image",
+    "imageUrl": null
+   },
+   {
+    "key": "carousel-hint",
+    "type": "TEXT",
+    "value": "Use the left and right arrow keys to move.",
+    "imageUrl": null
+   },
+   {
+    "key": "slide-position",
+    "type": "TEXT",
+    "value": "{n} of {total}",
+    "imageUrl": null
+   },
+   {
+    "key": "slide-announcement",
+    "type": "TEXT",
+    "value": "Slide {n} of {total}",
     "imageUrl": null
    }
   ],

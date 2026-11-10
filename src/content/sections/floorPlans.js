@@ -49,6 +49,15 @@ export const FLOOR_PLANS_FIELDS = [
   },
   { key: "tabs-aria-label", label: "Layout buttons, name read by screen readers", type: "TEXT", defaultValue: "Choose a layout" },
   {
+    key: "plan-caption",
+    label: "Floor plan viewer: caption under each plan ({layout} and {n} are filled in)",
+    type: "TEXT",
+    defaultValue: "{layout} floor plan {n}",
+  },
+  { key: "plans-viewer-label", label: "Floor plan viewer name, screen readers ({layout} is filled in)", type: "TEXT", defaultValue: "{layout} floor plans" },
+  { key: "expand-aria-label", label: "Full-screen button on the render (screen readers)", type: "TEXT", defaultValue: "View the image full screen" },
+  { key: "renders-viewer-label", label: "Render viewer name (screen readers)", type: "TEXT", defaultValue: "Interior renders" },
+  {
     key: "plans",
     label: "Layouts",
     type: "LIST",

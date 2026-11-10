@@ -10,7 +10,7 @@ import { gsap } from "@/lib/gsap";
  * <dialog> (focus stays inside, Esc closes, the page behind is inert), with
  * GSAP fading it in and out. A click on the dark backdrop also closes it.
  */
-export default function EnquiryDialog({ buttonLabel, title, formContent }) {
+export default function EnquiryDialog({ buttonLabel, title, formContent, closeLabel = "Close" }) {
   const dialogRef = useRef(null);
   const openerRef = useRef(null);
   const panelRef = useRef(null);
@@ -66,7 +66,7 @@ export default function EnquiryDialog({ buttonLabel, title, formContent }) {
         onClick={(e) => { if (e.target === e.currentTarget) close(); }}
       >
         <div className="enquiry__panel" ref={panelRef}>
-          <button type="button" className="enquiry__close" onClick={close} aria-label="Close">
+          <button type="button" className="enquiry__close" onClick={close} aria-label={closeLabel}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
           </button>
           <h2 className="display-40 enquiry__title" id="enquiry-title"><InlineText value={title} /></h2>
