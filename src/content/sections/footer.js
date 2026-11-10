@@ -2,7 +2,7 @@
 export const FOOTER_FIELDS = [
   {
     key: "address",
-    label: "Address (optional; not shown in the current design)",
+    label: "Address (optional; shown under the logo when filled in)",
     type: "TEXT",
     defaultValue: "",
   },

@@ -131,6 +131,7 @@ export default async function Home() {
     .map((g) => ({ src: safeImageSrc(g.image, ""), alt: plain(g.alt), title: g.title || "", text: g.text || "" }))
     .filter((g) => g.src);
   const contacts = list(contact.details).map((item) => ({ ...item, href: safeHref(item.href, "#contact") }));
+  const privacyHref = safeHref(footer["privacy-href"], "/privacy");
 
   return (
     <>
@@ -372,7 +373,7 @@ export default async function Home() {
               <p className="label"><InlineText value={footer["contact-heading"]} /></p>
               <ul>
                 {contacts.map((d, i) => (
-                  <li key={i}><a href={d.href}><InlineText value={d.value} inLink /></a></li>
+                  <li key={i}><a href={d.href} aria-label={plain(d.label) ? `${plain(d.label)}: ${plain(d.value)}` : undefined}><InlineText value={d.value} inLink /></a></li>
                 ))}
               </ul>
             </div>
@@ -397,8 +398,8 @@ export default async function Home() {
             <span>
               <button type="button" className="footer__link" data-manage-cookies><InlineText value={footer["manage-cookies-label"]} inLink /></button> ·{" "}
               <a
-                href={footer["privacy-href"] || "/privacy"}
-                {...(/^https?:/i.test(footer["privacy-href"] || "") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                href={privacyHref}
+                {...(isExternalHref(privacyHref) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 <InlineText value={footer["privacy-label"]} inLink />
               </a> ·{" "}

@@ -35,7 +35,12 @@ export default function Motion() {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const link = e.target.closest?.('a[href^="#"]');
       if (!link) return;
-      const id = decodeURIComponent(link.getAttribute("href").slice(1));
+      let id;
+      try {
+        id = decodeURIComponent(link.getAttribute("href").slice(1));
+      } catch {
+        return; // a malformed panel link: leave it to the browser
+      }
       const target = id ? document.getElementById(id) : null;
       if (id && !target) return;
       e.preventDefault();
