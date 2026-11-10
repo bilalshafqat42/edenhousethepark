@@ -73,10 +73,24 @@ export default function PlaceCarousel({
     const step = () => track.children[1].offsetLeft - track.children[0].offsetLeft;
     const xFor = (k) => (viewport.clientWidth - track.children[0].offsetWidth) / 2 - k * step();
 
+    // The arrows sit level with the centre slide's caption heading (the
+    // heading's height depends on the caption text, so it is measured).
+    // A slide without a caption keeps the last position.
+    const placeArrows = (k = indexRef.current) => {
+      const title = track.children[k]?.querySelector(".place__caption-title");
+      if (!title) return;
+      const caption = title.closest(".place__caption");
+      const t = title.getBoundingClientRect();
+      const v = viewport.getBoundingClientRect();
+      const lift = Number(gsap.getProperty(caption, "y")) || 0; // caption fade-in offset
+      viewport.style.setProperty("--arrow-y", `${Math.round(t.top + t.height / 2 - v.top - lift)}px`);
+    };
+
     const goTo = (k, onDone) => {
       k = Math.max(0, Math.min(3 * n - 1, k));
       indexRef.current = k;
       setActive(k % n);
+      placeArrows(k);
       gsap.to(track, {
         x: xFor(k), duration: reduced ? 0 : 0.75, ease: "power3.inOut", overwrite: true,
         onComplete: () => {
@@ -92,6 +106,8 @@ export default function PlaceCarousel({
 
     goToRef.current = goTo;
     gsap.set(track, { x: xFor(indexRef.current) });
+    placeArrows();
+    document.fonts?.ready.then(() => placeArrows());
 
     // A drag counts only when the finger or mouse moved more across than
     // down; a vertical swipe that starts on the row is the page scrolling.
@@ -135,7 +151,7 @@ export default function PlaceCarousel({
     };
     viewport.addEventListener("keydown", onKey);
 
-    const onResize = () => gsap.set(track, { x: xFor(indexRef.current) });
+    const onResize = () => { gsap.set(track, { x: xFor(indexRef.current) }); placeArrows(); };
     window.addEventListener("resize", onResize);
 
 
