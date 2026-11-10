@@ -141,7 +141,7 @@ export default function PlaceCarousel({
           return (
             <li
               key={`${s.copy}-${s.i}`}
-              className={`place__slide${s.i === active ? " is-active" : ""}`}
+              className={`place__slide${s.title ? " place__slide--captioned" : ""}${s.i === active ? " is-active" : ""}`}
               aria-hidden={clone || undefined}
               aria-roledescription={clone ? undefined : "slide"}
               aria-label={clone ? undefined : fillTokens(positionLabel, { n: s.i + 1, total: n })}
