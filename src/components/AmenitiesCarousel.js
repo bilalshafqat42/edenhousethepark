@@ -6,6 +6,7 @@ import InlineText from "@/components/InlineText";
 import { gsap } from "@/lib/gsap";
 import { scrollStep } from "@/lib/scroll-step";
 import { Draggable } from "gsap/Draggable";
+import { fillTokens } from "@/lib/fill-tokens";
 
 gsap.registerPlugin(Draggable);
 
@@ -20,7 +21,7 @@ gsap.registerPlugin(Draggable);
  *
  * items: [{ src, alt, title, text }] (resolved by the page from the panel)
  */
-export default function AmenitiesCarousel({ items, label }) {
+export default function AmenitiesCarousel({ items, label, hint = "Use the left and right arrow keys to move.", positionLabel = "{n} of {total}" }) {
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
 
@@ -128,11 +129,11 @@ export default function AmenitiesCarousel({ items, label }) {
       tabIndex={0}
       role="region"
       aria-roledescription="carousel"
-      aria-label={`${label}. Use the left and right arrow keys to move.`}
+      aria-label={[label, hint].filter(Boolean).join(". ")}
     >
       <ul className="amenities__track" ref={trackRef} data-stagger>
         {items.map((item, i) => (
-          <li className="amenity" key={i} aria-roledescription="slide" aria-label={`${i + 1} of ${items.length}`}>
+          <li className="amenity" key={i} aria-roledescription="slide" aria-label={fillTokens(positionLabel, { n: i + 1, total: items.length })}>
             <div className="amenity__img">
               <Image src={item.src} alt={item.alt} fill sizes="(max-width: 600px) 84vw, (max-width: 1440px) 600px, 42vw" draggable={false} />
             </div>

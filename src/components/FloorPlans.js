@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import InlineText from "@/components/InlineText";
 import Lightbox from "@/components/Lightbox";
 import { gsap } from "@/lib/gsap";
+import { fillTokens } from "@/lib/fill-tokens";
 
 /*
  * Interiors and floor plans, all from the panel's Floor Plans section (the
@@ -13,7 +14,20 @@ import { gsap } from "@/lib/gsap";
  * screen, and "View Floor Plan Samples" opens the chosen layout's plans, or
  * follows the button link when that layout has none.
  */
-export default function FloorPlans({ eyebrow, heading, body, tabsLabel, ctaLabel, ctaHref = "#contact", layouts = [] }) {
+export default function FloorPlans({
+  eyebrow,
+  heading,
+  body,
+  tabsLabel,
+  ctaLabel,
+  ctaHref = "#contact",
+  layouts = [],
+  planCaption = "{layout} floor plan {n}",
+  plansViewerLabel = "{layout} floor plans",
+  expandLabel = "View the image full screen",
+  rendersViewerLabel = "Interior renders",
+  viewerLabels = {},
+}) {
   const [active, setActive] = useState(0);
   const [viewer, setViewer] = useState(null); // { images, start, label }
   const mediaRef = useRef(null);
@@ -47,8 +61,8 @@ export default function FloorPlans({ eyebrow, heading, body, tabsLabel, ctaLabel
   const renders = layouts.map((l) => ({ ...l.render, caption: l.headingPlain }));
   const floorPlans = layout.plans.map((src, i) => ({
     src,
-    alt: `${layout.headingPlain} floor plan ${i + 1}`,
-    caption: `${layout.headingPlain} floor plan ${i + 1}`,
+    alt: fillTokens(planCaption, { layout: layout.headingPlain, n: i + 1 }),
+    caption: fillTokens(planCaption, { layout: layout.headingPlain, n: i + 1 }),
   }));
 
   return (
@@ -64,8 +78,8 @@ export default function FloorPlans({ eyebrow, heading, body, tabsLabel, ctaLabel
           <button
             type="button"
             className="plans__expand"
-            aria-label="View the image full screen"
-            onClick={() => setViewer({ images: renders, start: active, label: "Interior renders" })}
+            aria-label={expandLabel}
+            onClick={() => setViewer({ images: renders, start: active, label: rendersViewerLabel })}
           >
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />
@@ -104,7 +118,7 @@ export default function FloorPlans({ eyebrow, heading, body, tabsLabel, ctaLabel
             <button
               type="button"
               className="btn btn--fill"
-              onClick={() => setViewer({ images: floorPlans, start: 0, label: `${layout.headingPlain} floor plans` })}
+              onClick={() => setViewer({ images: floorPlans, start: 0, label: fillTokens(plansViewerLabel, { layout: layout.headingPlain }) })}
             >
               <InlineText value={ctaLabel} inLink />
             </button>
@@ -114,7 +128,7 @@ export default function FloorPlans({ eyebrow, heading, body, tabsLabel, ctaLabel
         </div>
       </div>
 
-      {viewer && <Lightbox {...viewer} onClose={() => setViewer(null)} />}
+      {viewer && <Lightbox {...viewer} {...viewerLabels} onClose={() => setViewer(null)} />}
     </section>
   );
 }

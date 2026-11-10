@@ -15,6 +15,7 @@ import { IMAGE_STRIPS_FIELDS } from "@/content/sections/imageStrips";
 import { INTERIORS_FIELDS } from "@/content/sections/interiors";
 import { INTRO_FIELDS } from "@/content/sections/intro";
 import { PRIVACY_FIELDS, TERMS_FIELDS } from "@/content/sections/legal";
+import { LABELS_FIELDS } from "@/content/sections/labels";
 import { LOCATION_FIELDS } from "@/content/sections/location";
 import { NAVIGATION_FIELDS } from "@/content/sections/navigation";
 import { PAYMENT_FIELDS } from "@/content/sections/payment";
@@ -51,6 +52,7 @@ export const SECTION_REGISTRY = {
   contactForm: { label: "Contact Form", group: "content", minRole: "EDITOR", fields: CONTACT_FORM_FIELDS },
   footer: { label: "Footer", group: "content", minRole: "EDITOR", fields: FOOTER_FIELDS },
   cookies: { label: "Cookie Banner", group: "content", minRole: "EDITOR", fields: COOKIES_FIELDS },
+  labels: { label: "Viewer & Carousel Labels", group: "content", minRole: "EDITOR", fields: LABELS_FIELDS },
   chatAgent: { label: "Chat Widget", group: "chat", minRole: "EDITOR", fields: CHAT_AGENT_FIELDS },
   chatTextEn: { label: "Chat Text (English)", group: "chat", minRole: "EDITOR", fields: CHAT_TEXT_EN_FIELDS },
   chatTextAr: { label: "Chat Text (Arabic)", group: "chat", minRole: "EDITOR", fields: CHAT_TEXT_AR_FIELDS },

@@ -14,7 +14,15 @@ import { gsap } from "@/lib/gsap";
  *
  * images: [{ src, alt, caption? }]; start: index to open on.
  */
-export default function Lightbox({ images, start = 0, label, onClose }) {
+export default function Lightbox({
+  images,
+  start = 0,
+  label,
+  onClose,
+  closeLabel = "Close",
+  previousLabel = "Previous image",
+  nextLabel = "Next image",
+}) {
   const [index, setIndex] = useState(start);
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
@@ -103,7 +111,7 @@ export default function Lightbox({ images, start = 0, label, onClose }) {
       // A click on the black area (not the image or a button) closes it
       onClick={(e) => { if (e.target === e.currentTarget) close(); }}
     >
-      <button type="button" className="lightbox__close" ref={closeRef} onClick={close} aria-label="Close">
+      <button type="button" className="lightbox__close" ref={closeRef} onClick={close} aria-label={closeLabel}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
       </button>
 
@@ -131,10 +139,10 @@ export default function Lightbox({ images, start = 0, label, onClose }) {
 
       {count > 1 && (
         <>
-          <button type="button" className="lightbox__nav lightbox__nav--prev" onClick={() => move(-1)} aria-label="Previous image">
+          <button type="button" className="lightbox__nav lightbox__nav--prev" onClick={() => move(-1)} aria-label={previousLabel}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8" /></svg>
           </button>
-          <button type="button" className="lightbox__nav lightbox__nav--next" onClick={() => move(1)} aria-label="Next image">
+          <button type="button" className="lightbox__nav lightbox__nav--next" onClick={() => move(1)} aria-label={nextLabel}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8" /></svg>
           </button>
         </>
