@@ -56,7 +56,11 @@ export async function generateMetadata() {
     },
     // Always set here: an app/favicon.ico file would override the panel's
     // favicon (file-based metadata wins), so the built-in icon lives in public/.
-    icons: { icon: favicon, shortcut: favicon, apple: favicon },
+    // An SVG is labelled as one, and is not offered as the iPhone home-screen
+    // icon (iOS needs a PNG there).
+    icons: /\.svg(\?|$)/i.test(favicon)
+      ? { icon: [{ url: favicon, type: "image/svg+xml" }], shortcut: favicon }
+      : { icon: favicon, shortcut: favicon, apple: favicon },
     ...(isStagingSite() ? { robots: { index: false, follow: false } } : {}),
   };
 }
