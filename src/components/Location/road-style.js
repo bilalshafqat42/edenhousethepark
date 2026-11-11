@@ -6,9 +6,9 @@
  * diagram, and the destination callouts carry the information.
  *
  * Applied over the Studio style once it loads:
- * - Mapbox's usual road detail by zoom (more roads as you zoom in),
- *   drawn on the ground and bridge layers alike, so flyovers and canal
- *   crossings do not leave gaps;
+ * - the main and connector roads (motorway to tertiary, with their
+ *   links), without the small inner streets, drawn on the ground and
+ *   bridge layers alike, so flyovers and canal crossings do not leave gaps;
  * - one opaque tone, so crossing roads do not darken where they overlap;
  * - widths that stay hairline at city zoom and grow when zoomed in;
  * - tunnels, paths and bridge casings hidden.
@@ -20,16 +20,16 @@
 
 const ROAD_TONE = "hsl(75, 9%, 76%)";
 
-// Which road classes show at each zoom (Mapbox's standard steps)
+// Which road classes show at each zoom (Mapbox's standard steps, without
+// the small inner streets: street, street_limited and service roads are
+// never drawn, so neighbourhoods read as calm blocks)
+const ROADS = ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link"];
 const CLASSES_BY_ZOOM = [
   "step", ["zoom"],
   ["match", ["get", "class"], ["motorway", "trunk"], true, false],
   6, ["match", ["get", "class"], ["motorway", "trunk", "primary"], true, false],
   8, ["match", ["get", "class"], ["motorway", "trunk", "primary", "secondary"], true, false],
-  10, ["match", ["get", "class"], ["motorway", "trunk", "primary", "secondary", "tertiary", "motorway_link", "trunk_link"], true, false],
-  11, ["match", ["get", "class"], ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "secondary", "tertiary", "street"], true, false],
-  12, ["match", ["get", "class"], ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "secondary", "tertiary", "street", "street_limited", "primary_link"], true, false],
-  14, ["match", ["get", "class"], ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link", "street", "street_limited", "service"], true, false],
+  10, ["match", ["get", "class"], ROADS, true, false],
 ];
 
 const STRUCTURES = {

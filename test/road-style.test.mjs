@@ -27,9 +27,10 @@ test("ground and bridge roads share one filter and one tone, so roads run unbrok
   assert.ok(map.calls.some((c) => c[1] === "bridge-simple" && c[2] === "visibility" && c[3] === "visible"));
 });
 
-test("the network follows Mapbox's zoom steps (streets only when zoomed in)", () => {
+test("main and connector roads show; small inner streets never do", () => {
   const f = JSON.stringify(roadFilter("road-simple"));
-  assert.ok(f.includes('"step"') && f.includes('"street"') && f.includes('"motorway"'));
+  assert.ok(f.includes('"step"') && f.includes('"motorway"') && f.includes('"tertiary"'));
+  for (const minor of ['"street"', '"street_limited"', '"service"']) assert.ok(!f.includes(minor), minor);
 });
 
 test("tunnels are hidden, and layers missing from the style are skipped", () => {
