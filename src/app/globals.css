@@ -363,7 +363,7 @@ ul { list-style: none; }
 .place__slide.is-active .place__caption { opacity: 1; }
 .place__caption-title { font-family: var(--display); font-size: 20px; line-height: 1.3; margin-bottom: 8px; }
 .place__caption-text { font-size: 12px; line-height: 1.6; max-width: 520px; }
-/* Long arrows over the side slides, level with the caption heading */
+/* Long arrows over the side slides, centred on the images */
 .place__arrow {
   position: absolute; top: var(--arrow-y, 50%); z-index: 3;
   display: inline-flex; align-items: center; justify-content: center;
