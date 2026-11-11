@@ -94,7 +94,8 @@ export default async function Home() {
   const slidesOf = (items) => list(items)
     .map((item) => ({
       src: safeImageSrc(item.image, ""),
-      alt: plain(item.alt),
+      // An upload without alt text is described by its caption title
+      alt: plain(item.alt) || plain(item.title),
       title: item.title || "",
       titlePlain: plain(item.title),
       text: item.text || "",
@@ -148,7 +149,7 @@ export default async function Home() {
     })),
   };
   const amenities = list(gallery.items)
-    .map((g) => ({ src: safeImageSrc(g.image, ""), alt: plain(g.alt), title: g.title || "", text: g.text || "" }))
+    .map((g) => ({ src: safeImageSrc(g.image, ""), alt: plain(g.alt) || plain(g.title), title: g.title || "", text: g.text || "" }))
     .filter((g) => g.src);
   const contacts = list(contact.details).map((item) => ({ ...item, href: safeHref(item.href, "#contact") }));
   const privacyHref = safeHref(footer["privacy-href"], "/privacy");
@@ -308,7 +309,7 @@ export default async function Home() {
             <h2 className="display-40" id="amenities-title" data-reveal="heading"><InlineText value={gallery.heading} /></h2>
             {plain(gallery.body) && <p className="lead" data-reveal="body"><InlineText value={gallery.body} /></p>}
           </div>
-          {amenities.length > 0 && <AmenitiesCarousel items={amenities} label={plain(gallery.heading)} hint={carouselLabels.hint} positionLabel={carouselLabels.positionLabel} />}
+          {amenities.length > 0 && <AmenitiesCarousel items={amenities} label={plain(gallery.heading)} hint={carouselLabels.hint} positionLabel={carouselLabels.positionLabel} previousLabel={carouselLabels.previousLabel} nextLabel={carouselLabels.nextLabel} />}
         </section>
 
         {/* An expression of understated luxury: interiors carousel */}
