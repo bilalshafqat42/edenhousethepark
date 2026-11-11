@@ -5,6 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import InlineText from "@/components/InlineText";
 import { toPlainText } from "@/lib/inline-text";
 import { buildPlaces, directionsUrl } from "./places";
+import { applyRoadStyle } from "./road-style";
 
 const TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 const STYLE_URL = process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL || "mapbox://styles/mapbox/light-v11";
@@ -133,6 +134,7 @@ export default function LocationExplorer({ content, children }) {
       map.addControl(new mapboxgl.AttributionControl({ compact: true }));
 
       map.on("load", () => {
+        applyRoadStyle(map);
         homeRef.current = { center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() };
 
         if (PROJECT.coords) {
