@@ -16,23 +16,26 @@ function fakeMap(layers) {
   };
 }
 
-test("bridges are shown with the same road classes, so motorways run unbroken", () => {
-  const map = fakeMap(["road-simple", "bridge-simple", "tunnel-simple"]);
+test("ground and bridge roads share one filter and one tone, so roads run unbroken", () => {
+  const map = fakeMap(["road-simple", "bridge-simple"]);
   applyRoadStyle(map);
-  assert.ok(map.calls.some((c) => c[0] === "layout" && c[1] === "bridge-simple" && c[2] === "visibility" && c[3] === "visible"));
-  for (const id of ["road-simple", "bridge-simple", "tunnel-simple"]) {
-    const f = map.calls.find((c) => c[0] === "filter" && c[1] === id)[2];
-    assert.deepEqual(f[2], ["match", ["get", "class"], ["motorway", "trunk", "primary"], true, false]);
-  }
+  const filters = map.calls.filter((c) => c[0] === "filter").map((c) => c[2][2]);
+  assert.equal(filters.length, 2);
+  assert.deepEqual(filters[0], filters[1]);
+  const colours = map.calls.filter((c) => c[0] === "paint" && c[2] === "line-color").map((c) => c[3]);
+  assert.equal(new Set(colours).size, 1);
+  assert.ok(map.calls.some((c) => c[1] === "bridge-simple" && c[2] === "visibility" && c[3] === "visible"));
 });
 
-test("slip roads are not drawn", () => {
-  assert.ok(!JSON.stringify(roadFilter("road-simple")).includes("motorway_link"));
+test("the network follows Mapbox's zoom steps (streets only when zoomed in)", () => {
+  const f = JSON.stringify(roadFilter("road-simple"));
+  assert.ok(f.includes('"step"') && f.includes('"street"') && f.includes('"motorway"'));
 });
 
-test("tunnel paths are hidden, and layers missing from the style are skipped", () => {
-  const map = fakeMap(["tunnel-path", "road-simple"]);
+test("tunnels are hidden, and layers missing from the style are skipped", () => {
+  const map = fakeMap(["tunnel-simple", "tunnel-path", "road-simple"]);
   applyRoadStyle(map);
+  assert.ok(map.calls.some((c) => c[1] === "tunnel-simple" && c[3] === "none"));
   assert.ok(map.calls.some((c) => c[1] === "tunnel-path" && c[3] === "none"));
   assert.ok(!map.calls.some((c) => c[1] === "bridge-simple"));
 });

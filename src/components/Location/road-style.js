@@ -1,62 +1,64 @@
 /*
- * A calm, minimal road layer for the location map, applied over the Mapbox
- * Studio style once it loads.
+ * The location map's roads: the whole network as fine hairlines in one
+ * soft tone, the treatment the director liked on the Mövenpick site
+ * (same Mapbox account, style refinedubai/cmrj946d7001k01r45t5vgnju).
+ * Seen at city scale, the network reads as a calm texture rather than a
+ * diagram, and the destination callouts carry the information.
  *
- * Why in code: in Dubai most of Sheikh Zayed Road, Al Khail Road, every
- * flyover and every canal crossing is a "bridge" in Mapbox's data, so a
- * Studio filter on the road layer alone leaves the motorways in pieces;
- * the slip roads (motorway_link) tangle at each interchange; and the
- * tunnel layers draw stray blue segments. Here the same road classes are
- * drawn on the ground, bridge and tunnel layers alike, so the lines run
- * unbroken:
+ * Applied over the Studio style once it loads:
+ * - Mapbox's usual road detail by zoom (more roads as you zoom in),
+ *   drawn on the ground and bridge layers alike, so flyovers and canal
+ *   crossings do not leave gaps;
+ * - one opaque tone, so crossing roads do not darken where they overlap;
+ * - widths that stay hairline at city zoom and grow when zoomed in;
+ * - tunnels, paths and bridge casings hidden.
  *
- * - motorway and trunk: the main lines, sage, clearly visible;
- * - primary: thinner and fainter, for context;
- * - no slip roads, streets, paths or tunnel paths.
- *
- * Everything else (land, water, labels) still comes from the Studio style.
- * A layer the style does not have is skipped, so a Studio change cannot
+ * Everything else (land, water) still comes from the Studio style. A
+ * layer the style does not have is skipped, so a Studio change cannot
  * break the map.
  */
 
-const SAGE = "137, 145, 120";
-const CLASSES = ["motorway", "trunk", "primary"];
+const ROAD_TONE = "hsl(75, 9%, 76%)";
 
-// Ground, bridge and tunnel versions of the same road layer
+// Which road classes show at each zoom (Mapbox's standard steps)
+const CLASSES_BY_ZOOM = [
+  "step", ["zoom"],
+  ["match", ["get", "class"], ["motorway", "trunk"], true, false],
+  6, ["match", ["get", "class"], ["motorway", "trunk", "primary"], true, false],
+  8, ["match", ["get", "class"], ["motorway", "trunk", "primary", "secondary"], true, false],
+  10, ["match", ["get", "class"], ["motorway", "trunk", "primary", "secondary", "tertiary", "motorway_link", "trunk_link"], true, false],
+  11, ["match", ["get", "class"], ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "secondary", "tertiary", "street"], true, false],
+  12, ["match", ["get", "class"], ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "secondary", "tertiary", "street", "street_limited", "primary_link"], true, false],
+  14, ["match", ["get", "class"], ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link", "street", "street_limited", "service"], true, false],
+];
+
 const STRUCTURES = {
   "road-simple": ["match", ["get", "structure"], ["none", "ford"], true, false],
   "bridge-simple": ["==", ["get", "structure"], "bridge"],
-  "tunnel-simple": ["==", ["get", "structure"], "tunnel"],
 };
 
-// Path, steps and pedestrian tunnels: hidden (they were the blue strokes)
-const HIDDEN = ["tunnel-path-trail", "tunnel-path-cycleway-piste", "tunnel-path", "tunnel-steps", "tunnel-pedestrian", "bridge-case-simple"];
+const HIDDEN = [
+  "tunnel-simple", "tunnel-path-trail", "tunnel-path-cycleway-piste", "tunnel-path", "tunnel-steps", "tunnel-pedestrian",
+  "bridge-case-simple",
+];
 
-const byClass = (main, primary) => ["match", ["get", "class"], ["motorway", "trunk"], main, primary];
+const byClass = (main, mid, minor) => [
+  "match", ["get", "class"],
+  ["motorway", "trunk", "primary"], main,
+  ["secondary", "tertiary"], mid,
+  minor,
+];
 
+// Hairlines at city zoom (about 10-11), growing as you zoom in
 export const ROAD_WIDTH = [
-  "interpolate", ["exponential", 1.5], ["zoom"],
-  // Wide enough that a dual carriageway reads as one line at city zoom
-  9, byClass(1, 0.4),
-  11, byClass(2.2, 0.9),
-  13, byClass(3.4, 1.6),
-  16, byClass(7, 3.5),
+  "interpolate", ["exponential", 1.99], ["zoom"],
+  5, byClass(0.45, 0.06, 0),
+  13, byClass(2.4, 1.5, 0.45),
+  18, byClass(19.2, 15.6, 7),
 ];
 
 export function roadFilter(layerId) {
-  return [
-    "all",
-    STRUCTURES[layerId],
-    ["match", ["get", "class"], CLASSES, true, false],
-    ["==", ["geometry-type"], "LineString"],
-  ];
-}
-
-export function roadColour(layerId) {
-  // Tunnels a little lighter, so a road running underground still reads
-  // as the same road without competing with the surface lines
-  const [main, primary] = layerId === "tunnel-simple" ? [0.4, 0.22] : [0.8, 0.4];
-  return byClass(`rgba(${SAGE}, ${main})`, `rgba(${SAGE}, ${primary})`);
+  return ["all", STRUCTURES[layerId], CLASSES_BY_ZOOM, ["==", ["geometry-type"], "LineString"]];
 }
 
 export function applyRoadStyle(map) {
@@ -66,7 +68,7 @@ export function applyRoadStyle(map) {
   for (const id of Object.keys(STRUCTURES)) {
     if (!map.getLayer(id)) continue;
     map.setFilter(id, roadFilter(id));
-    map.setPaintProperty(id, "line-color", roadColour(id));
+    map.setPaintProperty(id, "line-color", ROAD_TONE);
     map.setPaintProperty(id, "line-width", ROAD_WIDTH);
     map.setLayoutProperty(id, "line-cap", "round");
     map.setLayoutProperty(id, "line-join", "round");

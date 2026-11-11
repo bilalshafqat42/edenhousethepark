@@ -115,8 +115,11 @@ export default function LocationExplorer({ content, children }) {
         cooperativeGestures: true,
         attributionControl: false,
       };
+      // City scale, as on the Mövenpick site: the road network reads as a
+      // fine texture, with the sea and the Palm for context
+      const cityZoom = window.matchMedia("(max-width: 600px)").matches ? 10.3 : 11.6;
       if (PROJECT.coords) {
-        Object.assign(options, { center: PROJECT.coords, zoom: 12.5 });
+        Object.assign(options, { center: PROJECT.coords, zoom: cityZoom });
       } else if (PLACES.length > 0) {
         // No project coordinate yet: open framed on the destinations rather
         // than on wherever the Mapbox style's default view happens to be.
@@ -126,7 +129,7 @@ export default function LocationExplorer({ content, children }) {
         const lngs = inFrame.map((p) => p.coords[0]);
         const lats = inFrame.map((p) => p.coords[1]);
         options.bounds = [[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]];
-        options.fitBoundsOptions = { padding: 140 }; // wider city context, as designed
+        options.fitBoundsOptions = { padding: 140, maxZoom: cityZoom }; // wider city context, as designed
       }
 
       const map = new mapboxgl.Map(options);
