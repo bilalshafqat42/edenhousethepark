@@ -525,6 +525,9 @@ div.times__row { cursor: default; }
 }
 .tab:hover { border-color: var(--caffe); color: var(--caffe); }
 .tab[aria-pressed="true"] { background: var(--caffe); border-color: var(--caffe); color: var(--natural); }
+/* Touch screens: the layout buttons get a full-size finger target (44px, the
+   Apple and Google guideline) */
+@media (pointer: coarse) { .tab { height: 44px; } }
 .spec__title {
   font-family: var(--display); font-weight: 400; font-size: 28px; line-height: 1.2;
   text-transform: uppercase; letter-spacing: .01em; margin-bottom: 12px;

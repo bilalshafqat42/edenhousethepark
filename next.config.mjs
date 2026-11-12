@@ -92,6 +92,9 @@ const nextConfig = {
     ...(cloudflareImageResizing ? { loader: "custom", loaderFile: "./src/lib/cloudflare-image-loader.js" } : {}),
     remotePatterns: imageHosts.map((hostname) => ({ protocol: "https", hostname })),
     qualities: [75],
+    // Next's standard widths plus 1440 and 1600, so common laptop screens get
+    // an image close to their size rather than the 1920 one
+    deviceSizes: [640, 750, 828, 1080, 1200, 1440, 1600, 1920, 2048, 3840],
     formats: ["image/webp"],
   },
 };
