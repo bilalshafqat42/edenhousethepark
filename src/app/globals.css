@@ -28,7 +28,8 @@
      Stone figures 3.2:1 (large text). The brand Mid Green gives 2.9:1. */
   --green-deep: #5E6652;
   --bronze: #A3664F;
-  /* Deeper Bronze for small text on Mint: 4.5:1 (the brand Bronze gives 3.2:1) */
+  /* Deeper Bronze for small text on Mint: 4.5:1 (the brand Bronze gives 3.2:1),
+     and behind small light text (the selected map pin): 5.7:1 */
   --bronze-deep: #7D5544;
   --natural: #F3F1EA;  /* page background */
 
@@ -710,8 +711,8 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
 .map-marker--right .map-marker__label { border-left: 0; }
 .map-marker--left .map-marker__label { border-right: 0; }
 .map-marker:hover .map-marker__pin,
-.map-marker.is-active .map-marker__pin { background: var(--bronze); }
-.map-marker.is-active .map-marker__label { background: var(--bronze); border-color: var(--bronze); color: var(--natural); }
+.map-marker.is-active .map-marker__pin { background: var(--bronze-deep); }
+.map-marker.is-active .map-marker__label { background: var(--bronze-deep); border-color: var(--bronze-deep); color: var(--natural); }
 .map-marker.is-active { z-index: 2; }
 /* Crowded places (LocationExplorer's layoutLabels): a label that would
    overlap hides, and a pin landing on another folds away, until the map is
