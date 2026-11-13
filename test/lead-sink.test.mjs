@@ -129,3 +129,13 @@ test("a spoofed X-Forwarded-For does not dodge the limit", async () => {
     else assert.equal(result.rateLimited, true);
   }
 });
+
+test("the panel's own 429 is reported with its Retry-After, not retried (13 November 2026 audit)", async () => {
+  respondWith(() => new Response("{}", { status: 429, headers: { "retry-after": "42" } }));
+  const result = await persistLead("contact", {}, headers("192.0.2.50"), "id-429");
+  assert.equal(calls.length, 1);
+  assert.equal(result.saved, false);
+  assert.equal(result.rateLimited, false);
+  assert.equal(result.panelRateLimited, true);
+  assert.equal(result.retryAfterSeconds, 42);
+});

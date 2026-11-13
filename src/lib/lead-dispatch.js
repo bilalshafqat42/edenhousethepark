@@ -34,6 +34,12 @@ export async function dispatchLead({ source, body, submissionId = null, requestH
   const succeeded = configured.filter(([, r]) => r.ok);
   const delivered = succeeded.length > 0;
 
+  // Zapier still gets a lead the panel refused for its limit; only when
+  // nothing took it is the visitor asked to wait.
+  if (!delivered && panel.panelRateLimited) {
+    return { rateLimited: true, retryAfterSeconds: panel.retryAfterSeconds, delivered: false };
+  }
+
   if (!delivered) {
     console.error("Lead reached no destination. Configured:", configured.map(([name]) => name).join(",") || "none");
   } else if (succeeded.length < configured.length) {

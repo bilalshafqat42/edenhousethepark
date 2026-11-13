@@ -86,7 +86,20 @@ export async function persistLead(source, body, requestHeaders, submissionId = n
       await response.body?.cancel().catch(() => {});
       console.error("Lead intake responded with status:", response.status);
 
-      // A 4xx (bad key, bad shape, the panel's own limit) will not improve on a retry.
+      // The panel's own limit (13 November 2026 audit): reported, so that if
+      // no other destination takes the lead the visitor is told to wait
+      // (429 with Retry-After) rather than "try again" straight into it.
+      if (response.status === 429) {
+        const retryAfter = Number(response.headers.get("retry-after"));
+        return {
+          saved: false,
+          rateLimited: false,
+          panelRateLimited: true,
+          retryAfterSeconds: Number.isFinite(retryAfter) && retryAfter > 0 ? Math.min(retryAfter, 3600) : 60,
+        };
+      }
+
+      // Any other 4xx (bad key, bad shape) will not improve on a retry.
       if (response.status < 500) {
         return { saved: false, rateLimited: false };
       }
