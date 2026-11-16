@@ -85,6 +85,15 @@ const nextConfig = {
       ...(siteUrlIsStaging() ? [{ source: "/:path*", headers: [NOINDEX] }] : []),
       // Lead and admin endpoints are never cached by a CDN.
       { source: "/api/:path*", headers: [{ key: "Cache-Control", value: "no-store" }] },
+      // Fonts never change under the same name: keep them for a year.
+      { source: "/webfonts/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+      // Built-in images, logos and icons: a week, then refreshed in the
+      // background. Panel uploads live on their own addresses, so a new
+      // upload still shows straight away.
+      ...["/images/:path*", "/logo/:path*", "/icons/:path*"].map((source) => ({
+        source,
+        headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }],
+      })),
     ];
   },
 
