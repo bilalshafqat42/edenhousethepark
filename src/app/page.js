@@ -12,6 +12,8 @@ import { readSections } from "@/lib/page-content";
 import { plainTextValues, toPlainText } from "@/lib/inline-text";
 import { isExternalHref, safeHref, safeImageSrc, wholeNumber } from "@/lib/safe-url";
 import { realValue } from "@/lib/placeholder";
+import { getSiteUrl } from "@/lib/site-url";
+import { buildStructuredData, jsonLdScript } from "@/lib/structured-data";
 import PlaceCarousel from "@/components/PlaceCarousel";
 import AmenitiesCarousel from "@/components/AmenitiesCarousel";
 import EnquiryDialog from "@/components/EnquiryDialog";
@@ -75,7 +77,7 @@ export default async function Home() {
   const c = await readSections([
     "navigation", "appearance", "hero", "intro", "place", "features", "imageStrips", "gallery", "interiors", "floorPlans",
     "location", "payment", "brochure", "about", "contact", "contactForm", "footer", "cookies", "labels",
-    "chatAgent", "chatTextEn", "chatTextAr",
+    "chatAgent", "chatTextEn", "chatTextAr", "seo",
   ]);
   const { navigation: nav, hero, intro, place, features, gallery, interiors, payment, about, contact, footer } = c;
 
@@ -158,8 +160,16 @@ export default async function Home() {
   const permitNumber = realValue(plain(footer["permit-number"]));
   const permitQr = safeImageSrc(footer["permit-qr"], "");
 
+  // JSON-LD: the developer and the project, from the facts on this page only
+  const structuredData = buildStructuredData({
+    siteUrl: getSiteUrl(), seo: c.seo, hero, intro, about, contact, footer, location: c.location,
+  });
+
   return (
     <>
+      {structuredData && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(structuredData) }} />
+      )}
       <a href="#main" className="skip-link"><InlineText value={nav["skip-link-label"]} inLink /></a>
       <div className="progress" aria-hidden="true" data-progress />
 
