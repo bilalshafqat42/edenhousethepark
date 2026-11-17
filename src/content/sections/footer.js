@@ -6,14 +6,27 @@ export const FOOTER_FIELDS = [
     type: "TEXT",
     defaultValue: "",
   },
+  /*
+   * Trakheesi permit (replaces the old "permit-text" and "qr-text" fields,
+   * whose defaults were placeholders). The permit line shows only once a
+   * number is filled in, and the QR code only once an image is uploaded.
+   */
+  { key: "permit-label", label: "Trakheesi permit: text before the number", type: "TEXT", defaultValue: "Trakheesi permit no." },
   {
-    key: "permit-text",
-    label: "Trakheesi permit",
+    key: "permit-number",
+    label: "Trakheesi permit number",
     type: "TEXT",
-    helperText: "TO CONFIRM: replace [number] with the Trakheesi permit number before launch.",
-    defaultValue: "Trakheesi permit no. [number]",
+    helperText: "TO CONFIRM before launch. Blank: the permit line is hidden.",
+    defaultValue: "",
   },
-  { key: "qr-text", label: "Madmoun QR text", type: "TEXT", defaultValue: "Madmoun QR" },
+  {
+    key: "permit-qr",
+    label: "Permit QR code (Madmoun)",
+    type: "IMAGE",
+    helperText: "The QR code issued with the permit, as a square PNG or SVG. Blank: no QR code is shown.",
+    defaultValue: "",
+  },
+  { key: "permit-qr-alt", label: "Permit QR code description (alt text)", type: "TEXT", defaultValue: "Madmoun QR code for the Trakheesi permit" },
   { key: "explore-heading", label: "Explore column heading", type: "TEXT", defaultValue: "Explore" },
   {
     key: "explore-links",

@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-10T12:03:55.193Z",
+ "generatedAt": "2026-11-17T13:29:13.140Z",
  "sections": {
   "navigation": [
    {
@@ -1117,15 +1117,27 @@
     "imageUrl": null
    },
    {
-    "key": "permit-text",
+    "key": "permit-label",
     "type": "TEXT",
-    "value": "Trakheesi permit no. [number]",
+    "value": "Trakheesi permit no.",
     "imageUrl": null
    },
    {
-    "key": "qr-text",
+    "key": "permit-number",
     "type": "TEXT",
-    "value": "Madmoun QR",
+    "value": "",
+    "imageUrl": null
+   },
+   {
+    "key": "permit-qr",
+    "type": "IMAGE",
+    "value": null,
+    "imageUrl": null
+   },
+   {
+    "key": "permit-qr-alt",
+    "type": "TEXT",
+    "value": "Madmoun QR code for the Trakheesi permit",
     "imageUrl": null
    },
    {

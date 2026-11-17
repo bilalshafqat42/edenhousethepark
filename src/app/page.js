@@ -11,6 +11,7 @@ import { HERO_IMAGE_FALLBACK } from "@/content/sections/hero";
 import { readSections } from "@/lib/page-content";
 import { plainTextValues, toPlainText } from "@/lib/inline-text";
 import { isExternalHref, safeHref, safeImageSrc, wholeNumber } from "@/lib/safe-url";
+import { realValue } from "@/lib/placeholder";
 import PlaceCarousel from "@/components/PlaceCarousel";
 import AmenitiesCarousel from "@/components/AmenitiesCarousel";
 import EnquiryDialog from "@/components/EnquiryDialog";
@@ -153,6 +154,9 @@ export default async function Home() {
     .filter((g) => g.src);
   const contacts = list(contact.details).map((item) => ({ ...item, href: safeHref(item.href, "#contact") }));
   const privacyHref = safeHref(footer["privacy-href"], "/privacy");
+  // The permit line and QR code show only once they are filled in (never a placeholder)
+  const permitNumber = realValue(plain(footer["permit-number"]));
+  const permitQr = safeImageSrc(footer["permit-qr"], "");
 
   return (
     <>
@@ -375,12 +379,22 @@ export default async function Home() {
           <div className="footer__grid" data-stagger>
             <div>
               <Logo ariaLabel={logoLabel} src={footerLogo} />
-              {plain(footer.address) && <p className="fine footer__address"><InlineText value={footer.address} /></p>}
-              <p className="fine footer__permit">
-                <span><InlineText value={footer["permit-text"]} /></span>
-                <span aria-hidden="true">·</span>
-                <span><InlineText value={footer["qr-text"]} /></span>
-              </p>
+              {realValue(plain(footer.address)) && <p className="fine footer__address"><InlineText value={footer.address} /></p>}
+              {permitNumber && (
+                <p className="fine footer__permit">
+                  <span><InlineText value={footer["permit-label"]} /> {permitNumber}</span>
+                </p>
+              )}
+              {permitQr && (
+                <Image
+                  className="footer__qr"
+                  src={permitQr}
+                  alt={plain(footer["permit-qr-alt"]) || (permitNumber ? `${plain(footer["permit-label"])} ${permitNumber}` : "")}
+                  width={96}
+                  height={96}
+                  unoptimized={permitQr.endsWith(".svg")}
+                />
+              )}
             </div>
             <div className="footer__col">
               <p className="label"><InlineText value={footer["explore-heading"]} /></p>
