@@ -29,7 +29,7 @@ const list = (value) => (Array.isArray(value) ? value.filter((item) => item && t
  */
 export default function ContactForm({ content = {} }) {
   const roleOptions = list(content["role-options"]).map((o) => toPlainText(String(o.label ?? "")).trim()).filter(Boolean);
-  const residenceOptions = list(content["residence-options"]).map((o) => toPlainText(String(o.label ?? "")).trim()).filter(Boolean);
+  const residenceOptions = list(content["residence-choices"]).map((o) => toPlainText(String(o.label ?? "")).trim()).filter(Boolean);
   const countryCodes = list(content["country-codes"])
     .map((o) => String(o.code ?? "").trim())
     .filter((code) => /^\+[1-9][0-9]{0,3}$/.test(code));

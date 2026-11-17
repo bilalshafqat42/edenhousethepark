@@ -11,6 +11,9 @@ import {
   readLeadBody,
   validateLeadRequest,
 } from "@/lib/validation/leadRequest";
+import { UNIT_TYPES } from "@/components/Chat/chatFlow";
+import { SECTION_REGISTRY } from "@/content/sections";
+import { buildDefaultsFromFields } from "@/lib/section-defaults";
 
 /*
  * The server-side lead checks must never reject a real submission. Each
@@ -78,6 +81,24 @@ test("the real contact form, chat and slot payloads are accepted", () => {
     assert.equal(result.body.submissionId, undefined, "the submission id travels in the envelope");
     assert.equal(result.submissionId, body.submissionId);
   }
+});
+
+test("every bedroom choice on the site is accepted from the form and the chat, 4-bedroom included", () => {
+  const form = buildDefaultsFromFields(SECTION_REGISTRY.contactForm.fields)["residence-choices"].map((o) => o.label);
+  assert.deepEqual(form, ["2 Bedroom", "3 Bedroom", "4 Bedroom"]);
+  for (const unitType of form) {
+    assert.equal(validateLeadRequest("contact", { ...CONTACT, unitType }).ok, true, unitType);
+  }
+  assert.deepEqual(UNIT_TYPES.map((u) => u.id), ["2br", "3br", "4br"]);
+  for (const { id } of UNIT_TYPES) {
+    assert.equal(validateLeadRequest("chat", { ...CHAT, unit_type: id }).ok, true, id);
+  }
+  assert.equal(validateLeadRequest("chat", { ...CHAT, unit_type: "5br" }).ok, false);
+  // The chat's answer labels are panel fields too, in both languages
+  const en = buildDefaultsFromFields(SECTION_REGISTRY.chatTextEn.fields);
+  const ar = buildDefaultsFromFields(SECTION_REGISTRY.chatTextAr.fields);
+  assert.equal(en["option-unit-4br"], "4 Bedroom");
+  assert.ok(ar["option-unit-4br"]);
 });
 
 test("the contact form is told apart from the chat by form_source", () => {

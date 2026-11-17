@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-17T13:29:13.140Z",
+ "generatedAt": "2026-11-17T13:29:55.503Z",
  "sections": {
   "navigation": [
    {
@@ -1010,7 +1010,7 @@
     "imageUrl": null
    },
    {
-    "key": "residence-options",
+    "key": "residence-choices",
     "type": "LIST",
     "items": [
      {
@@ -1018,6 +1018,9 @@
      },
      {
       "label": "3 Bedroom"
+     },
+     {
+      "label": "4 Bedroom"
      }
     ]
    },
@@ -1848,6 +1851,12 @@
     "imageUrl": null
    },
    {
+    "key": "option-unit-4br",
+    "type": "TEXT",
+    "value": "4 Bedroom",
+    "imageUrl": null
+   },
+   {
     "key": "option-budget-500k-1m",
     "type": "TEXT",
     "value": "AED 500K – AED 1M",
@@ -2369,6 +2378,12 @@
     "key": "option-unit-3br",
     "type": "TEXT",
     "value": "ثلاث غرف نوم",
+    "imageUrl": null
+   },
+   {
+    "key": "option-unit-4br",
+    "type": "TEXT",
+    "value": "أربع غرف نوم",
     "imageUrl": null
    },
    {

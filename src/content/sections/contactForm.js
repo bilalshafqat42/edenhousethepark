@@ -16,13 +16,15 @@ export const CONTACT_FORM_FIELDS = [
     defaultValue: [{ label: "Broker" }, { label: "Buyer" }],
   },
   { key: "residence-label", label: "Residence type field", type: "TEXT", defaultValue: "Residence Type" },
+  // Replaces "residence-options" (2 and 3 bedrooms only): a saved list is
+  // never overwritten by a new default, so the 4-bedroom choice needs a new key.
   {
-    key: "residence-options",
+    key: "residence-choices",
     label: "Residence type choices",
     type: "LIST",
     itemLabel: "Choice",
     itemFields: [{ key: "label", label: "Choice", type: "TEXT" }],
-    defaultValue: [{ label: "2 Bedroom" }, { label: "3 Bedroom" }],
+    defaultValue: [{ label: "2 Bedroom" }, { label: "3 Bedroom" }, { label: "4 Bedroom" }],
   },
   { key: "phone-label", label: "Mobile phone field", type: "TEXT", defaultValue: "Mobile Phone" },
   { key: "country-code-label", label: "Country code list, name read by screen readers", type: "TEXT", defaultValue: "Country code" },

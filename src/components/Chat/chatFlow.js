@@ -88,10 +88,11 @@ export const SEARCH_STAGES = [
   },
 ];
 
-// Eden House The Park has two- and three-bedroom homes only.
+// Eden House The Park has two-, three- and four-bedroom homes.
 export const UNIT_TYPES = [
   { id: "2br", label: { en: "2 Bedroom", ar: "غرفتا نوم" } },
   { id: "3br", label: { en: "3 Bedroom", ar: "ثلاث غرف نوم" } },
+  { id: "4br", label: { en: "4 Bedroom", ar: "أربع غرف نوم" } },
 ];
 
 export const BUDGET_BRACKETS = [
