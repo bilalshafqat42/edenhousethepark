@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-17T13:29:55.503Z",
+ "generatedAt": "2026-11-18T05:25:33.805Z",
  "sections": {
   "navigation": [
    {
@@ -1467,6 +1467,12 @@
     "imageUrl": null
    },
    {
+    "key": "progressLabel",
+    "type": "TEXT",
+    "value": "Questions answered",
+    "imageUrl": null
+   },
+   {
     "key": "stageQuestion",
     "type": "TEXT",
     "value": "What best describes your current buying intent?",
@@ -1994,6 +2000,12 @@
     "key": "roleQuestion",
     "type": "TEXT",
     "value": "أنا هنا بصفتي…",
+    "imageUrl": null
+   },
+   {
+    "key": "progressLabel",
+    "type": "TEXT",
+    "value": "الأسئلة المجابة",
     "imageUrl": null
    },
    {

@@ -193,6 +193,8 @@ export const STRINGS = {
 
     roleQuestion: "I'm here as a…",
 
+    progressLabel: "Questions answered",
+
     stageQuestion: "What best describes your current buying intent?",
     stageQuestionBroker:
       "Do you have a client for {{project_short}} right now?",
@@ -287,6 +289,8 @@ export const STRINGS = {
       "أجب عن بضعة أسئلة سريعة وسأزودك بالمخططات وخطة الدفع وخط تواصل مباشر مع فريقنا.",
 
     roleQuestion: "أنا هنا بصفتي…",
+
+    progressLabel: "الأسئلة المجابة",
 
     stageQuestion: "ما الذي يصف نيتك الشرائية الحالية بشكل أفضل؟",
     stageQuestionBroker: "هل لديك عميل لمشروع {{project_short}} حالياً؟",

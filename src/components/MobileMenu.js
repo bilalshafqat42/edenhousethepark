@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import InlineText from "@/components/InlineText";
 
 // Menu for screens up to 1000px, where the header links are hidden.
+// Keyboard: Esc closes and returns focus to the toggle; Tab stays inside.
 export default function MobileMenu({
   links,
   ctaLabel,
@@ -23,6 +24,14 @@ export default function MobileMenu({
       if (e.key === "Escape") {
         setOpen(false);
         buttonRef.current?.focus();
+      } else if (e.key === "Tab") {
+        // Keep focus on the menu and its toggle (the close button) while open
+        const items = [buttonRef.current, ...panelRef.current.querySelectorAll("a[href]")].filter(Boolean);
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (!items.includes(document.activeElement)) { e.preventDefault(); first.focus(); }
+        else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     };
     document.addEventListener("keydown", onKey);

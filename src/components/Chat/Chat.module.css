@@ -280,7 +280,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  color: rgba(55, 53, 48, 0.56);
+  /* 0.56 gave 3.9:1 on the header; 0.75 gives 6:1 (WCAG AA) */
+  color: rgba(55, 53, 48, 0.75);
 }
 
 .headerOnlineStatus {

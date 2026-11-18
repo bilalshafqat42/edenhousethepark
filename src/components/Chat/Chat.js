@@ -1813,6 +1813,7 @@ export default function Chat({
           <div
             className={styles.progressDots}
             role="progressbar"
+            aria-label={strings.progressLabel}
             aria-valuenow={progressIndex + 1}
             aria-valuemin={1}
             aria-valuemax={progressSteps.length}

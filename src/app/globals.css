@@ -226,6 +226,8 @@ ul { list-style: none; }
 .nav__links a {
   font-family: var(--sans); font-size: 11px; line-height: 14px; letter-spacing: .08em;
   color: #696864; transition: color .3s ease;
+  /* A 26px tall tap area (WCAG 2.5.8); inline padding does not move the line */
+  padding-block: 6px;
 }
 .nav__links a:hover { color: var(--caffe); }
 .header .btn {
@@ -691,8 +693,12 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
   display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px;
   margin-top: 52px; color: var(--caffe-75); font-size: 11px;
 }
-.footer__link { font: inherit; color: inherit; cursor: pointer; }
+/* 24px tall tap area without moving the line (WCAG 2.5.8) */
+.footer__link { font: inherit; color: inherit; cursor: pointer; padding: 4px 0; margin: -4px 0; }
 .footer__base a:hover, .footer__link:hover { color: var(--caffe); text-decoration: underline; }
+/* The dark footer on Privacy and Terms: light text (it was dark grey on dark, 2:1) */
+.footer.bg-caffe .footer__base { color: rgba(243, 241, 234, .78); }
+.footer.bg-caffe .footer__base a:hover { color: var(--natural); }
 
 
 /* Location map buttons */
@@ -820,7 +826,7 @@ html.has-cookie-bar .cookie { display: block; }
   .footer__grid { grid-template-columns: 1fr 1fr; row-gap: 40px; }
   .footer__base { flex-direction: column; align-items: center; gap: 6px; text-align: center; }
   /* Comfortable tap targets for the small bottom links (WCAG 2.5.8) */
-  .footer__base a, .footer__base .footer__link { display: inline-block; padding: 6px 2px; }
+  .footer__base a, .footer__base .footer__link { display: inline-block; padding: 6px 2px; margin: 0; }
 }
 
 @media (max-width: 600px) {
