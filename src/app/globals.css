@@ -732,7 +732,10 @@ html.is-modal-open { overflow: hidden; background: #000; color-scheme: dark; }
 .location__map .mapboxgl-map { font-family: var(--sans); }
 .mapboxgl-ctrl-group { border-radius: 0 !important; box-shadow: none !important; border: 1px solid var(--line); }
 
-/* Cookie notice */
+/* Cookie notice. In the server HTML, shown only while <html> has
+   has-cookie-bar (set before the first paint; see CookieNotice.js). */
+.cookie { display: none; }
+html.has-cookie-bar .cookie { display: block; }
 .cookie {
   position: fixed; inset: auto 0 0 0; z-index: 70;
   background: var(--natural); color: var(--caffe);

@@ -6,6 +6,7 @@ import { safeImageSrc } from "@/lib/safe-url";
 import { getSiteUrl } from "@/lib/site-url";
 import { shareImage } from "@/lib/share-image";
 import { isStagingSite } from "@/lib/staging";
+import { COOKIE_BAR_BOOT_SCRIPT } from "@/lib/consent";
 
 // Brand fonts are declared by name in globals.css (@font-face). These are the
 // faces the first screen needs (hero headline and figures in Ivy Presto
@@ -67,8 +68,10 @@ export async function generateMetadata() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: the boot script below may add a class to <html> before React loads
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: COOKIE_BAR_BOOT_SCRIPT }} />
         {PRELOAD_FONTS.map((href) => (
           <link key={href} rel="preload" href={href} as="font" type="font/woff2" crossOrigin="anonymous" />
         ))}

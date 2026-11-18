@@ -2,41 +2,35 @@
 
 import { useEffect, useRef, useState } from "react";
 import InlineText from "@/components/InlineText";
+import { readConsent, saveConsent } from "@/lib/consent";
 
-const KEY = "eh-cookie-consent";
-
-function readChoice() {
-  try {
-    return window.localStorage.getItem(KEY);
-  } catch {
-    return null;
-  }
-}
-
-function saveChoice(value) {
-  try {
-    window.localStorage.setItem(KEY, value);
-  } catch {
-    // Storage blocked (private mode etc.). The bar still closes for this visit.
-  }
-}
-
-// Shown on first visit only. The footer "Manage Cookies" link reopens it.
-// "Choose" stores "custom" for now. It should open the Oceara preferences
-// panel once that component is ported.
+/*
+ * The cookie bar. It is in the server-rendered HTML, and shown before the
+ * first paint by COOKIE_BAR_BOOT_SCRIPT (src/lib/consent.js), which puts
+ * has-cookie-bar on <html> when no choice is stored; globals.css shows
+ * .cookie only then. Once hydrated, the bar is removed for a visitor who
+ * has already chosen. The footer "Manage Cookies" link reopens it, and
+ * keyboard focus goes back to that link when it closes.
+ * "Choose" stores "custom" for now. It should open the Oceara preferences
+ * panel once that component is ported.
+ */
 export default function CookieNotice({ content = {} }) {
-  const [open, setOpen] = useState(false);
+  // Rendered on the server; hidden by CSS unless <html> has has-cookie-bar
+  const [open, setOpen] = useState(true);
   const barRef = useRef(null);
+  const openerRef = useRef(null);
 
   useEffect(() => {
-    // Read after mount, since storage is not available during server render.
+    // Storage is only readable in the browser, after mount
     const frame = requestAnimationFrame(() => {
-      if (!readChoice()) setOpen(true);
+      if (readConsent()) setOpen(false);
     });
 
     const onManage = (e) => {
-      if (!e.target.closest("[data-manage-cookies]")) return;
+      const opener = e.target.closest("[data-manage-cookies]");
+      if (!opener) return;
       e.preventDefault();
+      openerRef.current = opener;
       setOpen(true);
       requestAnimationFrame(() => barRef.current?.querySelector("button")?.focus());
     };
@@ -51,9 +45,17 @@ export default function CookieNotice({ content = {} }) {
     document.documentElement.classList.toggle("has-cookie-bar", open);
   }, [open]);
 
-  const choose = (value) => {
-    saveChoice(value);
+  const close = () => {
     setOpen(false);
+    // Back to "Manage Cookies" when the bar was opened from it
+    const opener = openerRef.current;
+    openerRef.current = null;
+    if (opener?.isConnected) requestAnimationFrame(() => opener.focus());
+  };
+
+  const choose = (value) => {
+    saveConsent(value);
+    close();
   };
 
   if (!open) return null;
@@ -63,7 +65,7 @@ export default function CookieNotice({ content = {} }) {
       ref={barRef}
       className="cookie"
       aria-labelledby="cookie-title"
-      onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
+      onKeyDown={(e) => e.key === "Escape" && close()}
     >
       <div className="container cookie__inner">
         <h2 id="cookie-title" className="h3 cookie__title"><InlineText value={content.title ?? "Your Privacy"} /></h2>
