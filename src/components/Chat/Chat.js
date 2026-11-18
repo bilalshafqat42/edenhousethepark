@@ -1429,7 +1429,10 @@ export default function Chat({
                   "call",
                   "whatsapp",
                 ]
-              ).map((action) =>
+              )
+                // No WhatsApp number yet: no WhatsApp button (not a dead one)
+                .filter((action) => action !== "whatsapp" || closeWhatsappUrl)
+                .map((action) =>
                 action === "call" ? (
                   <a
                     key="call"
@@ -1506,15 +1509,16 @@ export default function Chat({
               </div>
             )}
 
-            <a
-              href={closeWhatsappUrl || undefined}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-disabled={!closeWhatsappUrl}
-              className={styles.whatsappButton}
-            >
-              {strings.scheduleWhatsappLabel}
-            </a>
+            {closeWhatsappUrl ? (
+              <a
+                href={closeWhatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.whatsappButton}
+              >
+                {strings.scheduleWhatsappLabel}
+              </a>
+            ) : null}
           </>
         ) : null}
 
@@ -1526,25 +1530,22 @@ export default function Chat({
                 : fillProject(strings.nurtureText)}
             </p>
 
-            <a
-              href={closeWhatsappUrl || undefined}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-disabled={!closeWhatsappUrl}
-              className={styles.whatsappButton}
-            >
-              {isBroker
-                ? strings.nurtureWhatsappLabelBroker
-                : strings.nurtureWhatsappLabel}
-            </a>
+            {closeWhatsappUrl ? (
+              <a
+                href={closeWhatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.whatsappButton}
+              >
+                {isBroker
+                  ? strings.nurtureWhatsappLabelBroker
+                  : strings.nurtureWhatsappLabel}
+              </a>
+            ) : null}
           </>
         ) : null}
 
-        {!whatsappNumber ? (
-          <p className={styles.whatsappUnavailable}>
-            {strings.whatsappUnavailable}
-          </p>
-        ) : null}
+        {/* No "WhatsApp is not configured" note: without a number the WhatsApp buttons are simply not shown */}
 
         <p className={styles.referenceText}>
           {strings.referenceLabel} <strong>{reference}</strong>

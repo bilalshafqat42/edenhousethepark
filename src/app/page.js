@@ -8,6 +8,7 @@ import MobileMenu from "@/components/MobileMenu";
 import Motion from "@/components/Motion";
 import { chatTextFromContent } from "@/content/sections/chatText";
 import { HERO_IMAGE_FALLBACK } from "@/content/sections/hero";
+import { PLAN_PLACEHOLDER } from "@/content/sections/floorPlans";
 import { readSections } from "@/lib/page-content";
 import { plainTextValues, toPlainText } from "@/lib/inline-text";
 import { isExternalHref, safeHref, safeImageSrc, wholeNumber } from "@/lib/safe-url";
@@ -148,7 +149,8 @@ export default async function Home() {
       rows: [1, 2, 3, 4]
         .map((n) => [plan[`row-${n}-label`], plan[`row-${n}-value`]])
         .filter(([label]) => typeof label === "string" && label.trim() !== ""),
-      plans: [1, 2, 3, 4].map((n) => safeImageSrc(plan[`plan-${n}-image`], "")).filter(Boolean),
+      // The "to be supplied" placeholder counts as no plan: the button then goes to the form
+      plans: [1, 2, 3, 4].map((n) => safeImageSrc(plan[`plan-${n}-image`], "")).filter((src) => src && src !== PLAN_PLACEHOLDER),
     })),
   };
   const amenities = list(gallery.items)

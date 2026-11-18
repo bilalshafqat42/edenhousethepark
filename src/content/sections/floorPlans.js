@@ -13,7 +13,7 @@
  */
 const R = "/images/renders";
 // TODO(content): placeholder until the real floor plan images are uploaded.
-const PLAN_PLACEHOLDER = "/images/floor-plans/placeholder.svg";
+export const PLAN_PLACEHOLDER = "/images/floor-plans/placeholder.svg";
 
 const rowFields = [1, 2, 3, 4].flatMap((n) => [
   { key: `row-${n}-label`, label: `Row ${n}: label (e.g. Suite Area)`, type: "TEXT" },
