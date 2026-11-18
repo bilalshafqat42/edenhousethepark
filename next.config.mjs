@@ -38,15 +38,21 @@ function siteUrlIsStaging() {
  * - Mapbox: styles, tiles, sprites and glyphs from api.mapbox.com,
  *   telemetry to events.mapbox.com, tile workers from blob: URLs;
  * - the panel's media host for images.
- * No analytics or tag manager: the site loads none.
+ * - Google Tag Manager and GA4 hosts, used only when a GTM container ID
+ *   is set (panel or NEXT_PUBLIC_GTM_ID) AND the visitor accepted cookies
+ *   (src/components/GoogleTagManager.js). The ID can be set in the panel
+ *   without a rebuild, so the hosts are always listed; with no ID no
+ *   script from them is ever added to the page.
  */
+const GOOGLE_TAG_SCRIPTS = "https://www.googletagmanager.com";
+const GOOGLE_TAG_DATA = "https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com";
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} ${GOOGLE_TAG_SCRIPTS}`,
   "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: blob: https://api.mapbox.com${imageHosts.map((host) => ` https://${host}`).join("")}`,
+  `img-src 'self' data: blob: https://api.mapbox.com ${GOOGLE_TAG_DATA}${imageHosts.map((host) => ` https://${host}`).join("")}`,
   "font-src 'self' data:",
-  "connect-src 'self' https://api.mapbox.com https://events.mapbox.com",
+  `connect-src 'self' https://api.mapbox.com https://events.mapbox.com ${GOOGLE_TAG_DATA}`,
   "worker-src 'self' blob:",
   "child-src 'self' blob:",
   "frame-src 'none'",

@@ -7,6 +7,8 @@ import { getSiteUrl } from "@/lib/site-url";
 import { shareImage } from "@/lib/share-image";
 import { isStagingSite } from "@/lib/staging";
 import { COOKIE_BAR_BOOT_SCRIPT } from "@/lib/consent";
+import { gtmId } from "@/lib/gtm";
+import GoogleTagManager from "@/components/GoogleTagManager";
 
 // Brand fonts are declared by name in globals.css (@font-face). These are the
 // faces the first screen needs (hero headline and figures in Ivy Presto
@@ -66,7 +68,9 @@ export async function generateMetadata() {
   };
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const { seo } = await readSections(["seo"]);
+  const tagManagerId = gtmId(plainTextValues(seo)["gtm-id"]);
   return (
     // suppressHydrationWarning: the boot script below may add a class to <html> before React loads
     <html lang="en" suppressHydrationWarning>
@@ -76,7 +80,10 @@ export default function RootLayout({ children }) {
           <link key={href} rel="preload" href={href} as="font" type="font/woff2" crossOrigin="anonymous" />
         ))}
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        {tagManagerId && <GoogleTagManager id={tagManagerId} />}
+      </body>
     </html>
   );
 }

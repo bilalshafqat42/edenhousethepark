@@ -111,8 +111,16 @@ and off unless its webhook variables are set.
 
 `next.config.mjs` sends a Content-Security-Policy matched to what the page
 loads (its own assets, Mapbox's API, events and blob workers, the panel's
-media host), plus X-Frame-Options, nosniff, Referrer-Policy,
+media host, Google Tag Manager and Analytics), plus X-Frame-Options, nosniff, Referrer-Policy,
 Permissions-Policy and HSTS. `X-Powered-By` is off.
+
+## Analytics
+
+Optional Google Tag Manager: the panel's SEO & Sharing "Google Tag Manager
+container ID" (or `NEXT_PUBLIC_GTM_ID`). Blank loads nothing. When set, GTM
+loads only for visitors who chose Accept in the cookie bar
+(`src/components/GoogleTagManager.js`); the CSP allows the Google Tag
+Manager and Google Analytics hosts for it.
 
 ## Images
 

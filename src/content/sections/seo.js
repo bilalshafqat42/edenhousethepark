@@ -25,4 +25,11 @@ export const SEO_FIELDS = [
     helperText: "Optional, 1200×630px JPEG or PNG. Blank: the hero image is used. WhatsApp keeps an old preview for a while; share the link to yourself once after changing it.",
     defaultValue: "",
   },
+  {
+    key: "gtm-id",
+    label: "Google Tag Manager container ID (optional)",
+    type: "TEXT",
+    helperText: "e.g. GTM-ABC1234. Blank: no tag manager. It loads only for visitors who choose Accept in the cookie bar.",
+    defaultValue: "",
+  },
 ];

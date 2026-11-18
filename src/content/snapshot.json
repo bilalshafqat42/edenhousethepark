@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-18T05:25:33.805Z",
+ "generatedAt": "2026-11-18T05:26:51.811Z",
  "sections": {
   "navigation": [
    {
@@ -2482,6 +2482,12 @@
     "key": "og-image",
     "type": "IMAGE",
     "value": null,
+    "imageUrl": null
+   },
+   {
+    "key": "gtm-id",
+    "type": "TEXT",
+    "value": "",
     "imageUrl": null
    }
   ],
