@@ -8,7 +8,7 @@ import { isExternalHref, safeHref, safeImageSrc } from "@/lib/safe-url";
 import { sanitizeRichText } from "@/lib/sanitize-rich-text";
 
 /*
- * /privacy and /terms: the panel's RICHTEXT body (sanitised again here, on
+ * /privacy and /terms (and the 404 page's frame): the panel's RICHTEXT body (sanitised again here, on
  * the server) in the site's own type styles: the header bar and logo, the
  * h2 heading and body text of the About section, and the footer's base
  * line. Nothing here is new design; .legal-body in globals.css only gives
@@ -30,10 +30,14 @@ export async function legalMetadata(slug, path) {
   };
 }
 
-export default async function LegalPage({ slug }) {
-  const c = await readSections([slug, "navigation", "appearance", "footer"]);
+/*
+ * The frame shared by Privacy, Terms and the 404 page: header bar with the
+ * logo and the call-to-action, then the page's own <main>, then the footer's
+ * base line.
+ */
+export async function SubPageFrame({ children }) {
+  const c = await readSections(["navigation", "appearance", "footer"]);
   const privacyHref = safeHref(c.footer["privacy-href"], "/privacy");
-  const page = c[slug];
   const nav = c.navigation;
 
   return (
@@ -50,12 +54,7 @@ export default async function LegalPage({ slug }) {
         </div>
       </header>
 
-      <main id="main" className="section about legal-main">
-        <div className="container">
-          <h1 className="h2"><InlineText value={page.title} /></h1>
-          <div className="body about__body legal-body" dangerouslySetInnerHTML={{ __html: sanitizeRichText(page.body) }} />
-        </div>
-      </main>
+      {children}
 
       <footer className="footer bg-caffe">
         <div className="container">
@@ -74,5 +73,20 @@ export default async function LegalPage({ slug }) {
         </div>
       </footer>
     </>
+  );
+}
+
+export default async function LegalPage({ slug }) {
+  const { [slug]: page } = await readSections([slug]);
+
+  return (
+    <SubPageFrame>
+      <main id="main" className="section about legal-main">
+        <div className="container">
+          <h1 className="h2"><InlineText value={page.title} /></h1>
+          <div className="body about__body legal-body" dangerouslySetInnerHTML={{ __html: sanitizeRichText(page.body) }} />
+        </div>
+      </main>
+    </SubPageFrame>
   );
 }

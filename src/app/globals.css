@@ -897,3 +897,4 @@ html.has-cookie-bar .cookie { display: block; }
 .legal-body li + li { margin-top: 6px; }
 .legal-body h2, .legal-body h3, .legal-body h4 { font-family: var(--display); font-weight: 400; line-height: 1.1; margin-top: 30px; }
 .legal-body a { text-decoration: underline; text-underline-offset: 3px; }
+.not-found__actions { margin-top: var(--gap-actions); }

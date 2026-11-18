@@ -18,6 +18,7 @@ import { PRIVACY_FIELDS, TERMS_FIELDS } from "@/content/sections/legal";
 import { LABELS_FIELDS } from "@/content/sections/labels";
 import { LOCATION_FIELDS } from "@/content/sections/location";
 import { NAVIGATION_FIELDS } from "@/content/sections/navigation";
+import { NOT_FOUND_FIELDS } from "@/content/sections/notFound";
 import { PAYMENT_FIELDS } from "@/content/sections/payment";
 import { PLACE_FIELDS } from "@/content/sections/place";
 import { ROBOTS_FIELDS } from "@/content/sections/robotsTxt";
@@ -53,6 +54,7 @@ export const SECTION_REGISTRY = {
   footer: { label: "Footer", group: "content", minRole: "EDITOR", fields: FOOTER_FIELDS },
   cookies: { label: "Cookie Banner", group: "content", minRole: "EDITOR", fields: COOKIES_FIELDS },
   labels: { label: "Viewer & Carousel Labels", group: "content", minRole: "EDITOR", fields: LABELS_FIELDS },
+  notFound: { label: "Page Not Found (404)", group: "content", minRole: "EDITOR", fields: NOT_FOUND_FIELDS },
   chatAgent: { label: "Chat Widget", group: "chat", minRole: "EDITOR", fields: CHAT_AGENT_FIELDS },
   chatTextEn: { label: "Chat Text (English)", group: "chat", minRole: "EDITOR", fields: CHAT_TEXT_EN_FIELDS },
   chatTextAr: { label: "Chat Text (Arabic)", group: "chat", minRole: "EDITOR", fields: CHAT_TEXT_AR_FIELDS },

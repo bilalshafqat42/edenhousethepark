@@ -1,7 +1,7 @@
 {
  "site": "edenhousethepark",
  "source": "defaults",
- "generatedAt": "2026-11-18T05:26:51.811Z",
+ "generatedAt": "2026-11-18T05:27:26.196Z",
  "sections": {
   "navigation": [
    {
@@ -1306,6 +1306,26 @@
     "key": "slide-announcement",
     "type": "TEXT",
     "value": "Slide {n} of {total}",
+    "imageUrl": null
+   }
+  ],
+  "notFound": [
+   {
+    "key": "title",
+    "type": "TEXT",
+    "value": "Page Not Found",
+    "imageUrl": null
+   },
+   {
+    "key": "body",
+    "type": "TEXT",
+    "value": "The page you are looking for does not exist or has moved.",
+    "imageUrl": null
+   },
+   {
+    "key": "home-label",
+    "type": "TEXT",
+    "value": "Back To The Home Page",
     "imageUrl": null
    }
   ],
